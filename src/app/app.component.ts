@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 
 import {environment} from '../environments/environment';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {UserService} from './core';
+import {UserService} from './core/services/user.service';
 
 @Component({
   selector: 'app-root',
