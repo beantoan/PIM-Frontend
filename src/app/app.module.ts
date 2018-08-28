@@ -9,6 +9,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {HeaderComponent} from './shared/layout/header.component';
 import {FooterComponent} from './shared/layout/footer.component';
 import {SharedModule} from './shared/shared.module';
+import {CoreModule} from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,9 @@ import {SharedModule} from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    SharedModule
+    CoreModule,
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [Title],
   bootstrap: [AppComponent]
