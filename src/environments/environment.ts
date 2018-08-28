@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  title: 'PIM-DEV'
+  title: 'PIM-DEV',
+  api_url: 'api url'
 };
 
 /*

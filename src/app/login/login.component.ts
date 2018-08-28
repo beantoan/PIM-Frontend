@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {User} from '../entities/user';
+import {Component, OnInit} from '@angular/core';
+import {User} from '../core/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,8 @@ import {User} from '../entities/user';
 export class LoginComponent implements OnInit {
   user: User;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

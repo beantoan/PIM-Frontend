@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 
-import { environment } from '../environments/environment';
+import {environment} from '../environments/environment';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 
 @Component({
@@ -10,12 +10,11 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private router: Router;
-  private titleService: Title;
 
-  public constructor(router: Router, title: Title) {
-    this.router = router;
-    this.titleService = title;
+  public constructor(
+    private router: Router,
+    private titleService: Title
+  ) {
     this.titleService.setTitle(environment.title);
   }
 

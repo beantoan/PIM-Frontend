@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  title: 'PIM'
+  title: 'PIM',
+  api_url: 'api url'
 };
