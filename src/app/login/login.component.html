@@ -1,22 +1,56 @@
-<form class="aui">
-  <div class="field-group">
-    <label for="comment-email">Email
-      <span class="aui-icon icon-required">(required)</span></label>
-    <input class="text medium-field" type="text"
-           id="comment-email" name="comment-email" placeholder="you@example.com">
-    <div class="description">Your
-      primary email address.
+<form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="aui">
+  <div class="form-body">
+    <h2>
+      Đăng nhập hệ thống
+    </h2>
+
+    {{loginForm.errors}}
+
+    <div *ngIf="(loginForm.controls['email'].errors && !loginForm.controls['email'].pristine) ||
+     (loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)" class="aui-message aui-message-warning">
+      <p class="title">
+        <span class="aui-icon icon-error"></span>
+        <strong>Thông tin không hợp lệ!</strong>
+      </p>
+
+      <ul>
+        <li [hidden]="!(loginForm.controls['email'].errors && !loginForm.controls['email'].pristine)">Hãy nhập email</li>
+        <li [hidden]="!(loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)">Hãy nhập mật khẩu</li>
+      </ul>
     </div>
-  </div>
-  <div class="field-group">
-    <label for="comment-input">Comment</label>
-    <textarea class="textarea" name="comment-input"
-              id="comment-input" placeholder="Your comment here..."></textarea>
-  </div>
-  <div class="buttons-container">
-    <div class="buttons">
-      <input class="button submit" type="submit" value="Save" id="comment-save-button">
-      <a class="cancel" href="#">Cancel</a>
+
+    <div class="field-group">
+      <label for="email">Email<span class="aui-icon icon-required"> required</span></label>
+
+      <input
+        id="email"
+        formControlName="email"
+        required
+        type="text"
+        placeholder="Ví dụ: pim@gmail.com"
+        class="text"/>
     </div>
+
+    <div class="field-group">
+      <label for="password">Mật khẩu<span class="aui-icon icon-required"> required</span></label>
+
+      <input
+        id="password"
+        name="password"
+        formControlName="password"
+        required
+        type="password"
+        class="text"
+        autocomplete="off" />
+    </div>
+
+    <div class="buttons-container form-footer">
+      <div class="buttons">
+        <input class="aui-button aui-button-primary" name="Login" type="submit" value="Đăng nhập">
+
+        <a class="aui-button aui-button-link cancel" routerLink="" title="">Sign Up</a>
+      </div>
+    </div>
+
   </div>
 </form>

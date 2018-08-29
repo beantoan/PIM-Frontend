@@ -10,12 +10,15 @@ import {HeaderComponent} from './shared/layout/header.component';
 import {FooterComponent} from './shared/layout/footer.component';
 import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
+import {PageHeaderComponent} from './shared/layout/page-header.component';
+import {NoAuthGuard} from './login/no-auth-guard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    PageHeaderComponent,
     LoginComponent,
     DashboardComponent
   ],
@@ -25,7 +28,7 @@ import {CoreModule} from './core/core.module';
     SharedModule,
     AppRoutingModule
   ],
-  providers: [Title],
+  providers: [Title, NoAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

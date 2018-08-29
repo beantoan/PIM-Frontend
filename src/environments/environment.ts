@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   title: 'PIM-DEV',
-  api_url: 'api url'
+  api_url: 'http://localhost:8080'
 };
 
 /*

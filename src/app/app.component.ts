@@ -11,6 +11,7 @@ import {UserService} from './core/services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  bodyCssClass = 'aui-page-focused aui-page-size-large';
 
   public constructor(
     private router: Router,
@@ -18,6 +19,21 @@ export class AppComponent implements OnInit {
     private titleService: Title
   ) {
     this.titleService.setTitle(environment.title);
+  }
+
+  ngOnInit(): void {
+    this.userService.populate();
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.titleService.setTitle(this.getTitle(this.router.routerState.snapshot.root));
+      }
+    });
+
+
+    if (this.userService.isAuthenticated) {
+      this.bodyCssClass = 'aui-layout aui-theme-default page-type-login aui-page-focused aui-page-focused-medium aui-page-size-medium ';
+    }
   }
 
   private getTitle(snapshot: ActivatedRouteSnapshot): string {
@@ -32,15 +48,5 @@ export class AppComponent implements OnInit {
     }
 
     return environment.title;
-  }
-
-  ngOnInit(): void {
-    this.userService.populate();
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.titleService.setTitle(this.getTitle(this.router.routerState.snapshot.root));
-      }
-    });
   }
 }
