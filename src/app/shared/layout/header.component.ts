@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../core/models/user.model';
 import {UserService} from '../../core/services/user.service';
 
@@ -8,12 +8,14 @@ import {UserService} from '../../core/services/user.service';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
+  currentUser: User;
+
+  @Input('title') title: string;
+
   constructor(
     private userService: UserService
   ) {
   }
-
-  currentUser: User;
 
   ngOnInit() {
     this.userService.currentUser.subscribe(

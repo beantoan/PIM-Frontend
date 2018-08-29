@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   title: 'PIM-DEV',
-  api_url: 'http://localhost:8080'
+  appName: 'Personal Investment Management DEV',
+  apiUrl: 'http://localhost:8080'
 };
 
 /*

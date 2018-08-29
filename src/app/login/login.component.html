@@ -4,8 +4,6 @@
       Đăng nhập hệ thống
     </h2>
 
-    {{loginForm.errors}}
-
     <div *ngIf="(loginForm.controls['email'].errors && !loginForm.controls['email'].pristine) ||
      (loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)" class="aui-message aui-message-warning">
       <p class="title">
