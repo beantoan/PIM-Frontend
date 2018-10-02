@@ -4,23 +4,22 @@ import {Observable} from 'rxjs';
 import {JwtService} from '../services/jwt.service';
 
 @Injectable()
-export class HttpTokenInterceptor implements HttpInterceptor {
+export class AuthenticationInterceptor implements HttpInterceptor {
   constructor(private jwtService: JwtService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const headersConfig = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+
+    const apiToken = 'dGVzdGp3dGNsaWVudGlkOlhZN2ttem9OemwxMDA=';
+    const tokenValue = this.jwtService.getToken() || apiToken;
+    const token = `Basic ${tokenValue}`;
+
+    const headers = {
+      'Authorization' : token
     };
 
-    const token = this.jwtService.getToken();
+    const request = req.clone({setHeaders: headers});
 
-    if (token) {
-      headersConfig['Authorization'] = `Token ${token}`;
-    }
-
-    const request = req.clone({setHeaders: headersConfig});
     return next.handle(request);
   }
 }

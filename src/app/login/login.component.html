@@ -4,7 +4,7 @@
       Đăng nhập hệ thống
     </h2>
 
-    <div *ngIf="(loginForm.controls['email'].errors && !loginForm.controls['email'].pristine) ||
+    <div *ngIf="(loginForm.controls['username'].errors && !loginForm.controls['username'].pristine) ||
      (loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)" class="aui-message aui-message-warning">
       <p class="title">
         <span class="aui-icon icon-error"></span>
@@ -12,17 +12,17 @@
       </p>
 
       <ul>
-        <li [hidden]="!(loginForm.controls['email'].errors && !loginForm.controls['email'].pristine)">Hãy nhập email</li>
+        <li [hidden]="!(loginForm.controls['username'].errors && !loginForm.controls['username'].pristine)">Hãy nhập email</li>
         <li [hidden]="!(loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)">Hãy nhập mật khẩu</li>
       </ul>
     </div>
 
     <div class="field-group">
-      <label for="email">Email<span class="aui-icon icon-required"> required</span></label>
+      <label for="username">Email<span class="aui-icon icon-required"> required</span></label>
 
       <input
-        id="email"
-        formControlName="email"
+        id="username"
+        formControlName="username"
         required
         type="text"
         placeholder="Ví dụ: pim@gmail.com"
