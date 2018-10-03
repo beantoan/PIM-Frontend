@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 
 import {JwtService} from './jwt.service';
@@ -19,18 +19,6 @@ export class ApiService {
     return throwError(error.error);
   }
 
-  private buildAuthHeaders(token: string) {
-    const auth = `Basic ${token}`;
-
-    // return {
-    //   'Content-Type' : 'application/x-www-form-urlencoded',
-    //   'Authorization' : `Basic ${token}`
-    // };
-
-    return new HttpHeaders().set('Content-Type', 'application/form-data')
-      .append('Authorization', auth);
-  }
-
   private buildFormData(data: {}): FormData {
 
     const formData = new FormData();
@@ -46,35 +34,31 @@ export class ApiService {
     return `${environment.apiUrl}${path}`;
   }
 
-  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+  get<T>(path: string, params: HttpParams = new HttpParams()): Observable<T> {
     const url = this.buildUrl(path);
 
-    return this.http.get(url, {params})
+    return this.http.get<T>(url, {params})
       .pipe(catchError(this.formatErrors));
   }
 
-  put(path: string, body: Object = {}): Observable<any> {
+  put<T>(path: string, body: Object = {}): Observable<T> {
     const url = this.buildUrl(path);
 
-    return this.http.put(
+    return this.http.put<T>(
       url, JSON.stringify(body)
     ).pipe(catchError(this.formatErrors));
   }
 
-  post(path: string, data: Object = {}): Observable<any> {
-    // const headers = this.buildAuthHeaders(this.apiToken);
+  post<T>(path: string, data: Object = {}): Observable<T> {
     const url = this.buildUrl(path);
     const body = this.buildFormData(data);
-    // const options = {
-    //   headers: headers
-    // };
 
-    return this.http.post(url, body).pipe(catchError(this.formatErrors));
+    return this.http.post<T>(url, body).pipe(catchError(this.formatErrors));
   }
 
-  delete(path): Observable<any> {
+  delete<T>(path): Observable<T> {
     const url = this.buildUrl(path);
 
-    return this.http.delete(url).pipe(catchError(this.formatErrors));
+    return this.http.delete<T>(url).pipe(catchError(this.formatErrors));
   }
 }

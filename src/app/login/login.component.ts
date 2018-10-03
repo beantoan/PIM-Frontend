@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Logger} from '../logger.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -27,13 +28,14 @@ export class LoginComponent implements OnInit {
 
   private createLoginForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      username: new FormControl('admin@pim.vn', Validators.required),
+      password: new FormControl('admin', Validators.required),
     });
   }
 
-
   submitForm() {
+    Logger.log('submitForm');
+
     this.isSubmitting = true;
 
     const credentials = this.loginForm.value;
@@ -41,8 +43,13 @@ export class LoginComponent implements OnInit {
     this.userService
       .attemptAuth(this.authType, credentials)
       .subscribe(
-        data => this.router.navigateByUrl('/'),
+        data => {
+          this.userService.populate();
+        },
         err => {
+          Logger.error(err);
+        },
+        () => {
           this.isSubmitting = false;
         }
       );

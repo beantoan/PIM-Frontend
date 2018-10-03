@@ -10,10 +10,8 @@
       </h1>
 
       <ul *appShowAuthed="true" class="aui-nav">
-        <li>
-          <a href="#dropdown2-jira3" aria-owns="dropdown2-jira3" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-jira3">Menu</a>
-
-          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-jira3" aria-hidden="true">
+        <li><a href="#dropdown2-jira3" aria-owns="dropdown2-jira3" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-jira3">Menu</a>
+          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-jira3" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
             <div class="aui-dropdown2-section">
               <ul>
                 <li><a href="http://example.com/">Item 1</a></li>
@@ -32,14 +30,7 @@
           </div>
         </li>
         <!-- You can also use a split button in this location, if more than one primary action is required. -->
-        <li>
-          <a id="aui-responsive-header-dropdown-trigger-1" class="aui-dropdown2-trigger" aria-owns="aui-responsive-header-dropdown-content-1" aria-controls="aui-responsive-header-dropdown-content-1" aria-haspopup="true" href="#" data-aui-trigger="">More<span class="icon aui-icon-dropdown"></span></a>
-          <div id="aui-responsive-header-dropdown-content-1" class="aui-dropdown2 aui-style-default">
-            <div class="aui-dropdown2-section"><ul id="aui-responsive-header-dropdown-list-1"></ul></div>
-          </div>
-        </li>
-
-        <li><a class="aui-button aui-button-primary" href="http://example.com/">Action</a></li>
+        <li style="display: none;"><a id="aui-responsive-header-dropdown-trigger-1" class="  aui-dropdown2-trigger" aria-owns="aui-responsive-header-dropdown-content-1" aria-controls="aui-responsive-header-dropdown-content-1" aria-haspopup="true" href="#" data-aui-trigger="">More<span class="icon aui-icon-dropdown"></span></a><div id="aui-responsive-header-dropdown-content-1" class="aui-dropdown2 aui-style-default"><div class="aui-dropdown2-section"><ul id="aui-responsive-header-dropdown-list-1"></ul></div></div></li><li><a class="aui-button aui-button-primary" href="http://example.com/">Action</a></li>
       </ul>
     </div>
 
@@ -83,7 +74,7 @@
             </div>
             <div class="aui-dropdown2-section">
               <ul>
-                <li><a href="http://example.com/">Log out</a></li>
+                <li><a href="http://example.com/">Log out {{currentUser.first_name}}</a></li>
               </ul>
             </div>
           </div>

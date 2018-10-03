@@ -11,7 +11,6 @@ import {FooterComponent} from './shared/layout/footer.component';
 import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
 import {PageHeaderComponent} from './shared/layout/page-header.component';
-import {NoAuthGuard} from './login/no-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,7 @@ import {NoAuthGuard} from './login/no-auth-guard.service';
     SharedModule,
     AppRoutingModule
   ],
-  providers: [Title, NoAuthGuard],
+  providers: [Title],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -10,9 +10,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const apiToken = 'dGVzdGp3dGNsaWVudGlkOlhZN2ttem9OemwxMDA=';
-    const tokenValue = this.jwtService.getToken() || apiToken;
-    const token = `Basic ${tokenValue}`;
+    const apiToken = 'Basic dGVzdGp3dGNsaWVudGlkOlhZN2ttem9OemwxMDA=';
+    const token = this.jwtService.getToken() || apiToken;
 
     const headers = {
       'Authorization' : token

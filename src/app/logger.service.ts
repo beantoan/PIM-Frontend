@@ -1,13 +1,13 @@
 export class Logger {
-  log(msg: any) {
+  static log(msg: any) {
     console.log(msg);
   }
 
-  error(msg: any) {
+  static error(msg: any) {
     console.error(msg);
   }
 
-  warn(msg: any) {
+  static warn(msg: any) {
     console.warn(msg);
   }
 }

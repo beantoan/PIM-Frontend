@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 
 import {map, take} from 'rxjs/operators';
-import {UserService} from '../core/services/user.service';
+import {UserService} from './user.service';
 
 @Injectable()
 export class NoAuthGuard implements CanActivate {

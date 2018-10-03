@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 
 import {environment} from '../environments/environment';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {UserService} from './core/services/user.service';
 import {LoginComponent} from './login/login.component';
+import {JwtService} from './core/services/jwt.service';
 
 @Component({
   selector: 'app-root',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: [
+    './app.component.css'
+  ]
 })
 export class AppComponent implements OnInit {
   bodyCssClass = 'aui-page-focused aui-page-size-large';
@@ -18,6 +22,7 @@ export class AppComponent implements OnInit {
   public constructor(
     private router: Router,
     private userService: UserService,
+    private jwtService: JwtService,
     private titleService: Title
   ) {}
 
@@ -25,24 +30,34 @@ export class AppComponent implements OnInit {
    * Check whether or not a component is LoginComponent
    *
    * @param componentName
-   * @return boolean
+   * @returnUrl boolean
    */
   private static isLoginComponent(componentName: string): boolean {
     return componentName === LoginComponent.name;
   }
 
   ngOnInit(): void {
-    this.userService.populate();
+    this.subscribeEvents();
 
     this.titleService.setTitle(environment.title);
 
-    this.subscribeRouterEvents();
+    this.userService.populate();
   }
 
   /**
    * Subscribe the events of router
    */
-  private subscribeRouterEvents() {
+  private subscribeEvents() {
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        if (authenticated) {
+          this.router.navigateByUrl('/');
+        } else {
+          this.router.navigateByUrl('/login');
+        }
+      }
+    );
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const [isLoginPage, title] = this.analyzeActiveRoute(this.router.routerState.snapshot.root);
@@ -73,7 +88,7 @@ export class AppComponent implements OnInit {
    * Analyze the route
    *
    * @param snapshot
-   * @return [isLoginPage: boolean, title: string]
+   * @returnUrl [isLoginPage: boolean, title: string]
    */
   private analyzeActiveRoute(snapshot: ActivatedRouteSnapshot): [boolean, string] {
     let isLoginPage = false;
