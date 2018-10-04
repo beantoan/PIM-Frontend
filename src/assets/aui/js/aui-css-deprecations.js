@@ -471,7 +471,7 @@
       displayName: 'Core icons'
   });
   (0, _deprecation.css)(['.aui-message.error', '.aui-message.warning', '.aui-message.hint', '.aui-message.info', '.aui-message.success'], {
-      displayName: 'Unprefixed message types AUI-2150'
+      displayName: 'Unprefixed message transactionTypes AUI-2150'
   });
   (0, _deprecation.css)(['.aui-dropdown2 .active', '.aui-dropdown2 .checked', '.aui-dropdown2 .disabled', '.aui-dropdown2 .interactive'], {
       displayName: 'Unprefixed dropdown2 css AUI-2150'

@@ -1536,7 +1536,7 @@
       });
   }
   
-  // A list of HTML5 input types that don't typically get augmented by the browser, so are safe to put icons inside of.
+  // A list of HTML5 input transactionTypes that don't typically get augmented by the browser, so are safe to put icons inside of.
   var unadornedInputFields = ['text', 'url', 'email', 'tel', 'password'];
   
   function canContainIcon($field) {
@@ -14082,7 +14082,7 @@
                       yF = isNaN(yN[i]) ? yN[i] || 0 : parseFloat(yN[i]) || 0;
                       // handle numeric vs string comparison - number < string - (Kyle Adams)
                       if (isNaN(xF) !== isNaN(yF)) { return (isNaN(xF)) ? 1 : -1; }
-                      // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
+                      // rely on string comparison if different transactionTypes - i.e. '02' < 2 != '02' < '2'
                       if (typeof xF !== typeof yF) {
                           xF += '';
                           yF += '';

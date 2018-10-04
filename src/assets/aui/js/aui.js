@@ -369,7 +369,7 @@
   
   /**
   * Wraps an object property in a deprecation warning, if possible. functions will always log warnings, but other
-  * types of properties will only log in browsers supporting Object.defineProperty
+  * transactionTypes of properties will only log in browsers supporting Object.defineProperty
   * @param {Object} obj the object containing the property
   * @param {string} prop the name of the property to deprecate
   * @param {string} options.removeInVersion the version this will be removed in
@@ -392,7 +392,7 @@
   
   /**
   * Wraps all an objects properties in a deprecation warning, if possible. functions will always log warnings, but other
-  * types of properties will only log in browsers supporting Object.defineProperty
+  * transactionTypes of properties will only log in browsers supporting Object.defineProperty
   * @param {Object} obj the object to be wrapped
   * @param {string} objDisplayPrefix the object's prefix to be used in logs
   * @param {string} options.removeInVersion the version this will be removed in
@@ -1096,7 +1096,7 @@
               }
               InlineDialog.current = getHash();
               (0, _jquery2.default)(document).trigger('showLayer', ['inlineDialog', getHash()]);
-              // retrieve the position of the click target. The offsets might be different for different types of targets and therefore
+              // retrieve the position of the click target. The offsets might be different for different transactionTypes of targets and therefore
               // either have to be customisable or we will have to be smarter about calculating the padding and elements around it
   
               getHash().reset();
@@ -12290,7 +12290,7 @@
           var dialog = this;
           var nameExp = '#([^"][^ ]*|"[^"]*")'; // a name is a hash followed by either a bare word or quoted string
           var indexExp = ':(\\d+)'; // an index is a colon followed by some digits
-          var typeExp = 'page|panel|button|header'; // one of the allowed types
+          var typeExp = 'page|panel|button|header'; // one of the allowed transactionTypes
           var selectorExp = '(?:' + // a selector is either ...
           '(' + typeExp + ')(?:' + nameExp + '|' + indexExp + ')?' + // a type optionally followed by either #name or :index
           '|' + nameExp + // or just a #name
@@ -15983,7 +15983,7 @@
   }
   
   /**
-   * Utility methods to display different message types to the user.
+   * Utility methods to display different message transactionTypes to the user.
    * Usage:
    * <pre>
    * messages.info("#container", {

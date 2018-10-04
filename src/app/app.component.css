@@ -1,0 +1,11 @@
+.aui-datepicker-dialog {
+  z-index: 9999 !important;
+}
+
+.aui-dropdown2 {
+  z-index: 9999 !important;
+}
+
+.ng-dropdown-panel {
+  z-index: 9999 !important;
+}

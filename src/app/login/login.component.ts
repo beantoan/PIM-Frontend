@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Logger} from '../logger.service';
+import {Logger} from '../logger';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,10 +23,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.createLoginForm();
+      this.buildLoginForm();
   }
 
-  private createLoginForm() {
+  private buildLoginForm() {
     this.loginForm = new FormGroup({
       username: new FormControl('admin@pim.vn', Validators.required),
       password: new FormControl('admin', Validators.required),

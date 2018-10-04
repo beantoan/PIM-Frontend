@@ -76,10 +76,10 @@ export class AppComponent implements OnInit {
    */
   private switchPageLayout(isLoginPage: boolean) {
     if (isLoginPage) {
-      this.bodyCssClass = 'aui-page-focused aui-page-focused-medium aui-page-size-medium';
+      this.bodyCssClass = 'aui-page-focused aui-page-size-medium';
       this.appTitle = environment.appName;
     } else {
-      this.bodyCssClass = 'aui-page-focused aui-page-size-large';
+      this.bodyCssClass = '';
       this.appTitle = environment.title;
     }
   }

@@ -25,7 +25,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "src/assets/aui/js/aui.js",
+              "src/assets/aui/js/aui-experimental.js",
+              "src/assets/aui/js/aui-datepicker.js"
+            ]
           },
           "configurations": {
             "production": {

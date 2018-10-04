@@ -1,10 +1,10 @@
 <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="aui">
-  <div class="form-body">
+  <fieldset>
     <h2>
       Đăng nhập hệ thống
     </h2>
 
-    <div *ngIf="(loginForm.controls['username'].errors && !loginForm.controls['username'].pristine) ||
+    <div *ngIf="(loginForm.controls['username'].errors && !form.controls['username'].pristine) ||
      (loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)" class="aui-message aui-message-warning">
       <p class="title">
         <span class="aui-icon icon-error"></span>
@@ -50,5 +50,5 @@
       </div>
     </div>
 
-  </div>
+  </fieldset>
 </form>

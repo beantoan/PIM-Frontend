@@ -1486,7 +1486,7 @@
               //      3. Return Result(2).
               // and this behavior survives the destruction of the execution context.
               if ((className == '[object Array]' ||
-                  // In IE all non value types are wrapped as objects across window
+                  // In IE all non value transactionTypes are wrapped as objects across window
                   // boundaries (not iframe though) so we have to do object detection
                   // for this edge case.
                   typeof value.length == 'number' &&
@@ -3273,7 +3273,7 @@
     ATTRIBUTES: goog.DEBUG ? {sanitizedContentHtmlAttribute: true} : {},
   
     // TODO: Consider separating rules, declarations, and values into
-    // separate types, but for simplicity, we'll treat explicitly blessed
+    // separate transactionTypes, but for simplicity, we'll treat explicitly blessed
     // SanitizedContent as allowed in all of these contexts.
     /**
      * A CSS3 declaration, property, value or group of semicolon separated
@@ -3821,7 +3821,7 @@
   
   
   /**
-   * Creates a factory for SanitizedContent types.
+   * Creates a factory for SanitizedContent transactionTypes.
    *
    * This is a hack so that the soydata.VERY_UNSAFE.ordainSanitized* can
    * instantiate Sanitized* classes, without making the Sanitized* constructors
@@ -3863,7 +3863,7 @@
   
   
   /**
-   * Creates a factory for SanitizedContent types that should always have their
+   * Creates a factory for SanitizedContent transactionTypes that should always have their
    * default directionality.
    *
    * This is a hack so that the soydata.VERY_UNSAFE.ordainSanitized* can
@@ -4287,7 +4287,7 @@
   
   
   /**
-   * Creates a SanitizedContent factory for SanitizedContent types for internal
+   * Creates a SanitizedContent factory for SanitizedContent transactionTypes for internal
    * Soy let and param blocks.
    *
    * This is a hack within Soy so that SanitizedContent objects created via let
@@ -4337,7 +4337,7 @@
   
   
   /**
-   * Creates a SanitizedContent factory for SanitizedContent types that should
+   * Creates a SanitizedContent factory for SanitizedContent transactionTypes that should
    * always have their default directionality for internal Soy let and param
    * blocks.
    *
@@ -4975,7 +4975,7 @@
    * do not.
    *
    * @param {*} value The HTML string to insert word breaks into. Can be other
-   *     types, but the value will be coerced to a string.
+   *     transactionTypes, but the value will be coerced to a string.
    * @param {number} maxCharsBetweenWordBreaks Maximum number of non-space
    *     characters to allow before adding a word break.
    * @return {string|!soydata.SanitizedHtml} The string including word
@@ -4997,7 +4997,7 @@
    * Truncates a string to a given max length (if it's currently longer),
    * optionally adding ellipsis at the end.
    *
-   * @param {*} str The string to truncate. Can be other types, but the value will
+   * @param {*} str The string to truncate. Can be other transactionTypes, but the value will
    *     be coerced to a string.
    * @param {number} maxLen The maximum length of the string after truncation
    *     (including ellipsis, if applicable).
@@ -5179,7 +5179,7 @@
    *
    * @param {number} bidiGlobalDir The global directionality context: 1 if ltr, -1
    *     if rtl, 0 if unknown.
-   * @param {*} text The string to be wrapped. Can be other types, but the value
+   * @param {*} text The string to be wrapped. Can be other transactionTypes, but the value
    *     will be coerced to a string.
    * @return {!goog.soy.data.SanitizedContent|string} The wrapped text.
    */
@@ -5220,7 +5220,7 @@
    *
    * @param {number} bidiGlobalDir The global directionality context: 1 if ltr, -1
    *     if rtl, 0 if unknown.
-   * @param {*} text The string to be wrapped. Can be other types, but the value
+   * @param {*} text The string to be wrapped. Can be other transactionTypes, but the value
    *     will be coerced to a string.
    * @return {!goog.soy.data.SanitizedContent|string} The wrapped string.
    */
@@ -5258,7 +5258,7 @@
           wrappedText, wrappedTextDir);
     }
   
-    // Unicode-wrapping does not conform to the syntax of the other types of
+    // Unicode-wrapping does not conform to the syntax of the other transactionTypes of
     // content. For lack of anything better to do, we we do not declare a content
     // kind at all by falling through to the non-SanitizedContent case below.
     // TODO(user): Consider throwing a runtime error on receipt of
