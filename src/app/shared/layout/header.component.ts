@@ -5,9 +5,9 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {TransactionService} from '../../core/services/transaction.service';
 import {StockService} from '../../core/services/stock.service';
 import {Stock} from '../../core/models/stock.model';
-import {concat, Observable, of, Subject} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {TransactionType} from '../../core/models/transaction-type.model';
-import {catchError, debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import {Logger} from '../../logger';
 import * as moment from 'moment';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
@@ -47,8 +47,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   transactionTypes: Observable<TransactionType[]>;
   stocks: Observable<Stock[]>;
-  searchStockLoading = false;
-  searchStockTerm = new Subject<string>();
 
   @Input('title') title: string;
 
@@ -81,22 +79,35 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   private initData() {
     this.transactionTypes = this.transactionService.getTypes();
 
-    this.stocks = concat(
-      of([]),
-      this.searchStockTerm.pipe(
-        debounceTime(200),
+    // this.stocks = concat(
+    //   of([]),
+    //   this.searchStockTerm.pipe(
+    //     debounceTime(200),
+    //     distinctUntilChanged(),
+    //     tap(() => this.searchStockLoading = true),
+    //     switchMap(term => this.stockService.search(term).pipe(
+    //       catchError(() => of([])),
+    //       tap(() => this.searchStockLoading = false)
+    //     ))
+    //   ));
+
+    this.stocks = this.transactionForm.get('stock').valueChanges
+      .pipe(
+        startWith<string | Stock>(''),
         distinctUntilChanged(),
-        tap(() => this.searchStockLoading = true),
-        switchMap(term => this.stockService.search(term).pipe(
-          catchError(() => of([])),
-          tap(() => this.searchStockLoading = false)
-        ))
-      ));
+        switchMap((input: string) => {
+          if (input && input.length === 3) {
+            return this.stockService.search(input);
+          }
+
+          return of([]);
+        })
+      );
   }
 
   private buildTransactionForm() {
     this.transactionForm = new FormGroup({
-      stockId: new FormControl('', Validators.required),
+      stock: new FormControl('', Validators.required),
       quantity: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required),
       type: new FormControl(1, Validators.required),
@@ -148,5 +159,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           });
         }
       );
+  }
+
+  displayFn(stock?: Stock): string | undefined {
+    console.log(stock);
+    return stock ? `${stock.code}-${stock.title}` : undefined;
   }
 }

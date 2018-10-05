@@ -98,113 +98,72 @@
   </header>
 
   <div class="aui-dialog2-content">
-    <form [formGroup]="transactionForm" class="aui">
-      <fieldset>
+    <form [formGroup]="transactionForm" class="mat-form">
 
-        <div class="field-group">
-          <label for="stockId">Cổ phiếu</label>
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="Mã cổ phiếu"
+          formControlName="stock"
+          aria-label="Number"
+          [matAutocomplete]="autoStock"
+          required>
 
-          <ng-select [items]="stocks | async"
-                     [selectOnTab]="true"
-                     [typeahead]="searchStockTerm"
-                     [loading]="searchStockLoading"
-                     bindValue="code"
-                     bindLabel="title"
-                     labelForId="stockId"
-                     placeholder="Gõ để chọn mã cổ phiếu"
-                     appendTo="body"
-                     formControlName="stockId">
-            <ng-template ng-option-tmp let-item="item">
-              {{item.code}} - {{item.title}}
-            </ng-template>
+        <mat-autocomplete autoActiveFirstOption
+                          #autoStock="matAutocomplete"
+                          [displayWith]="displayFn">
+          <mat-option *ngFor="let item of stocks | async" [value]="item">
+            {{item.code}}-{{item.title}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
-            <ng-template ng-label-tmp let-item="item">
-              {{item.code}} - {{item.title}}
-            </ng-template>
+      <mat-form-field>
+        <mat-select placeholder="Kiểu giao dịch" formControlName="type" required>
+          <mat-option *ngFor="let item of transactionTypes | async" [value]="item.id">
+            {{item.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <ng-template ng-typetosearch-tmp>
-              <div class="ng-option disabled">
-                Start typing...
-              </div>
-            </ng-template>
-            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
-              <div class="ng-option disabled">
-                No data found for "{{searchTerm}}"
-              </div>
-            </ng-template>
-            <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
-              <div class="ng-option disabled">
-                Fetching data for "{{searchTerm}}"
-              </div>
-            </ng-template>
-          </ng-select>
-
-        </div>
-
-        <div class="field-group">
-          <label for="type">Kiểu giao dịch</label>
-
-          <ng-select [items]="transactionTypes | async"
-                     [searchable]="false"
-                     [selectOnTab]="true"
-                     bindValue="id"
-                     bindLabel="title"
-                     labelForId="type"
-                     placeholder="Chọn kiểu giao dịch"
-                     appendTo="body"
-                     formControlName="type">
-          </ng-select>
-
-        </div>
-
-        <div class="field-group">
-          <label for="quantity">Số lượng</label>
-
-          <input
-            id="quantity"
-            name="quantity"
-            formControlName="quantity"
-            required
-            min="0"
-            type="number"
-            class="text"
-            autocomplete="off" />
-        </div>
-
-        <div class="field-group">
-          <label for="price">Giá</label>
-
-          <input
-            id="price"
-            name="price"
-            formControlName="price"
-            required
-            min="0"
-            type="number"
-            class="text"
-            autocomplete="off" />
-
-          x 1000
-        </div>
-
-        <div class="field-group">
-          <label for="transactedAt">Ngày giao dịch</label>
-
+      <div class="aui-group aui-group-split">
+        <div class="aui-item">
           <mat-form-field>
-            <input
-              id="transactedAt"
-              name="transactedAt"
-              formControlName="transactedAt"
-              matInput
-              [matDatepicker]="transactedAtDatepicker"
-              required />
-
-            <mat-datepicker-toggle matSuffix [for]="transactedAtDatepicker"></mat-datepicker-toggle>
-            <mat-datepicker #transactedAtDatepicker></mat-datepicker>
+            <input matInput
+                   type="number"
+                   formControlName="quantity"
+                   required
+                   min="0"
+                   placeholder="Khối lượng" />
           </mat-form-field>
         </div>
 
-      </fieldset>
+        <div class="aui-item">
+          <mat-form-field>
+            <input matInput
+                   type="number"
+                   formControlName="price"
+                   required
+                   min="0"
+                   placeholder="Giá" />
+
+            <span matSuffix>x1000</span>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="transactedAt"
+          [matDatepicker]="transactedAtDatepicker"
+          required
+          placeholder="Ngày giao dịch" />
+
+        <mat-datepicker-toggle matSuffix [for]="transactedAtDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #transactedAtDatepicker></mat-datepicker>
+      </mat-form-field>
     </form>
   </div>
 
