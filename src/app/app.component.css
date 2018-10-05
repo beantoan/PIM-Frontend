@@ -27,3 +27,19 @@ form.mat-form {
   display: flex;
   flex-direction: column;
 }
+
+.fl-lft {
+  float: left;
+}
+
+.fl-rght {
+  float: right;
+}
+
+.aui-dialog2-footer {
+  height: 59px;
+}
+
+.flex-space {
+  flex: 1 1 auto;
+}

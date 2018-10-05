@@ -11,11 +11,15 @@ import {PageHeaderComponent} from './layout/page-header.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {
   MatAutocompleteModule,
+  MatButtonModule,
   MatDatepickerModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
+  MatMenuModule,
   MatOptionModule,
-  MatSelectModule
+  MatSelectModule,
+  MatToolbarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -35,7 +39,11 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatMomentDateModule,
     MatSelectModule,
     MatOptionModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatMenuModule
   ],
   declarations: [
     ShowAuthedDirective,

@@ -1,54 +1,43 @@
-<form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="aui">
-  <fieldset>
-    <h2>
-      Đăng nhập hệ thống
-    </h2>
+<form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="mat-form">
+  <h2>Đăng nhập</h2>
 
-    <div *ngIf="(loginForm.controls['username'].errors && !form.controls['username'].pristine) ||
-     (loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)" class="aui-message aui-message-warning">
-      <p class="title">
-        <span class="aui-icon icon-error"></span>
-        <strong>Thông tin không hợp lệ!</strong>
-      </p>
+  <mat-form-field>
+    <input matInput
+           formControlName="username"
+           required
+           placeholder="Email" />
 
-      <ul>
-        <li [hidden]="!(loginForm.controls['username'].errors && !loginForm.controls['username'].pristine)">Hãy nhập email</li>
-        <li [hidden]="!(loginForm.controls['password'].errors && !loginForm.controls['password'].pristine)">Hãy nhập mật khẩu</li>
-      </ul>
+    <mat-icon matSuffix>email</mat-icon>
+
+    <mat-error *ngIf="loginForm.controls['username'].hasError('email') && !loginForm.controls['username'].hasError('required')">
+      Hãy nhập email hợp lệ
+    </mat-error>
+    <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
+      Hãy nhập email
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput
+           formControlName="password"
+           required
+           type="password"
+           placeholder="Mật khẩu" />
+
+    <mat-icon matSuffix>security</mat-icon>
+
+    <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+      Hãy nhập mật khẩu
+    </mat-error>
+  </mat-form-field>
+
+  <div class="aui-group">
+    <div class="aui-item">
+      <button mat-raised-button color="primary" name="Login" type="submit" class="fl-rght">Đăng nhập</button>
     </div>
-
-    <div class="field-group">
-      <label for="username">Email<span class="aui-icon icon-required"> required</span></label>
-
-      <input
-        id="username"
-        formControlName="username"
-        required
-        type="text"
-        placeholder="Ví dụ: pim@gmail.com"
-        class="text"/>
+    <div class="aui-item">
+      <a mat-button routerLink="" title="">Đăng ký</a>
     </div>
+  </div>
 
-    <div class="field-group">
-      <label for="password">Mật khẩu<span class="aui-icon icon-required"> required</span></label>
-
-      <input
-        id="password"
-        name="password"
-        formControlName="password"
-        required
-        type="password"
-        class="text"
-        autocomplete="off" />
-    </div>
-
-    <div class="buttons-container form-footer">
-      <div class="buttons">
-        <input class="aui-button aui-button-primary" name="Login" type="submit" value="Đăng nhập">
-
-        <a class="aui-button aui-button-link cancel" routerLink="" title="">Sign Up</a>
-      </div>
-    </div>
-
-  </fieldset>
 </form>

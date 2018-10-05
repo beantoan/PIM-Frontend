@@ -1,92 +1,21 @@
-<header id="header" role="banner" xmlns="http://www.w3.org/1999/html">
-  <nav class="aui-header aui-dropdown2-trigger-group" role="navigation" data-aui-responsive="true">
-    <div class="aui-header-primary">
-      <h1 id="logo" class="aui-header-logo aui-header-logo-textonly">
+<mat-toolbar color="primary">
+  <span>{{title}} &nbsp;</span>
 
-        <a routerLink="">
-          <span class="aui-header-logo-device">{{title}}</span>
-        </a>
-      </h1>
+  <button mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
 
-      <ul *appShowAuthed="true" class="aui-nav">
-        <li>
-          <a href="#dropdown2-jira3" aria-owns="dropdown2-jira3" aria-haspopup="true" class="aui-dropdown2-trigger" aria-controls="dropdown2-jira3">Menu</a>
+  <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
 
-          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-jira3" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/">Item 1</a></li>
-                <li><a href="http://example.com/">Item 2</a></li>
-                <li><a href="http://example.com/">Item 4</a></li>
-                <li><a href="http://example.com/">Item 4</a></li>
-                <li><a href="http://example.com/">Item 5</a></li>
-              </ul>
-            </div>
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/">Item 6</a></li>
-                <li><a href="http://example.com/">Item 7</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
+  <button mat-button (click)="onClickCreateTransaction()">Tạo giao dịch</button>
 
-        <li>
-          <a (click)="onClickCreateTransaction()" class="aui-button aui-button-primary">Tạo giao dịch</a>
-        </li>
-      </ul>
-    </div>
+  <span class="flex-space"></span>
 
-    <div *appShowAuthed="true" class="aui-header-secondary">
-      <ul class="aui-nav __skate">
-        <li>
-          <form action="/foo" method="post" class="aui-quicksearch">
-            <label for="quicksearchid" class="assistive">Search</label>
-            <input id="quicksearchid" class="search" type="text" placeholder="Search..." name="quicksearchname">
-          </form>
-        </li>
-        <li><a href="#dropdown2-header8" aria-owns="dropdown2-header8" aria-haspopup="true" class="aui-dropdown2-trigger-arrowless aui-dropdown2-trigger" aria-controls="dropdown2-header8"><span class="aui-icon aui-icon-small aui-iconfont-help">Help</span></a>
-          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header8" style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/" class="active">Online help</a></li>
-                <li><a href="http://example.com/">Keyboard shortcuts</a></li>
-                <li><a href="http://example.com/">About</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li><a href="#dropdown2-header9" aria-owns="dropdown2-header9" aria-haspopup="true" class="aui-dropdown2-trigger-arrowless aui-dropdown2-trigger" aria-controls="dropdown2-header9">
-          <div class="aui-avatar aui-avatar-small">
-            <div class="aui-avatar-inner">
-              <img src="images/avatar-16.png">
-            </div>
-          </div>
-        </a>
-          <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-header9" style="display: none; top: 40px; min-width: 160px; left: 1213px;" aria-hidden="true">
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/" class="active">Profile</a></li>
-                <li><a href="http://example.com/">Extensions</a></li>
-              </ul>
-            </div>
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/">Use Agile by default</a></li>
-              </ul>
-            </div>
-            <div class="aui-dropdown2-section">
-              <ul>
-                <li><a href="http://example.com/">Log out {{currentUser.first_name}}</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <button mat-button>Thoát</button>
 
-</header>
+</mat-toolbar>
 
 <section id="{{dialogId}}" class="aui-dialog2 aui-dialog2-medium aui-layer" role="dialog"
          aria-hidden="true" data-aui-modal="true">
@@ -108,7 +37,7 @@
           formControlName="stock"
           aria-label="Number"
           [matAutocomplete]="autoStock"
-          required>
+          required />
 
         <mat-autocomplete autoActiveFirstOption
                           #autoStock="matAutocomplete"
@@ -117,6 +46,7 @@
             {{item.code}}-{{item.title}}
           </mat-option>
         </mat-autocomplete>
+
       </mat-form-field>
 
       <mat-form-field>
@@ -167,8 +97,11 @@
 
   <footer class="aui-dialog2-footer">
     <div class="aui-dialog2-footer-actions">
-      <button class="aui-button aui-button-primary" (click)="onClickSaveTransaction()">Lưu giao dịch</button>
-      <button class="aui-button aui-button-link" (click)="hideDialog()">Đóng</button>
+      <button mat-raised-button color="primary" (click)="onClickSaveTransaction()">
+        Lưu giao dịch
+      </button>
+      &nbsp;
+      <button mat-button color="primary" (click)="hideDialog()">Đóng</button>
     </div>
     <div class="aui-dialog2-footer-hint">Bạn không thể sửa dữ liệu sau khi lưu</div>
   </footer>
