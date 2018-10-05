@@ -112,7 +112,7 @@
 
         <mat-autocomplete autoActiveFirstOption
                           #autoStock="matAutocomplete"
-                          [displayWith]="displayFn">
+                          [displayWith]="displayStockOption">
           <mat-option *ngFor="let item of stocks | async" [value]="item">
             {{item.code}}-{{item.title}}
           </mat-option>
@@ -134,7 +134,6 @@
                    type="number"
                    formControlName="quantity"
                    required
-                   min="0"
                    placeholder="Khối lượng" />
           </mat-form-field>
         </div>
@@ -145,7 +144,6 @@
                    type="number"
                    formControlName="price"
                    required
-                   min="0"
                    placeholder="Giá" />
 
             <span matSuffix>x1000</span>
@@ -156,13 +154,13 @@
       <mat-form-field>
         <input
           matInput
-          formControlName="transactedAt"
-          [matDatepicker]="transactedAtDatepicker"
+          formControlName="transactedOn"
+          [matDatepicker]="transactedOnDatepicker"
           required
           placeholder="Ngày giao dịch" />
 
-        <mat-datepicker-toggle matSuffix [for]="transactedAtDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #transactedAtDatepicker></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="transactedOnDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #transactedOnDatepicker></mat-datepicker>
       </mat-form-field>
     </form>
   </div>
@@ -172,7 +170,7 @@
       <button class="aui-button aui-button-primary" (click)="onClickSaveTransaction()">Lưu giao dịch</button>
       <button class="aui-button aui-button-link" (click)="hideDialog()">Đóng</button>
     </div>
-    <div class="aui-dialog2-footer-hint">Bạn không thể sửa dữ liệu đã lưu</div>
+    <div class="aui-dialog2-footer-hint">Bạn không thể sửa dữ liệu sau khi lưu</div>
   </footer>
 </section>
 

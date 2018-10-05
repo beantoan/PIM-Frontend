@@ -79,18 +79,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   private initData() {
     this.transactionTypes = this.transactionService.getTypes();
 
-    // this.stocks = concat(
-    //   of([]),
-    //   this.searchStockTerm.pipe(
-    //     debounceTime(200),
-    //     distinctUntilChanged(),
-    //     tap(() => this.searchStockLoading = true),
-    //     switchMap(term => this.stockService.search(term).pipe(
-    //       catchError(() => of([])),
-    //       tap(() => this.searchStockLoading = false)
-    //     ))
-    //   ));
-
     this.stocks = this.transactionForm.get('stock').valueChanges
       .pipe(
         startWith<string | Stock>(''),
@@ -106,12 +94,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   private buildTransactionForm() {
+    const today = moment().format('YYYY-MM-DD');
+
     this.transactionForm = new FormGroup({
       stock: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
+      quantity: new FormControl('', [Validators.required, Validators.min(0)]),
+      price: new FormControl('', [Validators.required, Validators.min(0)]),
       type: new FormControl(1, Validators.required),
-      transactedAt: new FormControl(moment().format('YYYY-MM-DD'), Validators.required),
+      transactedOn: new FormControl(today, Validators.required),
     });
   }
 
@@ -161,7 +151,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       );
   }
 
-  displayFn(stock?: Stock): string | undefined {
+  displayStockOption(stock?: Stock): string | undefined {
     console.log(stock);
     return stock ? `${stock.code}-${stock.title}` : undefined;
   }
