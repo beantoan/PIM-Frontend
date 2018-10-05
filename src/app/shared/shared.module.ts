@@ -13,6 +13,7 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatDatepickerModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -43,7 +44,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   declarations: [
     ShowAuthedDirective,

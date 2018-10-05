@@ -13,6 +13,7 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatDatepickerModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -22,13 +23,15 @@ import {
   MatToolbarModule
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {CreateTransactionDialogComponent} from './create-transaction-dialog/create-transaction-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    InvestmentPeriodComponent
+    InvestmentPeriodComponent,
+    CreateTransactionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +48,11 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [Title],
+  entryComponents: [CreateTransactionDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
