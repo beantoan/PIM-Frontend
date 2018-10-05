@@ -9,15 +9,23 @@ import {HeaderComponent} from './layout/header.component';
 import {FooterComponent} from './layout/footer.component';
 import {PageHeaderComponent} from './layout/page-header.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {MatDatepickerModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
+    HttpClientModule,
+    RouterModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    HttpClientModule,
-    RouterModule
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   declarations: [
     ShowAuthedDirective,
@@ -26,11 +34,11 @@ import {NgSelectModule} from '@ng-select/ng-select';
     PageHeaderComponent
   ],
   exports: [
+    HttpClientModule,
+    RouterModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
     ShowAuthedDirective,
     HeaderComponent,
     FooterComponent,

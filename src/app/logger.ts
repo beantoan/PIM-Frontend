@@ -1,13 +1,13 @@
 export class Logger {
-  static log(msg: any) {
-    console.log(msg);
+  static log(tag: string, msg: any) {
+    console.log(`${tag}: ${msg}`);
   }
 
-  static error(msg: any) {
-    console.error(msg);
+  static error(tag: string, msg: any) {
+    console.error(`${tag}: ${msg}`);
   }
 
-  static warn(msg: any) {
-    console.warn(msg);
+  static warn(tag: string, msg: any) {
+    console.warn(`${tag}: ${msg}`);
   }
 }

@@ -34,20 +34,18 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm() {
-    Logger.log('submitForm');
+    Logger.log(LoginComponent.name, 'submitForm');
 
     this.isSubmitting = true;
 
-    const credentials = this.loginForm.value;
-
     this.userService
-      .attemptAuth(this.authType, credentials)
+      .attemptAuth(this.authType, this.loginForm.value)
       .subscribe(
         data => {
           this.userService.populate();
         },
         err => {
-          Logger.error(err);
+          Logger.error(LoginComponent.name, err);
         },
         () => {
           this.isSubmitting = false;

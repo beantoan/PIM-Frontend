@@ -44,21 +44,29 @@ export class ApiService {
   put<T>(path: string, body: Object = {}): Observable<T> {
     const url = this.buildUrl(path);
 
-    return this.http.put<T>(
-      url, JSON.stringify(body)
-    ).pipe(catchError(this.formatErrors));
+    return this.http.put<T>(url, body)
+      .pipe(catchError(this.formatErrors));
+  }
+
+  postForm<T>(path: string, data: Object = {}): Observable<T> {
+    const url = this.buildUrl(path);
+    const body = this.buildFormData(data);
+
+    return this.http.post<T>(url, body)
+      .pipe(catchError(this.formatErrors));
   }
 
   post<T>(path: string, data: Object = {}): Observable<T> {
     const url = this.buildUrl(path);
-    const body = this.buildFormData(data);
 
-    return this.http.post<T>(url, body).pipe(catchError(this.formatErrors));
+    return this.http.post<T>(url, data)
+      .pipe(catchError(this.formatErrors));
   }
 
   delete<T>(path): Observable<T> {
     const url = this.buildUrl(path);
 
-    return this.http.delete<T>(url).pipe(catchError(this.formatErrors));
+    return this.http.delete<T>(url)
+      .pipe(catchError(this.formatErrors));
   }
 }

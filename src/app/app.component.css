@@ -9,3 +9,7 @@
 .ng-dropdown-panel {
   z-index: 9999 !important;
 }
+
+.cdk-overlay-container {
+  z-index: 9999 !important;
+}

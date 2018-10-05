@@ -28,7 +28,7 @@ export class UserService {
   }
 
   private setUser(user: User) {
-    Logger.log('setUser');
+    Logger.log(UserService.name, 'setUser');
 
     // Set current user data into observable
     this.currentUserSubject.next(user);
@@ -43,7 +43,7 @@ export class UserService {
   }
 
   private purgeAuth() {
-    Logger.log('purgeAuth');
+    Logger.log(UserService.name, 'purgeAuth');
 
     // Remove JWT from localstorage
     this.jwtService.destroyToken();
@@ -56,7 +56,7 @@ export class UserService {
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
   populate() {
-    Logger.log('populate');
+    Logger.log(UserService.name, 'populate');
 
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
@@ -73,13 +73,13 @@ export class UserService {
   }
 
   attemptAuth(type, credentials): Observable<AuthToken> {
-    Logger.log('attemptAuth');
+    Logger.log(UserService.name, 'attemptAuth');
 
     credentials.grant_type = 'password';
 
     const route = (type === 'login') ? ApiEndpoints.OAUTH_TOKEN : ApiEndpoints.USERS;
 
-    return this.apiService.post<AuthToken>(route, credentials)
+    return this.apiService.postForm<AuthToken>(route, credentials)
       .pipe(
         take(1),
         map(data => {

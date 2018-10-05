@@ -23,13 +23,16 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
+              "node_modules/jquery/jquery.js",
+              "node_modules/jquery/jquery-migrate.js",
               "src/assets/aui/js/aui.js",
-              "src/assets/aui/js/aui-experimental.js",
-              "src/assets/aui/js/aui-datepicker.js"
+              "src/assets/aui/js/aui-experimental.js"
             ]
           },
           "configurations": {
@@ -77,6 +80,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "src/styles.css"
             ],
             "scripts": [],

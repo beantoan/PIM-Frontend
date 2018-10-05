@@ -16,7 +16,7 @@ export class StockService {
   }
 
   search(term: string) {
-    Logger.log(`search: ${term}`);
+    Logger.log(StockService.name, `search: ${term}`);
 
     const httpParams = new HttpParams().set('term', term);
 

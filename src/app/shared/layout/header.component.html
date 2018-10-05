@@ -102,7 +102,7 @@
       <fieldset>
 
         <div class="field-group">
-          <label for="stock_id">Cổ phiếu</label>
+          <label for="stockId">Cổ phiếu</label>
 
           <ng-select [items]="stocks | async"
                      [selectOnTab]="true"
@@ -110,16 +110,32 @@
                      [loading]="searchStockLoading"
                      bindValue="code"
                      bindLabel="title"
-                     labelForId="stock_id"
+                     labelForId="stockId"
                      placeholder="Gõ để chọn mã cổ phiếu"
                      appendTo="body"
-                     formControlName="stock_id">
+                     formControlName="stockId">
             <ng-template ng-option-tmp let-item="item">
               {{item.code}} - {{item.title}}
             </ng-template>
 
             <ng-template ng-label-tmp let-item="item">
               {{item.code}} - {{item.title}}
+            </ng-template>
+
+            <ng-template ng-typetosearch-tmp>
+              <div class="ng-option disabled">
+                Start typing...
+              </div>
+            </ng-template>
+            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+              <div class="ng-option disabled">
+                No data found for "{{searchTerm}}"
+              </div>
+            </ng-template>
+            <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
+              <div class="ng-option disabled">
+                Fetching data for "{{searchTerm}}"
+              </div>
             </ng-template>
           </ng-select>
 
@@ -167,19 +183,25 @@
             type="number"
             class="text"
             autocomplete="off" />
+
+          x 1000
         </div>
 
         <div class="field-group">
-          <label for="transacted_at">Ngày giao dịch</label>
+          <label for="transactedAt">Ngày giao dịch</label>
 
-          <input
-            id="transacted_at"
-            name="transacted_at"
-            formControlName="transacted_at"
-            required
-            type="date"
-            class="text aui-date-picker"
-            autocomplete="off" />
+          <mat-form-field>
+            <input
+              id="transactedAt"
+              name="transactedAt"
+              formControlName="transactedAt"
+              matInput
+              [matDatepicker]="transactedAtDatepicker"
+              required />
+
+            <mat-datepicker-toggle matSuffix [for]="transactedAtDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #transactedAtDatepicker></mat-datepicker>
+          </mat-form-field>
         </div>
 
       </fieldset>
@@ -191,6 +213,7 @@
       <button class="aui-button aui-button-primary" (click)="onClickSaveTransaction()">Lưu giao dịch</button>
       <button class="aui-button aui-button-link" (click)="hideDialog()">Đóng</button>
     </div>
+    <div class="aui-dialog2-footer-hint">Bạn không thể sửa dữ liệu đã lưu</div>
   </footer>
 </section>
 
