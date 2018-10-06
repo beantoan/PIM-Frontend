@@ -7,5 +7,6 @@ export interface Transaction {
   quantity: number;
   fee: number;
   tax: number;
+  money: number;
   transactedOn: Date;
 }

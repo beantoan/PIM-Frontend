@@ -86,18 +86,17 @@ export class CreateTransactionDialogComponent implements OnInit {
   private buildTransactionForm() {
     const today = moment().format('YYYY-MM-DD');
 
-    const transactionTypeSell = 1;
-
     this.transactionForm = new FormGroup({
       stock: new FormControl('', Validators.required),
-      quantity: new FormControl('', [Validators.required, Validators.min(0)]),
-      price: new FormControl('', [Validators.required, Validators.min(0)]),
-      type: new FormControl(transactionTypeSell, Validators.required),
+      quantity: new FormControl('', [Validators.required, Validators.min(1)]),
+      price: new FormControl('', [Validators.required, Validators.min(1)]),
+      money: new FormControl('', [Validators.required, Validators.min(1)]),
+      type: new FormControl(TransactionType.TYPE_BUY, Validators.required),
       transactedOn: new FormControl(today, Validators.required),
     });
   }
 
-  onClickSaveTransaction() {
+  onSaveTransactionClicked() {
     this.transactionService.save(this.transactionForm.value)
       .subscribe(
         data => {
@@ -123,9 +122,52 @@ export class CreateTransactionDialogComponent implements OnInit {
       );
   }
 
+  onTransactionTypeChanged(event) {
+    const moneyInputField = this.transactionForm.get('money');
+    const quantityInputField = this.transactionForm.get('quantity');
+    const priceInputField = this.transactionForm.get('price');
+
+    moneyInputField.clearValidators();
+    quantityInputField.clearValidators();
+    priceInputField.clearValidators();
+
+    switch (event.source.value) {
+      case TransactionType.TYPE_BUY:
+      case TransactionType.TYPE_SELL:
+        quantityInputField.setValidators([Validators.required, Validators.min(1)]);
+        priceInputField.setValidators([Validators.required, Validators.min(1)]);
+        break;
+      case TransactionType.TYPE_MONEY_DIVIDEND:
+        moneyInputField.setValidators([Validators.required, Validators.min(1)]);
+        break;
+      case TransactionType.TYPE_AWARD_DIVIDEND:
+      case TransactionType.TYPE_STOCK_DIVIDEND:
+        quantityInputField.setValidators([Validators.required, Validators.min(1)]);
+        break;
+    }
+
+    moneyInputField.updateValueAndValidity();
+    quantityInputField.updateValueAndValidity();
+    priceInputField.updateValueAndValidity();
+
+  }
+
   displayStockOption(stock?: Stock): string | undefined {
     Logger.log(CreateTransactionDialogComponent.name, stock);
 
     return stock ? `${stock.code}-${stock.title}` : undefined;
+  }
+
+  displayQuantityInputField() {
+    return this.transactionForm.get('type').value !== TransactionType.TYPE_MONEY_DIVIDEND;
+  }
+
+  displayPriceInputField() {
+    const selectedType = this.transactionForm.get('type').value;
+    return selectedType === TransactionType.TYPE_BUY || selectedType === TransactionType.TYPE_SELL;
+  }
+
+  displayMoneyInputField() {
+    return this.transactionForm.get('type').value === TransactionType.TYPE_MONEY_DIVIDEND;
   }
 }

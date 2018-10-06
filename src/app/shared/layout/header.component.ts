@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.createTransactionDialog.open(CreateTransactionDialogComponent, {
       height: '400px',
       width: '600px',
+      autoFocus: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onClickCreateTransaction() {
+  onCreateTransactionClicked() {
     this.showDialog();
   }
 }

@@ -1,18 +1,14 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="mat-elevation-z6">
   <span>{{title}} &nbsp;</span>
 
-  <button mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
 
-  <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>Item 1</button>
-    <button mat-menu-item>Item 2</button>
-  </mat-menu>
-
-  <button mat-button (click)="onClickCreateTransaction()">Tạo giao dịch</button>
+  <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
 
   <span class="flex-space"></span>
 
-  <button mat-button>Thoát</button>
+  <button *appShowAuthed="true" mat-button>Thoát</button>
 
 </mat-toolbar>

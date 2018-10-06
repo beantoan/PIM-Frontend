@@ -12,6 +12,7 @@ import {InvestmentPeriodComponent} from './investment-period/investment-period.c
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatCardModule,
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
@@ -22,9 +23,11 @@ import {
   MatOptionModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatRadioModule,
   MatSelectModule,
   MatSortModule,
   MatTableModule,
+  MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -59,7 +62,10 @@ import {CreateTransactionDialogComponent} from './create-transaction-dialog/crea
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTabsModule,
+    MatCardModule,
+    MatRadioModule
   ],
   providers: [Title],
   entryComponents: [CreateTransactionDialogComponent],

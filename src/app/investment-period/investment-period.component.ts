@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatRadioGroup} from '@angular/material';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {merge, of} from 'rxjs';
@@ -25,11 +25,12 @@ export class InvestmentPeriodComponent implements OnInit {
   investmentPeriods: InvestmentPeriod[] = [];
 
   pageSize = 30;
+  viewType = 1;
   resultsLength = 0;
   isLoadingResults = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatRadioGroup) radioGroup: MatRadioGroup;
 
   constructor(
     private investmentPeriodService: InvestmentPeriodService
@@ -40,14 +41,13 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   private subscribeEvents() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    merge(this.sort.sortChange, this.paginator.page)
+    merge(this.radioGroup.change, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.investmentPeriodService.index(this.paginator.pageIndex, this.pageSize);
+          const viewType = this.radioGroup.value == null ? this.viewType : this.radioGroup.value;
+          return this.investmentPeriodService.index(this.paginator.pageIndex, this.pageSize, viewType);
         }),
         map(data => {
           this.isLoadingResults = false;
@@ -62,15 +62,15 @@ export class InvestmentPeriodComponent implements OnInit {
       ).subscribe(data => this.investmentPeriods = data);
   }
 
-  calculateHoldQuantity(row: InvestmentPeriod): number {
+  calcHoldQuantity(row: InvestmentPeriod): number {
     return row.buyQuantity - row.sellQuantity;
   }
 
-  calculateHoldMoney(row: InvestmentPeriod): number {
-    return this.calculateHoldQuantity(row) * row.sellAvgPrice;
+  calcHoldMoney(row: InvestmentPeriod): number {
+    return this.calcHoldQuantity(row) * row.sellAvgPrice;
   }
 
-  calculateTotalDays(row) {
+  calcTotalDays(row: InvestmentPeriod): number {
     if (row.endedOn == null) {
       return null;
     }
@@ -78,5 +78,19 @@ export class InvestmentPeriodComponent implements OnInit {
     const start = moment(row.startedOn, 'YYYY-MM-DD');
     const end = moment(row.endedOn, 'YYYY-MM-DD');
     return end.diff(start, 'days') + 1;
+  }
+
+  calRawRevenue(row: InvestmentPeriod): number {
+    return row.sellQuantity * (row.sellAvgPrice - row.buyAvgPrice);
+  }
+
+  calcRealRevenue(row: InvestmentPeriod): number {
+    return row.sellMoney - row.buyMoney;
+  }
+
+  calcRateOfRawRevenue(row: InvestmentPeriod): number {
+    if (row.buyAvgPrice > 0 && row.endedOn != null) {
+      return Math.round(((row.sellAvgPrice - row.buyAvgPrice) / row.buyAvgPrice) * 100);
+    }
   }
 }

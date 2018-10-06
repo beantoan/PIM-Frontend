@@ -1,15 +1,16 @@
-<div id="page" class="{{bodyCssClass}}">
+<div class="{{bodyCssClass}} app-container">
   <app-layout-header [title]="appTitle"></app-layout-header>
 
-  <section id="content" role="main">
 
-    <app-layout-page-header></app-layout-page-header>
+  <app-layout-page-header></app-layout-page-header>
 
-
+  <div class="app-body">
     <router-outlet></router-outlet>
 
-  </section>
 
-  <app-layout-footer></app-layout-footer>
+    <app-layout-footer></app-layout-footer>
+
+  </div>
+
 
 </div>

@@ -1,50 +1,51 @@
 <div class="aui-page-panel">
   <div class="aui-page-panel-inner">
-    <section class="aui-page-panel-content">
-    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="mat-form">
-      <h2>Đăng nhập</h2>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="mat-form">
+          <h2>Đăng nhập</h2>
 
-      <mat-form-field>
-        <input matInput
-               formControlName="username"
-               required
-               placeholder="Email" />
+          <mat-form-field>
+            <input matInput
+                   formControlName="username"
+                   required
+                   placeholder="Email" />
 
-        <mat-icon matSuffix>email</mat-icon>
+            <mat-icon matSuffix>email</mat-icon>
 
-        <mat-error *ngIf="loginForm.controls['username'].hasError('email') && !loginForm.controls['username'].hasError('required')">
-          Hãy nhập email hợp lệ
-        </mat-error>
-        <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
-          Hãy nhập email
-        </mat-error>
-      </mat-form-field>
+            <mat-error *ngIf="loginForm.controls['username'].hasError('email') && !loginForm.controls['username'].hasError('required')">
+              Hãy nhập email hợp lệ
+            </mat-error>
+            <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
+              Hãy nhập email
+            </mat-error>
+          </mat-form-field>
 
-      <mat-form-field>
-        <input matInput
-               formControlName="password"
-               required
-               type="password"
-               placeholder="Mật khẩu" />
+          <mat-form-field>
+            <input matInput
+                   formControlName="password"
+                   required
+                   type="password"
+                   placeholder="Mật khẩu" />
 
-        <mat-icon matSuffix>security</mat-icon>
+            <mat-icon matSuffix>security</mat-icon>
 
-        <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-          Hãy nhập mật khẩu
-        </mat-error>
-      </mat-form-field>
+            <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+              Hãy nhập mật khẩu
+            </mat-error>
+          </mat-form-field>
 
-      <div class="aui-group">
-        <div class="aui-item">
-          <button mat-raised-button color="primary" name="Login" type="submit" class="fl-rght">Đăng nhập</button>
-        </div>
-        <div class="aui-item">
-          <a mat-button routerLink="" title="">Đăng ký</a>
-        </div>
-      </div>
+          <div class="aui-group">
+            <div class="aui-item">
+              <button mat-raised-button color="primary" name="Login" type="submit" class="fl-rght">Đăng nhập</button>
+            </div>
+            <div class="aui-item">
+              <a mat-button routerLink="" title="">Đăng ký</a>
+            </div>
+          </div>
 
-    </form>
-
-    </section>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

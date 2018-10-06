@@ -16,12 +16,13 @@ export class InvestmentPeriodService {
   ) {
   }
 
-  index(page: number, size: number): Observable<PageResponse<InvestmentPeriod>> {
-    Logger.log(InvestmentPeriodService.name, `index: page=${page}, size=${size}`);
+  index(page: number, size: number, view: number): Observable<PageResponse<InvestmentPeriod>> {
+    Logger.log(InvestmentPeriodService.name, `index: page=${page}, size=${size}, view=${view}`);
 
     const httpParams = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('view', view.toString());
 
     return this.apiService.get<PageResponse<InvestmentPeriod>>(ApiEndpoints.INVESTMENT_PERIODS, httpParams);
   }

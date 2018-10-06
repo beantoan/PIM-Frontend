@@ -12,6 +12,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatCardModule,
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
@@ -22,9 +23,11 @@ import {
   MatOptionModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatRadioModule,
   MatSelectModule,
   MatSortModule,
   MatTableModule,
+  MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -55,7 +58,10 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTabsModule,
+    MatCardModule,
+    MatRadioModule
   ],
   declarations: [
     ShowAuthedDirective,
