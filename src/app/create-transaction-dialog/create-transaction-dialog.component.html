@@ -11,9 +11,10 @@
         formControlName="stock"
         aria-label="Number"
         [matAutocomplete]="autoStock"
+        (click)="$event.target.select()"
         required />
 
-      <mat-autocomplete autoActiveFirstOption
+      <mat-autocomplete autoActiveFirstOption="true"
                         #autoStock="matAutocomplete"
                         [displayWith]="displayStockOption">
         <mat-option *ngFor="let item of stocks | async" [value]="item">
@@ -37,6 +38,7 @@
           <input matInput
                  type="number"
                  formControlName="quantity"
+                 (click)="$event.target.select()"
                  required
                  placeholder="Khối lượng" />
         </mat-form-field>
@@ -47,6 +49,7 @@
           <input matInput
                  type="number"
                  formControlName="price"
+                 (click)="$event.target.select()"
                  required
                  placeholder="Giá" />
 

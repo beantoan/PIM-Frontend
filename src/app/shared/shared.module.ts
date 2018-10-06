@@ -14,6 +14,7 @@ import {
   MatButtonModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -53,7 +54,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDividerModule
   ],
   declarations: [
     ShowAuthedDirective,

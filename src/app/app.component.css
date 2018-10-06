@@ -27,3 +27,7 @@ input[type=number] {
 .mat-table {
   width: 100%;
 }
+
+.mat-column-buyQuantity {
+  padding-left: 0px !important;
+}

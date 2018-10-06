@@ -22,12 +22,14 @@ export class MomentUtcDateAdapter extends MomentDateAdapter {
       throw Error(`Invalid date "${date}". Date has to be greater than 0.`);
     }
 
-    let result = moment.utc({ year, month, date }).locale(this.locale);
+    const result = moment({ year, month, date });
 
     // If the result isn't valid, the date must have been out of bounds for this month.
     if (!result.isValid()) {
       throw Error(`Invalid date "${date}" for month with index "${month}".`);
     }
+
+    result.hours(12);
 
     return result;
   }

@@ -15,10 +15,13 @@ export class InvestmentPeriodComponent implements OnInit {
 
   displayedHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'remainQuantity', 'remainMoney', 'startedOn', 'endedOn', 'totalPeriod'];
+    'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
+    'startedOn', 'endedOn', 'totalPeriod'];
   displayedValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'remainQuantity', 'remainMoney', 'startedOn', 'endedOn', 'totalPeriod'];
+    'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
+    'startedOn', 'endedOn', 'totalPeriod'];
+
   investmentPeriods: InvestmentPeriod[] = [];
 
   pageSize = 30;
@@ -59,12 +62,12 @@ export class InvestmentPeriodComponent implements OnInit {
       ).subscribe(data => this.investmentPeriods = data);
   }
 
-  calculateRemainQuantity(row: InvestmentPeriod): number {
+  calculateHoldQuantity(row: InvestmentPeriod): number {
     return row.buyQuantity - row.sellQuantity;
   }
 
-  calculateRemainMoney(row: InvestmentPeriod): number {
-    return this.calculateRemainQuantity(row) * row.sellAvgPrice;
+  calculateHoldMoney(row: InvestmentPeriod): number {
+    return this.calculateHoldQuantity(row) * row.sellAvgPrice;
   }
 
   calculateTotalDays(row) {

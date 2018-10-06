@@ -14,6 +14,7 @@ import {
   MatButtonModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -57,7 +58,8 @@ import {CreateTransactionDialogComponent} from './create-transaction-dialog/crea
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDividerModule
   ],
   providers: [Title],
   entryComponents: [CreateTransactionDialogComponent],
