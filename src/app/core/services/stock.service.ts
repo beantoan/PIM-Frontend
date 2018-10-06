@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {ApiService} from './api.service';
 import {ApiEndpoints} from './api-endpoints';
 import {Logger} from '../../logger';
 import {Stock} from '../models/stock.model';
+import {HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 
 @Injectable()
 export class StockService {
   constructor(
-    private apiService: ApiService,
-    private http: HttpClient
+    private apiService: ApiService
   ) {
   }
 
-  search(term: string) {
+  search(term: string): Observable<Stock[]> {
     Logger.log(StockService.name, `search: ${term}`);
 
     const httpParams = new HttpParams().set('term', term);

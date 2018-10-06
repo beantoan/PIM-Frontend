@@ -6,4 +6,5 @@ export class ApiEndpoints {
   static TRANSACTIONS = '/transactions';
   static TRANSACTIONS_TYPES = '/transactions/types';
   static STOCKS_SEARCH = '/stocks/search';
+  static INVESTMENT_PERIODS = '/investmentPeriods';
 }

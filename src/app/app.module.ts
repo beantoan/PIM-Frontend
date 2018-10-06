@@ -19,7 +19,11 @@ import {
   MatInputModule,
   MatMenuModule,
   MatOptionModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
+  MatSortModule,
+  MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -49,7 +53,11 @@ import {CreateTransactionDialogComponent} from './create-transaction-dialog/crea
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
   providers: [Title],
   entryComponents: [CreateTransactionDialogComponent],

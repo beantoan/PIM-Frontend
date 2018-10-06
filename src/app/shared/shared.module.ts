@@ -19,7 +19,11 @@ import {
   MatInputModule,
   MatMenuModule,
   MatOptionModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
+  MatSortModule,
+  MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -45,7 +49,11 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     ShowAuthedDirective,

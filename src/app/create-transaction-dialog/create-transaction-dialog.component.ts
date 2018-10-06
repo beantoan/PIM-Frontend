@@ -8,13 +8,35 @@ import {StockService} from '../core/services/stock.service';
 import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Logger} from '../logger';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {MomentUtcDateAdapter} from '../shared/moment-utc-date.adapter';
 
 declare var AJS: any;
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-create-transaction-dialog',
   templateUrl: './create-transaction-dialog.component.html',
-  styleUrls: ['./create-transaction-dialog.component.css']
+  styleUrls: ['./create-transaction-dialog.component.css'],
+  providers: [
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }},
+    {provide: DateAdapter, useClass: MomentUtcDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
+  ]
 })
 export class CreateTransactionDialogComponent implements OnInit {
 

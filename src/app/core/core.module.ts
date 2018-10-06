@@ -11,6 +11,7 @@ import {TransactionService} from './services/transaction.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {StockService} from './services/stock.service';
+import {InvestmentPeriodService} from './services/investment-period.service';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import {StockService} from './services/stock.service';
     JwtService,
     UserService,
     TransactionService,
-    StockService
+    StockService,
+    InvestmentPeriodService
   ],
   exports: [
     CommonModule,

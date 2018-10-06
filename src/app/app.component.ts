@@ -46,12 +46,14 @@ export class AppComponent implements OnInit {
 
   /**
    * Subscribe the events of router
+
+   * TODO redirect to right page
    */
   private subscribeEvents() {
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         if (authenticated) {
-          this.router.navigateByUrl('/');
+          // this.router.navigateByUrl('/');
         } else {
           this.router.navigateByUrl('/login');
         }
