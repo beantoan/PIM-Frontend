@@ -11,8 +11,8 @@
     "postinstall": "ng build --aot --prod --build-optimizer"
   },
   "engines": {
-    "node": "6.11.0",
-    "npm": "3.10.10"
+    "node": "10.11.0",
+    "npm": "6.4.1"
   },
   "private": true,
   "dependencies": {
@@ -40,7 +40,7 @@
     "moment": "^2.22.2",
     "path": "^0.12.7",
     "rxjs": "^6.3.3",
-    "typescript": "~2.7.2",
+    "typescript": "~2.9.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -63,6 +63,6 @@
     "protractor": "^5.4.1",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "~2.9.1"
   }
 }
