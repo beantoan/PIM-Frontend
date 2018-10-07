@@ -1,9 +1,10 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "node app.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
