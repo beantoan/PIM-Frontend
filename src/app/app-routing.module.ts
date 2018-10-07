@@ -7,6 +7,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {NoAuthGuard} from './core/services/no-auth-guard.service';
 import {AuthGuard} from './core/services/auth-guard.service';
 import {InvestmentPeriodComponent} from './investment-period/investment-period.component';
+import {StockComponent} from './stock/stock.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,14 @@ const routes: Routes = [
       title: 'Phiên đầu tư'
     }
   },
+  {
+    path: 'stock',
+    component: StockComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Cổ phiếu'
+    }
+  }
 ];
 
 @NgModule({
