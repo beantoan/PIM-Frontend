@@ -2,11 +2,13 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 
 import {environment} from '../environments/environment';
-import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {UserService} from './core/services/user.service';
 import {LoginComponent} from './login/login.component';
 import {JwtService} from './core/services/jwt.service';
 import {Logger} from './logger';
+import {Location} from '@angular/common';
+import {RoutingStateService} from './core/services/routing-state.service';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +19,16 @@ import {Logger} from './logger';
   ]
 })
 export class AppComponent implements OnInit {
-  bodyCssClass = 'aui-page-focused aui-page-size-large';
   appTitle = environment.title;
 
   public constructor(
     private router: Router,
+    private activeRoute: ActivatedRoute,
     private userService: UserService,
     private jwtService: JwtService,
-    private titleService: Title
+    private titleService: Title,
+    private location: Location,
+    private routingState: RoutingStateService
   ) {}
 
   /**
@@ -38,26 +42,40 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    Logger.log(AppComponent.name, 'ngOnInit');
+
+    this.routingState.subscribeHistories();
+
     this.subscribeEvents();
 
     this.titleService.setTitle(environment.title);
+
+    this.logoutIfPossible();
 
     this.userService.populate();
   }
 
   /**
    * Subscribe the events of router
-
-   * TODO redirect to right page
    */
   private subscribeEvents() {
+    Logger.log(AppComponent.name, 'subscribeEvents');
+
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         if (authenticated) {
           Logger.log(AppComponent.name, 'subscribeEvents is logged in');
-          this.router.navigateByUrl('/');
+
+          const previousUrl = this.routingState.getPreviousUrl();
+
+          if (previousUrl.startsWith('/login')) {
+            const returnUrl = this.routingState.getHistory()[0];
+
+            this.router.navigateByUrl(returnUrl);
+          }
         } else {
-          Logger.warn(AppComponent.name, 'subscribeEvents is not logged in');
+          Logger.error(AppComponent.name, 'subscribeEvents is not logged in');
+
           this.router.navigateByUrl('/login');
         }
       }
@@ -65,6 +83,8 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.logoutIfPossible();
+
         const [isLoginPage, title] = this.analyzeActiveRoute(this.router.routerState.snapshot.root);
 
         this.titleService.setTitle(title);
@@ -81,10 +101,8 @@ export class AppComponent implements OnInit {
    */
   private switchPageLayout(isLoginPage: boolean) {
     if (isLoginPage) {
-      this.bodyCssClass = 'aui-page-focused aui-page-size-small';
       this.appTitle = environment.appName;
     } else {
-      this.bodyCssClass = '';
       this.appTitle = environment.title;
     }
   }
@@ -113,5 +131,26 @@ export class AppComponent implements OnInit {
     }
 
     return [isLoginPage, environment.title];
+  }
+
+  /**
+   * Check whether or not an user should be logged out
+   */
+  private logoutIfPossible() {
+    Logger.log(AppComponent.name, 'logoutIfPossible');
+
+    const jwtToken = this.jwtService.getToken();
+
+    let currentPath = null;
+
+    if (this.activeRoute.firstChild) {
+      currentPath = this.activeRoute.firstChild.snapshot.routeConfig.path;
+    }
+
+    if (!jwtToken && currentPath !== 'login') {
+      Logger.log(AppComponent.name, 'logout and then redirect to login page');
+
+      this.userService.logout();
+    }
   }
 }

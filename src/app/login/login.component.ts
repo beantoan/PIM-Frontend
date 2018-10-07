@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {Logger} from '../logger';
 
 @Component({
@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private userService: UserService
   ) {

@@ -10,6 +10,7 @@ import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {AuthToken} from '../models/auth-token.model';
 import {ApiEndpoints} from './api-endpoints';
 import {Logger} from '../../logger';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Injectable()
@@ -23,6 +24,8 @@ export class UserService {
   constructor(
     private apiService: ApiService,
     private http: HttpClient,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private jwtService: JwtService
   ) {
   }
