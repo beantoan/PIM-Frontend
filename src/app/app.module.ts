@@ -32,6 +32,9 @@ import {
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {CreateTransactionDialogComponent} from './create-transaction-dialog/create-transaction-dialog.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FooterModule} from './shared/footer/footer.component';
+import {HeaderModule} from './shared/header/header.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,10 @@ import {CreateTransactionDialogComponent} from './create-transaction-dialog/crea
     MatDividerModule,
     MatTabsModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
+    FlexLayoutModule,
+    HeaderModule,
+    FooterModule
   ],
   providers: [Title],
   entryComponents: [CreateTransactionDialogComponent],

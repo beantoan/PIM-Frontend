@@ -4,9 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
-import {ShowAuthedDirective} from './show-authed.directive';
-import {HeaderComponent} from './layout/header.component';
-import {FooterComponent} from './layout/footer.component';
+import {HeaderModule} from './header/header.component';
 import {PageHeaderComponent} from './layout/page-header.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {
@@ -32,6 +30,7 @@ import {
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -61,12 +60,11 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatDividerModule,
     MatTabsModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
+    FlexLayoutModule,
+    HeaderModule
   ],
   declarations: [
-    ShowAuthedDirective,
-    HeaderComponent,
-    FooterComponent,
     PageHeaderComponent
   ],
   exports: [
@@ -75,9 +73,6 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ShowAuthedDirective,
-    HeaderComponent,
-    FooterComponent,
     PageHeaderComponent
   ]
 })

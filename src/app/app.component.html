@@ -1,16 +1,5 @@
-<div class="{{bodyCssClass}} app-container">
-  <app-layout-header [title]="appTitle"></app-layout-header>
+<app-layout-header class="mat-elevation-z6"></app-layout-header>
 
+<router-outlet></router-outlet>
 
-  <app-layout-page-header></app-layout-page-header>
-
-  <div class="app-body">
-    <router-outlet></router-outlet>
-
-
-    <app-layout-footer></app-layout-footer>
-
-  </div>
-
-
-</div>
+<app-footer></app-footer>

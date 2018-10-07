@@ -29,7 +29,7 @@ input[type=number] {
 }
 
 .mat-column-buyQuantity {
-  padding-left: 0px !important;
+  padding-left: 0 !important;
 }
 
 .aui-item > mat-form-field {
@@ -48,28 +48,12 @@ input[type=number] {
   justify-content: center;
 }
 
-.app-body {
-  overflow: auto;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 64px;
-  width: 100%;
+.mat-page-header {
+  margin-top: 10px;
 }
 
-.app-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-mat-toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+.mat-card-login {
+  max-width: 400px;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }

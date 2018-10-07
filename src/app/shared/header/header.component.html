@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" class="mat-elevation-z6 docs-navbar-hide-small">
+  <span>{{title}} &nbsp;</span>
+
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
+  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+
+  <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
+
+  <span class="flex-space"></span>
+
+  <button *appShowAuthed="true" mat-button>Thoát</button>
+
+</mat-toolbar>
+
+<div class="docs-navbar-show-small">
+  <mat-divider></mat-divider>
+
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between stretch">
+    <button mat-button>PIM</button>
+
+    <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
+
+    <button *appShowAuthed="true" mat-button>Thoát</button>
+  </mat-toolbar>
+
+  <mat-card *appShowAuthed="true" fxLayout="row" fxLayoutAlign="space-between stretch" class="docs-navbar-show-small" >
+    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
+    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
+    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+  </mat-card>
+</div>

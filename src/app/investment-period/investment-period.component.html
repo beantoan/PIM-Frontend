@@ -1,9 +1,9 @@
-<mat-card class="mat-page-header">
+<mat-card class="mat-page-header mat-elevation-z0">
   <mat-card-content>
-    <mat-radio-group value="{{viewType}}">
-      <mat-radio-button value="1">Đang giao dịch</mat-radio-button>&nbsp;
-      <mat-radio-button value="2">Đã kết thúc</mat-radio-button>&nbsp;
-      <mat-radio-button value="3">Tất cả các phiên</mat-radio-button>
+    <mat-radio-group value="{{viewType}}" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="none">
+      <mat-radio-button value="1">Đang giao dịch&nbsp;</mat-radio-button>
+      <mat-radio-button value="2">Đã kết thúc&nbsp;</mat-radio-button>
+      <mat-radio-button value="3">Tất cả các phiên&nbsp;</mat-radio-button>
     </mat-radio-group>
   </mat-card-content>
 </mat-card>
@@ -16,7 +16,7 @@
        [dataSource]="investmentPeriods"
        class="mat-table">
 
-  <ng-container matColumnDef="stock">
+  <ng-container matColumnDef="stock" sticky>
     <th mat-header-cell *matHeaderCellDef rowspan="2">Mã</th>
     <td mat-cell *matCellDef="let row"><b>{{row.stock.code}}</b></td>
   </ng-container>

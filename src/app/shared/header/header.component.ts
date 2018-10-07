@@ -1,14 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, NgModule, OnInit} from '@angular/core';
 import {User} from '../../core/models/user.model';
 import {UserService} from '../../core/services/user.service';
-import {MatDialog} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialog, MatDividerModule, MatToolbarModule} from '@angular/material';
 import {CreateTransactionDialogComponent} from '../../create-transaction-dialog/create-transaction-dialog.component';
+import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {ShowAuthedDirective} from '../show-authed.directive';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
   selector: 'app-layout-header',
   templateUrl: './header.component.html',
-  providers: [
-  ],
+  styleUrls: ['header.component.scss'],
+  providers: [],
 })
 export class HeaderComponent implements OnInit {
   currentUser: User;
@@ -49,3 +53,25 @@ export class HeaderComponent implements OnInit {
     this.showDialog();
   }
 }
+
+
+@NgModule({
+  imports: [
+    RouterModule,
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    FlexLayoutModule,
+    MatDividerModule
+  ],
+  exports: [
+    ShowAuthedDirective,
+    HeaderComponent
+  ],
+  declarations: [
+    ShowAuthedDirective,
+    HeaderComponent
+  ],
+})
+export class HeaderModule {}
