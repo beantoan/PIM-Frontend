@@ -7,6 +7,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.app-content {
+  margin-top: 10px;
+}
+
 .mat-form {
   display: flex;
   flex-direction: column;
@@ -28,10 +32,6 @@ input[type=number] {
   width: 100%;
 }
 
-.mat-column-buyQuantity {
-  padding-left: 0 !important;
-}
-
 .loading-shade {
   position: absolute;
   top: 0;
@@ -42,10 +42,6 @@ input[type=number] {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.mat-page-header {
-  margin-top: 10px;
 }
 
 @media(max-width: 800px) {

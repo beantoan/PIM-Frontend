@@ -6,6 +6,7 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {UserService} from './core/services/user.service';
 import {LoginComponent} from './login/login.component';
 import {JwtService} from './core/services/jwt.service';
+import {Logger} from './logger';
 
 @Component({
   selector: 'app-root',
@@ -53,8 +54,10 @@ export class AppComponent implements OnInit {
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         if (authenticated) {
+          Logger.log(AppComponent.name, 'subscribeEvents is logged in');
           this.router.navigateByUrl('/');
         } else {
+          Logger.warn(AppComponent.name, 'subscribeEvents is not logged in');
           this.router.navigateByUrl('/login');
         }
       }

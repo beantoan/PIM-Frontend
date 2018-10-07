@@ -58,7 +58,6 @@ export class HeaderComponent implements OnInit {
   }
 }
 
-
 @NgModule({
   imports: [
     RouterModule,

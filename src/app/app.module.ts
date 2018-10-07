@@ -6,7 +6,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
 import {InvestmentPeriodComponent} from './investment-period/investment-period.component';
 import {
@@ -35,6 +34,12 @@ import {CreateTransactionDialogComponent} from './create-transaction-dialog/crea
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterModule} from './shared/footer/footer.component';
 import {HeaderModule} from './shared/header/header.component';
+import {StockComponent} from './stock/stock.component';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,12 +47,18 @@ import {HeaderModule} from './shared/header/header.component';
     LoginComponent,
     DashboardComponent,
     InvestmentPeriodComponent,
-    CreateTransactionDialogComponent
+    CreateTransactionDialogComponent,
+    StockComponent
   ],
   imports: [
+    HttpClientModule,
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     BrowserModule,
     CoreModule,
-    SharedModule,
     AppRoutingModule,
     MatFormFieldModule,
     MatInputModule,
