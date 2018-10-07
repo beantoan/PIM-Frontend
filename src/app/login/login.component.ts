@@ -27,10 +27,10 @@ export class LoginComponent implements OnInit {
 
   private buildLoginForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl('admin@pim.vn', [
+      username: new FormControl('', [
         Validators.required, Validators.email
       ]),
-      password: new FormControl('admin', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
 
