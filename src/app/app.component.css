@@ -32,10 +32,6 @@ input[type=number] {
   padding-left: 0 !important;
 }
 
-.aui-item > mat-form-field {
-  width: 95%;
-}
-
 .loading-shade {
   position: absolute;
   top: 0;
@@ -52,8 +48,9 @@ input[type=number] {
   margin-top: 10px;
 }
 
-.mat-card-login {
-  max-width: 400px;
-  margin-top: 100px;
-  margin-bottom: 100px;
+@media(max-width: 800px) {
+  .responsive-table {
+    overflow-x: auto !important;
+  }
 }
+

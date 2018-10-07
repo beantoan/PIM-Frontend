@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         if (authenticated) {
-          // this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/');
         } else {
           this.router.navigateByUrl('/login');
         }

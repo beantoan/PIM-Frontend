@@ -9,7 +9,7 @@ import {ShowAuthedDirective} from '../show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
-  selector: 'app-layout-header',
+  selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['header.component.scss'],
   providers: [],
@@ -51,6 +51,10 @@ export class HeaderComponent implements OnInit {
 
   onCreateTransactionClicked() {
     this.showDialog();
+  }
+
+  onLogoutClicked() {
+    this.userService.logout();
   }
 }
 

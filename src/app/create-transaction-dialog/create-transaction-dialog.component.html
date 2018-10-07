@@ -1,46 +1,40 @@
 <h2 mat-dialog-title>Tạo giao dịch mới</h2>
 
 <mat-dialog-content class="mat-typography">
-  <form [formGroup]="transactionForm" class="mat-form">
+  <form [formGroup]="transactionForm" fxLayout="column" fxLayoutAlign="space-between stretch">
 
-    <div class="aui-group aui-group-split">
-      <div class="aui-item">
-        <mat-form-field>
-          <input
-            matInput
-            type="text"
-            placeholder="Mã cổ phiếu"
-            formControlName="stock"
-            aria-label="Number"
-            [matAutocomplete]="autoStock"
-            (click)="$event.target.select()"
-            required />
+    <div class="container" fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+      <mat-form-field fxFlex="60">
+        <input
+          matInput
+          type="text"
+          placeholder="Mã cổ phiếu"
+          formControlName="stock"
+          aria-label="Number"
+          [matAutocomplete]="autoStock"
+          (click)="$event.target.select()"
+          required />
 
-          <mat-autocomplete autoActiveFirstOption="true"
-                            #autoStock="matAutocomplete"
-                            [displayWith]="displayStockOption">
-            <mat-option *ngFor="let item of stocks | async" [value]="item">
-              {{item.code}}-{{item.title}}
-            </mat-option>
-          </mat-autocomplete>
+        <mat-autocomplete autoActiveFirstOption="true"
+                          #autoStock="matAutocomplete"
+                          [displayWith]="displayStockOption">
+          <mat-option *ngFor="let item of stocks | async" [value]="item">
+            {{item.code}}-{{item.title}}
+          </mat-option>
+        </mat-autocomplete>
 
-        </mat-form-field>
-      </div>
+      </mat-form-field>
 
-      <div class="aui-item">
-
-        <mat-form-field>
-          <mat-select placeholder="Kiểu giao dịch"
-                      formControlName="type"
-                      (selectionChange)="onTransactionTypeChanged($event)"
-                      required>
-            <mat-option *ngFor="let item of transactionTypes | async" [value]="item.id">
-              {{item.title}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </div>
+      <mat-form-field>
+        <mat-select placeholder="Kiểu giao dịch"
+                    formControlName="type"
+                    (selectionChange)="onTransactionTypeChanged($event)"
+                    required>
+          <mat-option *ngFor="let item of transactionTypes | async" [value]="item.id">
+            {{item.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
     </div>
 

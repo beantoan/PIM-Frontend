@@ -1,4 +1,6 @@
-import {Component, NgModule} from '@angular/core';
+import {Component, Input, NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatDividerModule} from '@angular/material';
 
 @Component({
   selector: 'app-footer',
@@ -6,11 +8,19 @@ import {Component, NgModule} from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
+  @Input('title') title: string;
 }
 
 
 @NgModule({
-  exports: [FooterComponent],
+  imports: [
+    FlexLayoutModule,
+    MatDividerModule
+  ],
+  exports: [
+    FooterComponent
+  ],
   declarations: [FooterComponent],
 })
-export class FooterModule {}
+export class FooterModule {
+}

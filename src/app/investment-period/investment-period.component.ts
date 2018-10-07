@@ -89,7 +89,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   calcRateOfRawRevenue(row: InvestmentPeriod): number {
-    if (row.buyAvgPrice > 0 && row.endedOn != null) {
+    if (row.buyAvgPrice > 0 && row.sellAvgPrice > 0) {
       return Math.round(((row.sellAvgPrice - row.buyAvgPrice) / row.buyAvgPrice) * 100);
     }
   }

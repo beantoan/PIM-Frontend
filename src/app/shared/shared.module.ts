@@ -4,9 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
-import {HeaderModule} from './header/header.component';
-import {PageHeaderComponent} from './layout/page-header.component';
-import {NgSelectModule} from '@ng-select/ng-select';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -39,7 +36,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -61,19 +57,16 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatTabsModule,
     MatCardModule,
     MatRadioModule,
-    FlexLayoutModule,
-    HeaderModule
+    FlexLayoutModule
   ],
   declarations: [
-    PageHeaderComponent
   ],
   exports: [
     HttpClientModule,
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    PageHeaderComponent
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {}

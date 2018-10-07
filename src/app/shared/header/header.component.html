@@ -1,32 +1,34 @@
-<mat-toolbar color="primary" class="mat-elevation-z6 docs-navbar-hide-small">
-  <span>{{title}} &nbsp;</span>
+<div fxShow fxHide.xs="true" fxHide.gt-xs="false">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <span>{{title}}</span>
 
-  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
-  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
-  <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+    <mat-divider [inset]="true" fxShow fxHide.gt-sm="false" fxHide.lt-md="true"></mat-divider>
 
-  <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
-
-  <span class="flex-space"></span>
-
-  <button *appShowAuthed="true" mat-button>Thoát</button>
-
-</mat-toolbar>
-
-<div class="docs-navbar-show-small">
-  <mat-divider></mat-divider>
-
-  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between stretch">
-    <button mat-button>PIM</button>
+    <button *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
+    <button *appShowAuthed="true" mat-button routerLink="/stocks">Cổ phiếu</button>
+    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
 
     <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
 
-    <button *appShowAuthed="true" mat-button>Thoát</button>
+    <span class="flex-space"></span>
+
+    <button *appShowAuthed="true" mat-button (click)="onLogoutClicked()">Thoát</button>
+
+  </mat-toolbar>
+</div>
+
+<div fxShow fxHide.xs="false" fxHide.gt-xs="true">
+  <mat-toolbar color="primary" fxFill fxLayout="row" fxLayoutAlign="space-between stretch">
+    <button fxFlex="33" mat-button>{{title}}</button>
+
+    <button fxFlex="34" *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
+
+    <button fxFlex="33" *appShowAuthed="true" mat-button>Thoát</button>
   </mat-toolbar>
 
-  <mat-card *appShowAuthed="true" fxLayout="row" fxLayoutAlign="space-between stretch" class="docs-navbar-show-small" >
-    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
-    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
-    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+  <mat-card *appShowAuthed="true" fxFill fxLayout="row" fxLayoutAlign="space-between stretch">
+    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Tổng quan</button>
+    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Cổ phiếu</button>
+    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
   </mat-card>
 </div>

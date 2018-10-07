@@ -89,6 +89,10 @@ export class UserService {
       ));
   }
 
+  logout() {
+    this.purgeAuth();
+  }
+
   getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
