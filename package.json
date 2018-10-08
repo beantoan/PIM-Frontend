@@ -5,12 +5,13 @@
   "scripts": {
     "ng": "ng",
     "start:dev": "ng serve",
+    "start:stage": "ng serve --disable-host-check --configuration=stage",
     "start": "node app.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod --build-optimizer"
+    "postinstall": "ng build --aot --prod --build-optimizer --configuration=production"
   },
   "engines": {
     "node": "10.11.0",
