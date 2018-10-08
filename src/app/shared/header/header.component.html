@@ -23,7 +23,7 @@
 
     <button fxFlex="34" *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
 
-    <button fxFlex="33" *appShowAuthed="true" mat-button>Thoát</button>
+    <button fxFlex="33" *appShowAuthed="true" mat-button (click)="onLogoutClicked()">Thoát</button>
   </mat-toolbar>
 
   <mat-card *appShowAuthed="true" fxFill fxLayout="row" fxLayoutAlign="space-between stretch">

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
 import {Router} from '@angular/router';
-import {Logger} from '../logger';
+import {Logger} from '../core/services/logger';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

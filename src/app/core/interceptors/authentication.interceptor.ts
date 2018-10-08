@@ -23,9 +23,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       'Authorization' : token
     };
 
-    console.log(jwtToken);
-    console.log(req.url);
-
     if (!jwtToken && req.url !== ApiEndpoints.OAUTH_TOKEN) {
       this.userService.logout();
     }

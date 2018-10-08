@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {ApiService} from './api.service';
 import {ApiEndpoints} from './api-endpoints';
-import {Logger} from '../../logger';
+import {Logger} from './logger';
 import {HttpParams} from '@angular/common/http';
 import {InvestmentPeriod} from '../models/investment-period.model';
 import {PageResponse} from '../models/page-response.model';

@@ -7,7 +7,7 @@ import {TransactionService} from '../core/services/transaction.service';
 import {StockService} from '../core/services/stock.service';
 import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
-import {Logger} from '../logger';
+import {Logger} from '../core/services/logger';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {MAT_DATE_FORMATS, MatAutocomplete} from '@angular/material';
 

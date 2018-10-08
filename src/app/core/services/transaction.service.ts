@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {ApiService} from './api.service';
 import {ApiEndpoints} from './api-endpoints';
-import {Logger} from '../../logger';
+import {Logger} from './logger';
 import {TransactionType} from '../models/transaction-type.model';
 import {Observable} from 'rxjs';
 import {Transaction} from '../models/transaction.model';

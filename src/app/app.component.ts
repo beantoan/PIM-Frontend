@@ -6,7 +6,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@an
 import {UserService} from './core/services/user.service';
 import {LoginComponent} from './login/login.component';
 import {JwtService} from './core/services/jwt.service';
-import {Logger} from './logger';
+import {Logger} from './core/services/logger';
 import {Location} from '@angular/common';
 import {RoutingStateService} from './core/services/routing-state.service';
 

@@ -9,7 +9,7 @@ import {User} from '../models/user.model';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {AuthToken} from '../models/auth-token.model';
 import {ApiEndpoints} from './api-endpoints';
-import {Logger} from '../../logger';
+import {Logger} from './logger';
 import {ActivatedRoute, Router} from '@angular/router';
 
 
