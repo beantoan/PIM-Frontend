@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   authType = 'login';
   isSubmitting = false;
   loginForm: FormGroup;
+  errorMessage = null;
 
   constructor(
     private router: Router,
@@ -38,20 +39,28 @@ export class LoginComponent implements OnInit {
     Logger.log(LoginComponent.name, 'submitForm');
 
     this.isSubmitting = true;
+    this.errorMessage = null;
 
-    this.userService
-      .attemptAuth(this.authType, this.loginForm.value)
-      .subscribe(
-        data => {
-          this.userService.populate();
-        },
-        err => {
-          Logger.error(LoginComponent.name, err);
-        },
-        () => {
-          this.isSubmitting = false;
-        }
-      );
+    if (this.loginForm.valid) {
+      this.userService
+        .attemptAuth(this.authType, this.loginForm.value)
+        .subscribe(
+          data => {
+            this.userService.populate();
+          },
+          err => {
+            Logger.error(LoginComponent.name, err);
+            this.errorMessage = 'Email và mật khẩu đăng nhập không đúng';
+            this.isSubmitting = false;
+          },
+          () => {
+            this.isSubmitting = false;
+          }
+        );
+    } else {
+      this.isSubmitting = false;
+      this.errorMessage = 'Hãy nhập email và mật khẩu đăng nhập';
+    }
   }
 
 }

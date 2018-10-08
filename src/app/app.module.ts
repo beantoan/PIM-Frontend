@@ -26,7 +26,6 @@ import {
   MatSelectModule,
   MatSortModule,
   MatTableModule,
-  MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -77,7 +76,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatSortModule,
     MatProgressSpinnerModule,
     MatDividerModule,
-    MatTabsModule,
     MatCardModule,
     MatRadioModule,
     FlexLayoutModule,

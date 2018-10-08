@@ -13,6 +13,7 @@ import {RouterModule} from '@angular/router';
 import {StockService} from './services/stock.service';
 import {InvestmentPeriodService} from './services/investment-period.service';
 import {RoutingStateService} from './services/routing-state.service';
+import {MediaQueryService} from './services/media-query.service';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {RoutingStateService} from './services/routing-state.service';
     TransactionService,
     StockService,
     InvestmentPeriodService,
-    RoutingStateService
+    RoutingStateService,
+    MediaQueryService
   ],
   exports: [
     CommonModule,

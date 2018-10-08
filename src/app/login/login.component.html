@@ -2,7 +2,16 @@
   <mat-card class="mat-elevation-z8 mat-card-login">
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="mat-form">
+        <div class="loading-shade" *ngIf="isSubmitting">
+          <mat-spinner></mat-spinner>
+        </div>
+
         <h2>Đăng nhập</h2>
+
+        <div class="aui-message aui-message-warning" *ngIf="errorMessage">
+          <p>{{errorMessage}}</p>
+        </div>
+        <br/>
 
         <mat-form-field>
           <input matInput

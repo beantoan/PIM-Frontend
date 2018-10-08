@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable, of} from 'rxjs';
+import {merge, Observable, of} from 'rxjs';
 import {TransactionType} from '../core/models/transaction-type.model';
 import {Stock} from '../core/models/stock.model';
 import {TransactionService} from '../core/services/transaction.service';
@@ -43,6 +43,9 @@ export class CreateTransactionDialogComponent implements OnInit {
   transactionTypes: Observable<TransactionType[]>;
   stocks: Observable<Stock[]>;
 
+  errorMessage = null;
+  isSubmitting = false;
+
   @ViewChild('autoStock') matAutocomplete: MatAutocomplete;
 
   constructor(
@@ -54,8 +57,12 @@ export class CreateTransactionDialogComponent implements OnInit {
     this.buildTransactionForm();
 
     this.initData();
+    this.subscribeEvents();
   }
 
+  /**
+   * Initial the datasources
+   */
   private initData() {
     this.transactionTypes = this.transactionService.getTypes();
 
@@ -71,7 +78,12 @@ export class CreateTransactionDialogComponent implements OnInit {
           return of([]);
         })
       );
+  }
 
+  /**
+   * Subscribe the events
+   */
+  private subscribeEvents() {
     this.stocks.subscribe(data => {
       if (this.matAutocomplete.options && this.matAutocomplete.options.first) {
         this.matAutocomplete.options.first.select();
@@ -81,57 +93,82 @@ export class CreateTransactionDialogComponent implements OnInit {
         this.transactionForm.get('stock').setValue(data[0]);
       }
     });
+
+    merge(
+      this.transactionForm.get('stock').valueChanges,
+      this.transactionForm.get('quantity').valueChanges,
+      this.transactionForm.get('money').valueChanges,
+      this.transactionForm.get('type').valueChanges,
+      this.transactionForm.get('transactedOn').valueChanges,
+    ).subscribe(data => {
+      this.errorMessage = null;
+    });
   }
 
+  /**
+   * Create a transaction form
+   */
   private buildTransactionForm() {
     const today = moment().format('YYYY-MM-DD');
 
     this.transactionForm = new FormGroup({
-      stock: new FormControl('', Validators.required),
-      quantity: new FormControl('', [Validators.required, Validators.min(1)]),
-      price: new FormControl('', [Validators.required, Validators.min(1)]),
-      money: new FormControl('', [Validators.required, Validators.min(1)]),
-      type: new FormControl(TransactionType.TYPE_BUY, Validators.required),
-      transactedOn: new FormControl(today, Validators.required),
+      stock: new FormControl(''),
+      quantity: new FormControl(''),
+      price: new FormControl(''),
+      money: new FormControl(''),
+      type: new FormControl(TransactionType.TYPE_BUY),
+      transactedOn: new FormControl(today),
     });
+
+    this.setTransactionFormValidators(TransactionType.TYPE_BUY);
   }
 
-  onSaveTransactionClicked() {
-    this.transactionService.save(this.transactionForm.value)
-      .subscribe(
-        data => {
-          Logger.log(CreateTransactionDialogComponent.name, data);
+  /**
+   * Reset the transaction form after submitting the values
+   */
+  private resetTransactionForm() {
+    const stockInputField = this.transactionForm.get('stock');
+    const quantityInputField = this.transactionForm.get('quantity');
+    const priceInputField = this.transactionForm.get('price');
+    const moneyInputField = this.transactionForm.get('money');
 
-          AJS.flag({
-            type: 'success',
-            close: 'auto',
-            title: 'Thành công',
-            body: 'Tạo giao dịch mới thành thành công',
-          });
-        },
-        err => {
-          Logger.log(CreateTransactionDialogComponent.name, err);
+    stockInputField.setValue('');
+    stockInputField.markAsUntouched();
 
-          AJS.flag({
-            type: 'error',
-            close: 'auto',
-            title: 'Lỗi',
-            body: 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.',
-          });
-        }
-      );
+    quantityInputField.setValue('');
+    quantityInputField.markAsUntouched();
+
+    priceInputField.setValue('');
+    priceInputField.markAsUntouched();
+
+    moneyInputField.setValue('');
+    moneyInputField.markAsUntouched();
+
+    this.setTransactionFormValidators(this.transactionForm.get('type').value);
   }
 
-  onTransactionTypeChanged(event) {
+  /**
+   * Set the validators for transaction form basing on the transactionType
+   *
+   * @param transactionType
+   */
+  private setTransactionFormValidators(transactionType) {
+    const stockInputField = this.transactionForm.get('stock');
+    const typeInputField = this.transactionForm.get('type');
+    const transactedOnInputField = this.transactionForm.get('transactedOn');
     const moneyInputField = this.transactionForm.get('money');
     const quantityInputField = this.transactionForm.get('quantity');
     const priceInputField = this.transactionForm.get('price');
+
+    stockInputField.setValidators(Validators.required);
+    typeInputField.setValidators(Validators.required);
+    transactedOnInputField.setValidators(Validators.required);
 
     moneyInputField.clearValidators();
     quantityInputField.clearValidators();
     priceInputField.clearValidators();
 
-    switch (event.source.value) {
+    switch (transactionType) {
       case TransactionType.TYPE_BUY:
       case TransactionType.TYPE_SELL:
         quantityInputField.setValidators([Validators.required, Validators.min(1)]);
@@ -149,7 +186,78 @@ export class CreateTransactionDialogComponent implements OnInit {
     moneyInputField.updateValueAndValidity();
     quantityInputField.updateValueAndValidity();
     priceInputField.updateValueAndValidity();
+  }
 
+  /**
+   * Mark the fields of transaction form as touched when the form is invalid.
+   * This will make the input fields marked as red
+   */
+  private setTransactionFormFieldsAsTouched() {
+    const stockInputField = this.transactionForm.get('stock');
+    const typeInputField = this.transactionForm.get('type');
+    const transactedOnInputField = this.transactionForm.get('transactedOn');
+    const moneyInputField = this.transactionForm.get('money');
+    const quantityInputField = this.transactionForm.get('quantity');
+    const priceInputField = this.transactionForm.get('price');
+
+    stockInputField.markAsTouched();
+    typeInputField.markAsTouched();
+    transactedOnInputField.markAsTouched();
+    moneyInputField.markAsTouched();
+    quantityInputField.markAsTouched();
+    priceInputField.markAsTouched();
+  }
+
+  /**
+   * When save the transaction button is clicked.
+   * Check the validity first. Then submit the data to API server.
+   * Set the input fields as touched if the form is invalid.
+   */
+  onSaveTransactionClicked() {
+    this.errorMessage = null;
+
+    this.isSubmitting = true;
+
+    if (this.transactionForm.valid) {
+      this.transactionService.save(this.transactionForm.value)
+        .subscribe(
+          data => {
+            Logger.log(CreateTransactionDialogComponent.name, data);
+
+            this.resetTransactionForm();
+
+            AJS.flag({
+              type: 'success',
+              close: 'auto',
+              title: 'Thành công',
+              body: 'Tạo giao dịch mới thành thành công',
+            });
+          },
+          err => {
+            Logger.log(CreateTransactionDialogComponent.name, err);
+
+            this.errorMessage = 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+            this.isSubmitting = false;
+          },
+          () => {
+            this.isSubmitting = false;
+          }
+        );
+    } else {
+      this.setTransactionFormFieldsAsTouched();
+
+      this.errorMessage = 'Hãy nhập đầy đủ thông tin giao dịch';
+
+      // this.isSubmitting = false;
+    }
+  }
+
+  /**
+   * Change the validators of the input fields when the transaction type is changed
+   * @param event
+   */
+  onTransactionTypeChanged(event) {
+    this.setTransactionFormValidators(event.source.value);
   }
 
   displayStockOption(stock?: Stock): string | undefined {

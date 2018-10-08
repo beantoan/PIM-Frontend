@@ -1,7 +1,16 @@
+<div class="loading-shade" *ngIf="isSubmitting">
+  <mat-spinner></mat-spinner>
+</div>
+
 <h2 mat-dialog-title>Tạo giao dịch mới</h2>
 
 <mat-dialog-content class="mat-typography">
+
   <form [formGroup]="transactionForm" fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div class="aui-message aui-message-warning" *ngIf="errorMessage">
+      <p>{{errorMessage}}</p>
+    </div>
+    <br/>
 
     <div class="container" fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
       <mat-form-field fxFlex="60">

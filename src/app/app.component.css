@@ -36,13 +36,13 @@ input[type=number] {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 56px;
+  bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 999;
 }
 
 @media(max-width: 800px) {
