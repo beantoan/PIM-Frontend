@@ -1,6 +1,7 @@
 import {Component, Input, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatDividerModule} from '@angular/material';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -9,6 +10,8 @@ import {MatDividerModule} from '@angular/material';
 })
 export class FooterComponent {
   @Input('title') title: string;
+
+  appName = environment.appName;
 }
 
 
