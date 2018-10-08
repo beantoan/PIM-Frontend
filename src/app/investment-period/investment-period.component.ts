@@ -2,18 +2,30 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatRadioGroup} from '@angular/material';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
-import {merge, of} from 'rxjs';
+import {BehaviorSubject, merge, of} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {TransactionService} from '../core/services/transaction.service';
+import {Transaction} from '../core/models/transaction.model';
+import {PageResponse} from '../core/models/page-response.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './investment-period.component.html',
-  styleUrls: ['./investment-period.component.css']
+  styleUrls: ['./investment-period.component.css'],
+  animations: [
+    trigger('expandedTransactions', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden', display: 'none'})),
+      state('expanded', style({ height: '*', visibility: 'visible', display: '' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class InvestmentPeriodComponent implements OnInit {
 
-  displayedHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+  displayedHeaderColumns: string[] = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
+  displayedSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
     'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
     'startedOn', 'endedOn', 'totalPeriod'];
@@ -21,19 +33,25 @@ export class InvestmentPeriodComponent implements OnInit {
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
     'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
     'startedOn', 'endedOn', 'totalPeriod'];
+  displayedTransactionColumns: string[] = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn'];
 
-  investmentPeriods: InvestmentPeriod[] = [];
+  investmentPeriodPageResponse: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
+  transactionPageResponses: {[key: number]: PageResponse<Transaction>} = {};
 
-  pageSize = 30;
+  investmentPeriodPageSize = 5;
+  transactionPageSize = 2;
   viewType = 1;
-  resultsLength = 0;
-  isLoadingResults = true;
+  isLoadingInvestmentPeriods = true;
+  isLoadingTransactions: {[key: number]: boolean} = {};
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  private expandedInvestmentPeriod: BehaviorSubject<InvestmentPeriod> = new BehaviorSubject(null);
+
+  @ViewChild('investmentPeriodsPaginator') investmentPeriodsPaginator: MatPaginator;
   @ViewChild(MatRadioGroup) radioGroup: MatRadioGroup;
 
   constructor(
-    private investmentPeriodService: InvestmentPeriodService
+    private investmentPeriodService: InvestmentPeriodService,
+    private transactionService: TransactionService
   ) {}
 
   ngOnInit() {
@@ -41,25 +59,56 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   private subscribeEvents() {
-    merge(this.radioGroup.change, this.paginator.page)
+    merge(this.radioGroup.change, this.investmentPeriodsPaginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          this.isLoadingInvestmentPeriods = true;
           const viewType = this.radioGroup.value == null ? this.viewType : this.radioGroup.value;
-          return this.investmentPeriodService.index(this.paginator.pageIndex, this.pageSize, viewType);
+
+          return this.investmentPeriodService
+            .index(this.investmentPeriodsPaginator.pageIndex, this.investmentPeriodPageSize, viewType);
         }),
         map(data => {
-          this.isLoadingResults = false;
-          this.resultsLength = data.totalElements;
+          this.isLoadingInvestmentPeriods = false;
 
-          return data.content;
+          return data;
         }),
         catchError(() => {
-          this.isLoadingResults = false;
-          return of([]);
+          this.isLoadingInvestmentPeriods = false;
+          return of(new PageResponse<InvestmentPeriod>());
         })
-      ).subscribe(data => this.investmentPeriods = data);
+      ).subscribe(data => this.investmentPeriodPageResponse = data);
+
+    this.expandedInvestmentPeriod.subscribe(row => {
+      this.loadTransitionPage(row, 0);
+    });
+  }
+
+  /**
+   * Load transactions for an investment period
+   * @param row
+   * @param pageIndex
+   */
+  private loadTransitionPage(row: InvestmentPeriod, pageIndex: number) {
+    if (row) {
+      this.isLoadingTransactions[row.id] = true;
+
+      if (!this.transactionPageResponses[row.id]) {
+        this.transactionPageResponses[row.id] = new PageResponse<Transaction>();
+      }
+
+      this.transactionService
+        .index(pageIndex, this.transactionPageSize, row)
+        .subscribe(data => {
+          this.transactionPageResponses[row.id] = data;
+        }, err => {
+          this.isLoadingTransactions[row.id] = false;
+          this.transactionPageResponses[row.id] = new PageResponse<Transaction>();
+        }, () => {
+          this.isLoadingTransactions[row.id] = false;
+        });
+    }
   }
 
   calcHoldQuantity(row: InvestmentPeriod): number {
@@ -91,6 +140,26 @@ export class InvestmentPeriodComponent implements OnInit {
   calcRateOfRawRevenue(row: InvestmentPeriod): number {
     if (row.buyAvgPrice > 0 && row.sellAvgPrice > 0) {
       return Math.round(((row.sellAvgPrice - row.buyAvgPrice) / row.buyAvgPrice) * 100);
+    }
+  }
+
+  onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
+    if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
+      this.expandedInvestmentPeriod.next(null);
+    } else {
+      this.expandedInvestmentPeriod.next(row);
+    }
+  }
+
+  isRowExpanded(row: InvestmentPeriod) {
+    return this.expandedInvestmentPeriod.value === row;
+  }
+
+  getTransactionPageResponse(investmentPeriodId: number) {
+    if (this.transactionPageResponses[investmentPeriodId]) {
+      return this.transactionPageResponses[investmentPeriodId];
+    } else {
+      return new PageResponse<Transaction>();
     }
   }
 }

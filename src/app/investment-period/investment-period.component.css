@@ -2,3 +2,15 @@
 .mat-column-buyQuantity {
   padding-left: 0 !important;
 }
+
+.investment-period-row {
+  cursor: pointer;
+}
+
+.investment-period-row:not(.expanded):hover {
+  background: #f5f5f5;
+}
+
+.investment-period-row.expanded {
+  border-bottom-color: transparent;
+}

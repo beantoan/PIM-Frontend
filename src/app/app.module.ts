@@ -15,6 +15,7 @@ import {
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -80,6 +81,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatCardModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatExpansionModule,
     FlexLayoutModule,
     HeaderModule,
     FooterModule

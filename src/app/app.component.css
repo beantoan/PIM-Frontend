@@ -24,6 +24,10 @@ input[type=number] {
   float: right;
 }
 
+.padding-0 {
+  padding: 0 !important;
+}
+
 .flex-space {
   flex: 1 1 auto;
 }

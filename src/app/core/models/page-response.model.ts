@@ -1,4 +1,4 @@
-export interface PageResponse<T> {
+export class PageResponse<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
