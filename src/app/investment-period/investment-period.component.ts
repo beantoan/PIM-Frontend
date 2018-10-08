@@ -33,7 +33,7 @@ export class InvestmentPeriodComponent implements OnInit {
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
     'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
     'startedOn', 'endedOn', 'totalPeriod'];
-  displayedTransactionColumns: string[] = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn'];
+  displayedTransactionColumns: string[] = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn', 'editTransaction'];
 
   investmentPeriodPageResponse: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
   transactionPageResponses: {[key: number]: PageResponse<Transaction>} = {};
