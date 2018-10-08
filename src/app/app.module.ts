@@ -24,6 +24,7 @@ import {
   MatProgressSpinnerModule,
   MatRadioModule,
   MatSelectModule,
+  MatSnackBarModule,
   MatSortModule,
   MatTableModule,
   MatToolbarModule
@@ -78,6 +79,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatDividerModule,
     MatCardModule,
     MatRadioModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     HeaderModule,
     FooterModule

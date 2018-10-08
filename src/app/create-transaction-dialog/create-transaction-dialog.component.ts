@@ -9,7 +9,8 @@ import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Logger} from '../core/services/logger';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {MAT_DATE_FORMATS, MatAutocomplete} from '@angular/material';
+import {MAT_DATE_FORMATS, MatAutocomplete, MatSnackBar} from '@angular/material';
+import {ObservableMedia} from '@angular/flex-layout';
 
 declare var AJS: any;
 
@@ -50,7 +51,9 @@ export class CreateTransactionDialogComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private stockService: StockService
+    private stockService: StockService,
+    private media: ObservableMedia,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -226,12 +229,20 @@ export class CreateTransactionDialogComponent implements OnInit {
 
             this.resetTransactionForm();
 
-            AJS.flag({
-              type: 'success',
-              close: 'auto',
-              title: 'Thành công',
-              body: 'Tạo giao dịch mới thành thành công',
-            });
+            const message = 'Tạo giao dịch mới thành thành công';
+
+            if (this.media.isActive('xs')) {
+              this.snackBar.open(message, null, {
+                duration: 3000
+              });
+            } else {
+              AJS.flag({
+                type: 'success',
+                close: 'auto',
+                title: 'Thành công',
+                body: message,
+              });
+            }
           },
           err => {
             Logger.log(CreateTransactionDialogComponent.name, err);

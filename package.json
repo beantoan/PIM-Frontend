@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "start:dev": "ng serve",
-    "start:stage": "ng serve --disable-host-check --configuration=stage",
+    "start:dev": "ng serve --port 8080",
+    "start:stage": "ng serve --port 8080 --disable-host-check --configuration=stage",
     "start": "node app.js",
     "build": "ng build",
     "test": "ng test",
