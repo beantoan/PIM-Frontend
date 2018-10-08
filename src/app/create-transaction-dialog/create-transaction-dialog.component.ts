@@ -248,7 +248,7 @@ export class CreateTransactionDialogComponent implements OnInit {
 
       this.errorMessage = 'Hãy nhập đầy đủ thông tin giao dịch';
 
-      // this.isSubmitting = false;
+      this.isSubmitting = false;
     }
   }
 
