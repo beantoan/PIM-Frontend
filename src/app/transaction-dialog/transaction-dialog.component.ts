@@ -288,6 +288,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
     Logger.log(TransactionDialogComponent.name, transactionData);
 
+    this.isSubmitting = true;
+
     this.transactionService.update(transactionData)
       .subscribe(
         data => {
@@ -318,8 +320,6 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
           this.isSubmitting = false;
         }
       );
-
-    this.isSubmitting = false;
   }
 
   /**
