@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Tạo giao dịch mới</h2>
+<h2 mat-dialog-title>{{transaction ? 'Sửa giao dịch ' + transaction.stock.code + ' ngày ' + (transaction.transactedOn | date) : 'Tạo giao dịch mới'}}</h2>
 
 <mat-dialog-content class="mat-typography">
   <div class="loading-shade" *ngIf="isSubmitting">
@@ -11,15 +11,17 @@
     </div>
 
     <div fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
-      <mat-form-field fxFlex="60">
+      <mat-form-field fxFlex="50" *ngIf="!isExistedTransaction">
         <input
           matInput
+          [readonly]="isExistedTransaction"
           type="text"
           placeholder="Mã cổ phiếu"
           formControlName="stock"
           aria-label="Number"
           [matAutocomplete]="autoStock"
           (click)="$event.target.select()"
+          autocomplete="off"
           required />
 
         <mat-autocomplete autoActiveFirstOption="true"
@@ -32,7 +34,7 @@
 
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field fxFlex="{{isExistedTransaction ? 100 : 40}}">
         <mat-select placeholder="Kiểu giao dịch"
                     formControlName="type"
                     (selectionChange)="onTransactionTypeChanged($event)"
@@ -83,6 +85,7 @@
         formControlName="transactedOn"
         [matDatepicker]="transactedOnDatepicker"
         required
+        (click)="$event.target.select()"
         placeholder="Ngày giao dịch" />
 
       <mat-datepicker-toggle matSuffix [for]="transactedOnDatepicker"></mat-datepicker-toggle>

@@ -30,7 +30,7 @@ import {
   MatToolbarModule
 } from '@angular/material';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
-import {CreateTransactionDialogComponent} from './create-transaction-dialog/create-transaction-dialog.component';
+import {TransactionDialogComponent} from './transaction-dialog/transaction-dialog.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterModule} from './shared/footer/footer.component';
 import {HeaderModule} from './shared/header/header.component';
@@ -47,7 +47,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     LoginComponent,
     DashboardComponent,
     InvestmentPeriodComponent,
-    CreateTransactionDialogComponent,
+    TransactionDialogComponent,
     StockComponent
   ],
   imports: [
@@ -86,7 +86,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FooterModule
   ],
   providers: [Title],
-  entryComponents: [CreateTransactionDialogComponent],
+  entryComponents: [TransactionDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

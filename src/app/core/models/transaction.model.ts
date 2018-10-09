@@ -3,8 +3,9 @@ import {Stock} from './stock.model';
 export interface Transaction {
   id: string;
   stock: Stock;
-  type: string;
+  type: number;
   quantity: number;
+  price: number;
   fee: number;
   tax: number;
   money: number;

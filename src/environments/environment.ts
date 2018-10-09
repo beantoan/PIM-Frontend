@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   title: 'PIM-DEV',
   appName: 'Personal Investment Management DEV',
-  apiUrl: 'https://slimy-mole-33.localtunnel.me'
+  apiUrl: 'http://localhost:8181'
 };
 
 /*

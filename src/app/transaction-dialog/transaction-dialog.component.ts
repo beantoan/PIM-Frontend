@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {merge, Observable, of} from 'rxjs';
 import {TransactionType} from '../core/models/transaction-type.model';
@@ -9,8 +9,9 @@ import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Logger} from '../core/services/logger';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {MAT_DATE_FORMATS, MatAutocomplete, MatSnackBar} from '@angular/material';
+import {MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatAutocomplete, MatSnackBar} from '@angular/material';
 import {ObservableMedia} from '@angular/flex-layout';
+import {Transaction} from '../core/models/transaction.model';
 
 declare var AJS: any;
 
@@ -30,14 +31,14 @@ export const MY_DATE_FORMATS = {
 
 @Component({
   selector: 'app-create-transaction-dialog',
-  templateUrl: './create-transaction-dialog.component.html',
-  styleUrls: ['./create-transaction-dialog.component.css'],
+  templateUrl: './transaction-dialog.component.html',
+  styleUrls: ['./transaction-dialog.component.css'],
   providers: [
     {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }},
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
   ]
 })
-export class CreateTransactionDialogComponent implements OnInit {
+export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
   transactionForm: FormGroup;
 
@@ -46,6 +47,7 @@ export class CreateTransactionDialogComponent implements OnInit {
 
   errorMessage = null;
   isSubmitting = false;
+  isExistedTransaction = false;
 
   @ViewChild('autoStock') matAutocomplete: MatAutocomplete;
 
@@ -53,13 +55,17 @@ export class CreateTransactionDialogComponent implements OnInit {
     private transactionService: TransactionService,
     private stockService: StockService,
     private media: ObservableMedia,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public transaction: Transaction
   ) { }
 
   ngOnInit() {
     this.buildTransactionForm();
 
     this.initData();
+  }
+
+  ngAfterViewInit() {
     this.subscribeEvents();
   }
 
@@ -67,6 +73,10 @@ export class CreateTransactionDialogComponent implements OnInit {
    * Initial the datasources
    */
   private initData() {
+    if (this.transaction && this.transaction.id) {
+      this.isExistedTransaction = true;
+    }
+
     this.transactionTypes = this.transactionService.getTypes();
 
     this.stocks = this.transactionForm.get('stock').valueChanges
@@ -88,7 +98,7 @@ export class CreateTransactionDialogComponent implements OnInit {
    */
   private subscribeEvents() {
     this.stocks.subscribe(data => {
-      if (this.matAutocomplete.options && this.matAutocomplete.options.first) {
+      if (this.matAutocomplete && this.matAutocomplete.options && this.matAutocomplete.options.first) {
         this.matAutocomplete.options.first.select();
       }
 
@@ -114,13 +124,29 @@ export class CreateTransactionDialogComponent implements OnInit {
   private buildTransactionForm() {
     const today = moment().format('YYYY-MM-DD');
 
+    let stockVal: string | Stock = '';
+    let quantityVal: string | number = '';
+    let priceVal: string | number = '';
+    let moneyVal: string | number = '';
+    let typeVal = TransactionType.TYPE_BUY;
+    let transactedOnVal: string | Date = today;
+
+    if (this.transaction) {
+      stockVal = this.transaction.stock;
+      quantityVal = this.transaction.quantity;
+      priceVal = this.transaction.price;
+      moneyVal = this.transaction.money;
+      typeVal = this.transaction.type;
+      transactedOnVal = this.transaction.transactedOn;
+    }
+
     this.transactionForm = new FormGroup({
-      stock: new FormControl(''),
-      quantity: new FormControl(''),
-      price: new FormControl(''),
-      money: new FormControl(''),
-      type: new FormControl(TransactionType.TYPE_BUY),
-      transactedOn: new FormControl(today),
+      stock: new FormControl(stockVal),
+      quantity: new FormControl(quantityVal),
+      price: new FormControl(priceVal),
+      money: new FormControl(moneyVal),
+      type: new FormControl(typeVal),
+      transactedOn: new FormControl(transactedOnVal),
     });
 
     this.setTransactionFormValidators(TransactionType.TYPE_BUY);
@@ -212,48 +238,108 @@ export class CreateTransactionDialogComponent implements OnInit {
   }
 
   /**
+   * To create new transaction
+   */
+  private createNewTransaction() {
+    Logger.log(TransactionDialogComponent.name, 'createNewTransaction');
+
+    this.transactionService.create(this.transactionForm.value)
+      .subscribe(
+        data => {
+          Logger.log(TransactionDialogComponent.name, data);
+
+          this.resetTransactionForm();
+
+          const message = 'Tạo giao dịch mới thành thành công';
+
+          if (this.media.isActive('xs')) {
+            this.snackBar.open(message, null, {
+              duration: 3000
+            });
+          } else {
+            AJS.flag({
+              type: 'success',
+              close: 'auto',
+              title: 'Thành công',
+              body: message,
+            });
+          }
+        },
+        err => {
+          Logger.log(TransactionDialogComponent.name, err);
+
+          this.errorMessage = 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+          this.isSubmitting = false;
+        },
+        () => {
+          this.isSubmitting = false;
+        }
+      );
+  }
+
+  /**
+   * To update the existed transaction
+   */
+  private saveExistedTransaction() {
+    Logger.log(TransactionDialogComponent.name, 'saveExistedTransaction');
+
+    const transactionData = this.transactionForm.value;
+    transactionData.id = this.transaction.id;
+
+    Logger.log(TransactionDialogComponent.name, transactionData);
+
+    this.transactionService.update(transactionData)
+      .subscribe(
+        data => {
+          Logger.log(TransactionDialogComponent.name, data);
+
+          const message = 'Chỉnh sửa giao dịch thành thành công';
+
+          if (this.media.isActive('xs')) {
+            this.snackBar.open(message, null, {
+              duration: 3000
+            });
+          } else {
+            AJS.flag({
+              type: 'success',
+              close: 'auto',
+              title: 'Thành công',
+              body: message,
+            });
+          }
+        },
+        err => {
+          Logger.log(TransactionDialogComponent.name, err);
+
+          this.errorMessage = 'Gặp lỗi khi chỉnh sửa giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+          this.isSubmitting = false;
+        },
+        () => {
+          this.isSubmitting = false;
+        }
+      );
+
+    this.isSubmitting = false;
+  }
+
+  /**
    * When save the transaction button is clicked.
    * Check the validity first. Then submit the data to API server.
    * Set the input fields as touched if the form is invalid.
    */
   onSaveTransactionClicked() {
+    Logger.log(TransactionDialogComponent.name, 'onSaveTransactionClicked');
+
     this.errorMessage = null;
 
     this.isSubmitting = true;
 
     if (this.transactionForm.valid) {
-      this.transactionService.save(this.transactionForm.value)
-        .subscribe(
-          data => {
-            Logger.log(CreateTransactionDialogComponent.name, data);
-
-            this.resetTransactionForm();
-
-            const message = 'Tạo giao dịch mới thành thành công';
-
-            if (this.media.isActive('xs')) {
-              this.snackBar.open(message, null, {
-                duration: 3000
-              });
-            } else {
-              AJS.flag({
-                type: 'success',
-                close: 'auto',
-                title: 'Thành công',
-                body: message,
-              });
-            }
-          },
-          err => {
-            Logger.log(CreateTransactionDialogComponent.name, err);
-
-            this.errorMessage = 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
-            this.isSubmitting = false;
-          },
-          () => {
-            this.isSubmitting = false;
-          }
-        );
+      if (this.isExistedTransaction) {
+        this.saveExistedTransaction();
+      } else {
+        this.createNewTransaction();
+      }
     } else {
       this.setTransactionFormFieldsAsTouched();
 
@@ -272,7 +358,7 @@ export class CreateTransactionDialogComponent implements OnInit {
   }
 
   displayStockOption(stock?: Stock): string | undefined {
-    Logger.log(CreateTransactionDialogComponent.name, stock);
+    Logger.log(TransactionDialogComponent.name, stock);
 
     return stock ? `${stock.code}-${stock.title}` : undefined;
   }

@@ -2,7 +2,7 @@ import {Component, Input, NgModule, OnInit} from '@angular/core';
 import {User} from '../../core/models/user.model';
 import {UserService} from '../../core/services/user.service';
 import {MatButtonModule, MatCardModule, MatDialog, MatDividerModule, MatToolbarModule} from '@angular/material';
-import {CreateTransactionDialogComponent} from '../../create-transaction-dialog/create-transaction-dialog.component';
+import {TransactionDialogComponent} from '../../transaction-dialog/transaction-dialog.component';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {ShowAuthedDirective} from '../show-authed.directive';
@@ -37,8 +37,8 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  showDialog() {
-    const dialogRef = this.createTransactionDialog.open(CreateTransactionDialogComponent, {
+  showCreateTransactionDialog() {
+    const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
       height: '400px',
       width: '600px',
       autoFocus: true
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onCreateTransactionClicked() {
-    this.showDialog();
+    this.showCreateTransactionDialog();
   }
 
   onLogoutClicked() {

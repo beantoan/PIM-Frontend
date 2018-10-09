@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatRadioGroup} from '@angular/material';
+import {MatDialog, MatPaginator, MatRadioGroup} from '@angular/material';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {BehaviorSubject, merge, of} from 'rxjs';
@@ -9,6 +9,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TransactionService} from '../core/services/transaction.service';
 import {Transaction} from '../core/models/transaction.model';
 import {PageResponse} from '../core/models/page-response.model';
+import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -51,7 +52,8 @@ export class InvestmentPeriodComponent implements OnInit {
 
   constructor(
     private investmentPeriodService: InvestmentPeriodService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    public createTransactionDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -90,7 +92,7 @@ export class InvestmentPeriodComponent implements OnInit {
    * @param row
    * @param pageIndex
    */
-  private loadTransitionPage(row: InvestmentPeriod, pageIndex: number) {
+  loadTransitionPage(row: InvestmentPeriod, pageIndex: number) {
     if (row) {
       this.isLoadingTransactions[row.id] = true;
 
@@ -143,16 +145,12 @@ export class InvestmentPeriodComponent implements OnInit {
     }
   }
 
-  onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
-    if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
-      this.expandedInvestmentPeriod.next(null);
-    } else {
-      this.expandedInvestmentPeriod.next(row);
-    }
-  }
-
   isRowExpanded(row: InvestmentPeriod) {
     return this.expandedInvestmentPeriod.value === row;
+  }
+
+  isTransactionEditable(row: InvestmentPeriod) {
+    return row.endedOn == null;
   }
 
   getTransactionPageResponse(investmentPeriodId: number) {
@@ -161,5 +159,30 @@ export class InvestmentPeriodComponent implements OnInit {
     } else {
       return new PageResponse<Transaction>();
     }
+  }
+
+  private showEditTransactionDialog(transaction: Transaction) {
+    const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
+      height: '400px',
+      width: '600px',
+      autoFocus: true,
+      data: transaction
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
+    if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
+      this.expandedInvestmentPeriod.next(null);
+    } else {
+      this.expandedInvestmentPeriod.next(row);
+    }
+  }
+
+  onEditTransactionClicked(transaction: Transaction) {
+    this.showEditTransactionDialog(transaction);
   }
 }

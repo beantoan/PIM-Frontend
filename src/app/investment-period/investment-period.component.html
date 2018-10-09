@@ -192,7 +192,10 @@
             <ng-container matColumnDef="editTransaction">
               <th mat-header-cell *matHeaderCellDef>Thao tác</th>
               <td mat-cell *matCellDef="let transaction">
-                <button mat-stroked-button>Sửa</button>
+                <button mat-stroked-button
+                        *ngIf="isTransactionEditable(row)"
+                        (click)="onEditTransactionClicked(transaction)"
+                >Sửa</button>
               </td>
             </ng-container>
 

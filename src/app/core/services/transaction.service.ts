@@ -24,10 +24,16 @@ export class TransactionService {
     return this.apiService.get<TransactionType[]>(ApiEndpoints.TRANSACTIONS_TYPES);
   }
 
-  save(transaction: {}): Observable<Transaction> {
-    Logger.log(TransactionService.name, 'save');
+  create(transaction: {}): Observable<Transaction> {
+    Logger.log(TransactionService.name, 'create');
 
     return this.apiService.post<Transaction>(ApiEndpoints.TRANSACTIONS, transaction);
+  }
+
+  update(transaction: {}): Observable<Transaction> {
+    Logger.log(TransactionService.name, 'update');
+
+    return this.apiService.put<Transaction>(ApiEndpoints.TRANSACTIONS, transaction);
   }
 
   index(page: number, size: number, investmentPeriod: InvestmentPeriod): Observable<PageResponse<Transaction>> {
