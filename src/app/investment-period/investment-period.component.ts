@@ -368,7 +368,7 @@ export class InvestmentPeriodComponent implements OnInit {
     }
   }
 
-  calcDisplayedSubHeaderColumns(val) {
+  calcDisplayedSubHeaderColumns() {
     switch (this.viewType.value.toString()) {
       case '1':
         return this.displayedTradingSubHeaderColumns;
