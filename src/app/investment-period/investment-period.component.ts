@@ -10,6 +10,7 @@ import {TransactionService} from '../core/services/transaction.service';
 import {Transaction} from '../core/models/transaction.model';
 import {PageResponse} from '../core/models/page-response.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
+import {Logger} from '../core/services/logger';
 
 @Component({
   selector: 'app-root',
@@ -39,8 +40,8 @@ export class InvestmentPeriodComponent implements OnInit {
   investmentPeriodPageResponse: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
   transactionPageResponses: {[key: number]: PageResponse<Transaction>} = {};
 
-  investmentPeriodPageSize = 5;
-  transactionPageSize = 2;
+  investmentPeriodPageSize = 50;
+  transactionPageSize = 20;
   viewType = 1;
   isLoadingInvestmentPeriods = true;
   isLoadingTransactions: {[key: number]: boolean} = {};
@@ -84,6 +85,21 @@ export class InvestmentPeriodComponent implements OnInit {
 
     this.expandedInvestmentPeriod.subscribe(row => {
       this.loadTransitionPage(row, 0);
+    });
+  }
+
+  private showEditTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
+    Logger.log(InvestmentPeriodComponent.name, `showEditTransactionDialog: stockCode=${row.stock.code}, transactionId=${transaction.id}`);
+
+    const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
+      height: '400px',
+      width: '600px',
+      autoFocus: true,
+      data: transaction
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.expandedInvestmentPeriod.next(row);
     });
   }
 
@@ -161,19 +177,6 @@ export class InvestmentPeriodComponent implements OnInit {
     }
   }
 
-  private showEditTransactionDialog(transaction: Transaction) {
-    const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
-      height: '400px',
-      width: '600px',
-      autoFocus: true,
-      data: transaction
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
   onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
     if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
       this.expandedInvestmentPeriod.next(null);
@@ -182,7 +185,7 @@ export class InvestmentPeriodComponent implements OnInit {
     }
   }
 
-  onEditTransactionClicked(transaction: Transaction) {
-    this.showEditTransactionDialog(transaction);
+  onEditTransactionClicked(row: InvestmentPeriod, transaction: Transaction) {
+    this.showEditTransactionDialog(row, transaction);
   }
 }

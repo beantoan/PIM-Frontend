@@ -24,23 +24,23 @@
     </ng-container>
 
     <ng-container matColumnDef="buyColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="4">Giao dịch mua</th>
+      <th mat-header-cell *matHeaderCellDef colspan="4"><h4>Giao dịch mua</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="sellColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="5">Giao dịch bán</th>
+      <th mat-header-cell *matHeaderCellDef colspan="5"><h4>Giao dịch bán</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="holdColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="2">Đang giữ</th>
+      <th mat-header-cell *matHeaderCellDef colspan="2"><h4>Đang giữ</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="revenueColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="3">Lợi nhuận</th>
+      <th mat-header-cell *matHeaderCellDef colspan="3"><h4>Lợi nhuận</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="tradingTimeColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="3">Chu kỳ đầu tư</th>
+      <th mat-header-cell *matHeaderCellDef colspan="3"><h4>Chu kỳ đầu tư</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="buyQuantity">
@@ -154,6 +154,10 @@
                  *ngIf="isRowExpanded(row)"
                  [dataSource]="transactionPageResponse.content">
 
+            <ng-container matColumnDef="stockTitle">
+              <th mat-header-cell *matHeaderCellDef colspan="8"><h5>{{row.stock.title}}</h5></th>
+            </ng-container>
+
             <ng-container matColumnDef="type">
               <th mat-header-cell *matHeaderCellDef>Giao dịch</th>
               <td mat-cell *matCellDef="let transaction">{{transaction.type}}</td>
@@ -194,11 +198,12 @@
               <td mat-cell *matCellDef="let transaction">
                 <button mat-stroked-button
                         *ngIf="isTransactionEditable(row)"
-                        (click)="onEditTransactionClicked(transaction)"
+                        (click)="onEditTransactionClicked(row, transaction)"
                 >Sửa</button>
               </td>
             </ng-container>
 
+            <tr mat-header-row *matHeaderRowDef="['stockTitle']"></tr>
             <tr mat-header-row *matHeaderRowDef="displayedTransactionColumns"></tr>
             <tr mat-row *matRowDef="let transaction; columns: displayedTransactionColumns;"></tr>
           </table>
