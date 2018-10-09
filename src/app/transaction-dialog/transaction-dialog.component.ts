@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AfterViewInit, Component, Inject, NgModule, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {merge, Observable, of} from 'rxjs';
 import {TransactionType} from '../core/models/transaction-type.model';
 import {Stock} from '../core/models/stock.model';
@@ -8,10 +8,28 @@ import {StockService} from '../core/services/stock.service';
 import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Logger} from '../core/services/logger';
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatAutocomplete, MatDialogRef, MatSnackBar} from '@angular/material';
-import {ObservableMedia} from '@angular/flex-layout';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import {
+  MAT_DATE_FORMATS,
+  MAT_DIALOG_DATA,
+  MatAutocomplete,
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDialogRef,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSnackBar
+} from '@angular/material';
+import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
+import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
 
 declare var AJS: any;
 
@@ -386,4 +404,30 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   displayMoneyInputField() {
     return this.transactionForm.get('type').value === TransactionType.TYPE_MONEY_DIVIDEND;
   }
+}
+
+@NgModule({
+  imports: [
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatMomentDateModule,
+    FlexLayoutModule
+  ],
+  exports: [TransactionDialogComponent],
+  declarations: [TransactionDialogComponent],
+  entryComponents: [TransactionDialogComponent]
+})
+export class TransactionDialogModule {
 }

@@ -1,8 +1,18 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, NgModule, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
-import {Router} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import {Logger} from '../core/services/logger';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
+import {CommonModule} from '@angular/common';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -62,5 +72,25 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Hãy nhập email và mật khẩu đăng nhập';
     }
   }
-
 }
+
+@NgModule({
+  imports: [
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    FlexLayoutModule
+  ],
+  exports: [LoginComponent],
+  declarations: [LoginComponent],
+})
+export class LoginModule {
+}
+

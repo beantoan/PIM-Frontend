@@ -4,89 +4,36 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 
 import {AppComponent} from './app.component';
-import {LoginComponent} from './login/login.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {CoreModule} from './core/core.module';
-import {InvestmentPeriodComponent} from './investment-period/investment-period.component';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatCardModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatOptionModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatTableModule,
-  MatToolbarModule
-} from '@angular/material';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
-import {TransactionDialogComponent} from './transaction-dialog/transaction-dialog.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {LoginModule} from './login/login.component';
+import {DashboardModule} from './dashboard/dashboard.component';
+import {InvestmentPeriodModule} from './investment-period/investment-period.component';
+import {TransactionDialogModule} from './transaction-dialog/transaction-dialog.component';
 import {FooterModule} from './shared/footer/footer.component';
 import {HeaderModule} from './shared/header/header.component';
-import {StockComponent} from './stock/stock.component';
-import {HttpClientModule} from '@angular/common/http';
+import {StockModule} from './stock/stock.component';
+import {CoreModule} from './core/core.module';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    DashboardComponent,
-    InvestmentPeriodComponent,
-    TransactionDialogComponent,
-    StockComponent
   ],
   imports: [
-    HttpClientModule,
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    BrowserModule,
     CoreModule,
+    CommonModule,
+    BrowserModule,
+    RouterModule,
     AppRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatCardModule,
-    MatRadioModule,
-    MatSnackBarModule,
-    MatIconModule,
-    FlexLayoutModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    LoginModule,
+    DashboardModule,
+    StockModule,
+    InvestmentPeriodModule,
+    TransactionDialogModule
   ],
   providers: [Title],
-  entryComponents: [TransactionDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

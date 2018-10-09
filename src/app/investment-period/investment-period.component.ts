@@ -1,5 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatPaginator, MatRadioGroup} from '@angular/material';
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatDialog,
+  MatDividerModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatPaginator,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatRadioGroup,
+  MatRadioModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatTableModule
+} from '@angular/material';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {BehaviorSubject, merge, of} from 'rxjs';
@@ -12,6 +28,10 @@ import {PageResponse} from '../core/models/page-response.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {Logger} from '../core/services/logger';
 import {TransactionType} from '../core/models/transaction-type.model';
+import {RouterModule} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
@@ -229,4 +249,31 @@ export class InvestmentPeriodComponent implements OnInit {
 
     this.showTransactionDialog(row, transaction);
   }
+}
+
+@NgModule({
+  imports: [
+    RouterModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatSnackBarModule,
+    FlexLayoutModule
+  ],
+  exports: [InvestmentPeriodComponent],
+  declarations: [InvestmentPeriodComponent],
+})
+export class InvestmentPeriodModule {
 }

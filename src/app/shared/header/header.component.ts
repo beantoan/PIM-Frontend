@@ -5,7 +5,7 @@ import {MatButtonModule, MatCardModule, MatDialog, MatDividerModule, MatToolbarM
 import {TransactionDialogComponent} from '../../transaction-dialog/transaction-dialog.component';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {ShowAuthedDirective} from '../show-authed.directive';
+import {ShowAuthedDirective} from '../../core/services/show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {Logger} from '../../core/services/logger';
 

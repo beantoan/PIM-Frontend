@@ -20,9 +20,7 @@ export class FooterComponent {
     FlexLayoutModule,
     MatDividerModule
   ],
-  exports: [
-    FooterComponent
-  ],
+  exports: [FooterComponent],
   declarations: [FooterComponent],
 })
 export class FooterModule {
