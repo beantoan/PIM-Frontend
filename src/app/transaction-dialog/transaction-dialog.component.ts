@@ -136,8 +136,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
       quantityVal = this.transaction.quantity;
       priceVal = this.transaction.price;
       moneyVal = this.transaction.money;
-      typeVal = this.transaction.type;
-      transactedOnVal = this.transaction.transactedOn;
+      typeVal = this.transaction.type || typeVal;
+      transactedOnVal = this.transaction.transactedOn || transactedOnVal;
     }
 
     this.transactionForm = new FormGroup({

@@ -17,7 +17,7 @@
          [dataSource]="investmentPeriodPageResponse.content">
 
     <ng-container matColumnDef="stock" sticky>
-      <th mat-header-cell *matHeaderCellDef rowspan="2">Mã</th>
+      <th mat-header-cell *matHeaderCellDef rowspan="2"><h4>Mã</h4></th>
       <td mat-cell *matCellDef="let row">
         <b>{{row.stock.code}}</b>
       </td>
@@ -155,12 +155,22 @@
                  [dataSource]="transactionPageResponse.content">
 
             <ng-container matColumnDef="stockTitle">
-              <th mat-header-cell *matHeaderCellDef colspan="8"><h5>{{row.stock.title}}</h5></th>
+              <th mat-header-cell *matHeaderCellDef colspan="8">
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <h5>{{row.stock.title}}</h5>
+
+                  <button mat-button
+                          *ngIf="isTransactionEditable(row)"
+                          (click)="onCreateTransactionClicked(row)">
+                    Thêm giao dịch
+                  </button>
+                </div>
+              </th>
             </ng-container>
 
             <ng-container matColumnDef="type">
               <th mat-header-cell *matHeaderCellDef>Giao dịch</th>
-              <td mat-cell *matCellDef="let transaction">{{transaction.type}}</td>
+              <td mat-cell *matCellDef="let transaction">{{getTransactionType(transaction)}}</td>
             </ng-container>
 
             <ng-container matColumnDef="quantity">
@@ -196,10 +206,11 @@
             <ng-container matColumnDef="editTransaction">
               <th mat-header-cell *matHeaderCellDef>Thao tác</th>
               <td mat-cell *matCellDef="let transaction">
-                <button mat-stroked-button
+                <button mat-button
                         *ngIf="isTransactionEditable(row)"
-                        (click)="onEditTransactionClicked(row, transaction)"
-                >Sửa</button>
+                        (click)="onEditTransactionClicked(row, transaction)">
+                  Sửa
+                </button>
               </td>
             </ng-container>
 

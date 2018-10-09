@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  showCreateTransactionDialog() {
+  showTransactionDialog() {
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
       height: '400px',
       width: '600px',
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onCreateTransactionClicked() {
-    this.showCreateTransactionDialog();
+    this.showTransactionDialog();
   }
 
   onLogoutClicked() {

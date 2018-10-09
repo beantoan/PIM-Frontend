@@ -5,6 +5,6 @@ export class TransactionType {
   public static readonly TYPE_STOCK_DIVIDEND = 4;
   public static readonly TYPE_AWARD_DIVIDEND = 5;
 
-  id: string;
+  id: number;
   title: string;
 }

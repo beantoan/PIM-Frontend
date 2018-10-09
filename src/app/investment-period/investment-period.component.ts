@@ -11,6 +11,7 @@ import {Transaction} from '../core/models/transaction.model';
 import {PageResponse} from '../core/models/page-response.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {Logger} from '../core/services/logger';
+import {TransactionType} from '../core/models/transaction-type.model';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,8 @@ export class InvestmentPeriodComponent implements OnInit {
   viewType = 1;
   isLoadingInvestmentPeriods = true;
   isLoadingTransactions: {[key: number]: boolean} = {};
+
+  transactionTypes: TransactionType[] = [];
 
   private expandedInvestmentPeriod: BehaviorSubject<InvestmentPeriod> = new BehaviorSubject(null);
 
@@ -86,9 +89,13 @@ export class InvestmentPeriodComponent implements OnInit {
     this.expandedInvestmentPeriod.subscribe(row => {
       this.loadTransitionPage(row, 0);
     });
+
+    this.transactionService.getTypes().subscribe(data => {
+      this.transactionTypes = data;
+    });
   }
 
-  private showEditTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
+  private showTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
     Logger.log(InvestmentPeriodComponent.name, `showEditTransactionDialog: stockCode=${row.stock.code}, transactionId=${transaction.id}`);
 
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
@@ -177,6 +184,16 @@ export class InvestmentPeriodComponent implements OnInit {
     }
   }
 
+  getTransactionType(transaction: Transaction) {
+    for (const type of this.transactionTypes) {
+      if (type.id === transaction.type) {
+        return type.title;
+      }
+    }
+
+    return transaction.type.toString();
+  }
+
   onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
     if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
       this.expandedInvestmentPeriod.next(null);
@@ -186,6 +203,13 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   onEditTransactionClicked(row: InvestmentPeriod, transaction: Transaction) {
-    this.showEditTransactionDialog(row, transaction);
+    this.showTransactionDialog(row, transaction);
+  }
+
+  onCreateTransactionClicked(row: InvestmentPeriod) {
+    const transaction = new Transaction();
+    transaction.stock = row.stock;
+
+    this.showTransactionDialog(row, transaction);
   }
 }

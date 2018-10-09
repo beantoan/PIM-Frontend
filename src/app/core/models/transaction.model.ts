@@ -1,6 +1,6 @@
 import {Stock} from './stock.model';
 
-export interface Transaction {
+export class Transaction {
   id: string;
   stock: Stock;
   type: number;
