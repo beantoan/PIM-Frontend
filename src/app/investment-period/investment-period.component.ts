@@ -48,13 +48,30 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 export class InvestmentPeriodComponent implements OnInit {
 
   displayedHeaderColumns: string[] = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
+  displayedFinishedHeaderColumns: string[] = ['stock', 'buyColumns', 'sellColumns', 'revenueColumns', 'tradingTimeColumns'];
   displayedSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
+    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
     'startedOn', 'endedOn', 'totalPeriod'];
+  displayedFinishedSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+    'netRevenue', 'grossRevenue', 'roiPercentage',
+    'startedOn', 'endedOn', 'totalPeriod'];
+  displayedTradingSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+    'startedOn'];
   displayedValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
     'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'rawRevenue', 'realRevenue', 'revenueRate',
+    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+    'startedOn', 'endedOn', 'totalPeriod'];
+  displayedTradingValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+    'startedOn'];
+  displayedFinishedValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+    'netRevenue', 'grossRevenue', 'roiPercentage',
     'startedOn', 'endedOn', 'totalPeriod'];
   displayedTransactionColumns: string[] = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn', 'editTransaction'];
 
@@ -63,7 +80,7 @@ export class InvestmentPeriodComponent implements OnInit {
 
   investmentPeriodPageSize = 50;
   transactionPageSize = 20;
-  viewType = 1;
+  viewTypeDefault = 1;
   isLoadingInvestmentPeriods = true;
   isLoadingTransactions: {[key: number]: boolean} = {};
 
@@ -74,7 +91,7 @@ export class InvestmentPeriodComponent implements OnInit {
   private reloadTransactions: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @ViewChild('investmentPeriodsPaginator') investmentPeriodsPaginator: MatPaginator;
-  @ViewChild(MatRadioGroup) radioGroup: MatRadioGroup;
+  @ViewChild(MatRadioGroup) viewType: MatRadioGroup;
 
   constructor(
     private investmentPeriodService: InvestmentPeriodService,
@@ -87,12 +104,12 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   private subscribeEvents() {
-    merge(this.radioGroup.change, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
+    merge(this.viewType.change, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingInvestmentPeriods = true;
-          const viewType = this.radioGroup.value == null ? this.viewType : this.radioGroup.value;
+          const viewType = this.viewType.value == null ? this.viewTypeDefault : this.viewType.value;
 
           return this.investmentPeriodService
             .index(this.investmentPeriodsPaginator.pageIndex, this.investmentPeriodPageSize, viewType);
@@ -127,8 +144,6 @@ export class InvestmentPeriodComponent implements OnInit {
     Logger.log(InvestmentPeriodComponent.name, `showEditTransactionDialog: stockCode=${row.stock.code}, transactionId=${transaction.id}`);
 
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
-      height: '400px',
-      width: '600px',
       autoFocus: true,
       data: transaction
     });
@@ -191,17 +206,23 @@ export class InvestmentPeriodComponent implements OnInit {
     return end.diff(start, 'days') + 1;
   }
 
-  calRawRevenue(row: InvestmentPeriod): number {
-    return row.sellQuantity * (row.sellAvgPrice - row.buyAvgPrice);
+  calcTotalFees(row: InvestmentPeriod): number {
+    return row.buyFee + row.sellFee + row.sellTax;
   }
 
-  calcRealRevenue(row: InvestmentPeriod): number {
-    return row.sellMoney - row.buyMoney;
+  calcNetRevenue(row: InvestmentPeriod): number {
+    return row.sellQuantity * (row.sellAvgPrice - row.buyAvgPrice) - this.calcTotalFees(row);
   }
 
-  calcRateOfRawRevenue(row: InvestmentPeriod): number {
-    if (row.buyAvgPrice > 0 && row.sellAvgPrice > 0) {
-      return Math.round(((row.sellAvgPrice - row.buyAvgPrice) / row.buyAvgPrice) * 100);
+  calcGrossRevenue(row: InvestmentPeriod): number {
+    return row.sellMoney - row.buyMoney - this.calcTotalFees(row);
+  }
+
+  calcROIPercentage(row: InvestmentPeriod): number {
+    if (row.sellQuantity > 0) {
+      const capital = row.sellQuantity * row.sellAvgPrice;
+
+      return Math.round((this.calcNetRevenue(row) / capital) * 10000) / 100;
     }
   }
 
@@ -248,6 +269,125 @@ export class InvestmentPeriodComponent implements OnInit {
     transaction.stock = row.stock;
 
     this.showTransactionDialog(row, transaction);
+  }
+
+  getTotalBuyFee() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => item.buyFee)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalSellFee() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => item.sellFee)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalSellTax() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => item.sellTax)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalNetRevenue() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => this.calcNetRevenue(item))
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalGrossRevenue() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => this.calcGrossRevenue(item))
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalBuyMoney() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => item.buyMoney)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalROIPercentage() {
+    return Math.round((this.getTotalNetRevenue() / this.getTotalBuyMoney()) * 10000) / 100;
+  }
+
+  calcFullColspan() {
+    switch (this.viewType.value.toString()) {
+      case '1':
+        return 16;
+      case '2':
+        return 16;
+      default:
+        return 18;
+    }
+  }
+
+  calTradingTimeColspan() {
+    switch (this.viewType.value.toString()) {
+      case '1':
+        return 1;
+      case '2':
+        return 3;
+      default:
+        return 3;
+    }
+  }
+
+  calcDisplayedColumns() {
+    switch (this.viewType.value.toString()) {
+      case '1':
+        return this.displayedTradingValueColumns;
+      case '2':
+        return this.displayedFinishedValueColumns;
+      default:
+        return this.displayedValueColumns;
+    }
+  }
+
+  calcDisplayedSubHeaderColumns(val) {
+    switch (this.viewType.value.toString()) {
+      case '1':
+        return this.displayedTradingSubHeaderColumns;
+      case '2':
+        return this.displayedFinishedSubHeaderColumns;
+      default:
+        return this.displayedSubHeaderColumns;
+    }
+  }
+
+  calcDisplayedHeaderColumns() {
+    switch (this.viewType.value.toString()) {
+      case '1':
+        return this.displayedHeaderColumns;
+      case '2':
+        return this.displayedFinishedHeaderColumns;
+      default:
+        return this.displayedHeaderColumns;
+    }
   }
 }
 

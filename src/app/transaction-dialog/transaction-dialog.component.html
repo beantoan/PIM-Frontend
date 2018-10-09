@@ -91,6 +91,8 @@
 
       <mat-datepicker-toggle matSuffix [for]="transactedOnDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #transactedOnDatepicker></mat-datepicker>
+
+      <mat-hint *ngIf="isShowTransactedOnHint">Là ngày chốt quyền hưởng cổ tức</mat-hint>
     </mat-form-field>
   </form>
 </mat-dialog-content>

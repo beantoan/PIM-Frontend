@@ -66,6 +66,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   errorMessage = null;
   isSubmitting = false;
   isExistedTransaction = false;
+  isShowTransactedOnHint = false;
 
   private savedTransactionData: {} = null;
 
@@ -94,8 +95,12 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * Initial the datasources
    */
   private initData() {
-    if (this.transaction && this.transaction.id) {
-      this.isExistedTransaction = true;
+    if (this.transaction) {
+      if (this.transaction.id) {
+        this.isExistedTransaction = true;
+      }
+
+      this.setIsShowTransactedOnHint(this.transaction.type);
     }
 
     this.transactionTypes = this.transactionService.getTypes();
@@ -347,6 +352,16 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
       );
   }
 
+  private setIsShowTransactedOnHint(transactionType: number) {
+    const dividendTransactionTypes = [
+      TransactionType.TYPE_MONEY_DIVIDEND,
+      TransactionType.TYPE_STOCK_DIVIDEND,
+      TransactionType.TYPE_AWARD_DIVIDEND
+    ];
+
+    this.isShowTransactedOnHint = dividendTransactionTypes.indexOf(transactionType) > -1;
+  }
+
   /**
    * When save the transaction button is clicked.
    * Check the validity first. Then submit the data to API server.
@@ -380,6 +395,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    */
   onTransactionTypeChanged(event) {
     this.setTransactionFormValidators(event.source.value);
+
+    this.setIsShowTransactedOnHint(event.source.value);
   }
 
   onCloseDialogClicked() {
