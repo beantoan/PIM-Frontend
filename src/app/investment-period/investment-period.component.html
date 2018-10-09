@@ -94,7 +94,7 @@
     </ng-container>
 
     <ng-container matColumnDef="holdMoney">
-      <th mat-header-cell *matHeaderCellDef>Tiền</th>
+      <th mat-header-cell *matHeaderCellDef>Tiền UT</th>
       <td mat-cell *matCellDef="let row">{{calcHoldMoney(row) | number}}</td>
     </ng-container>
 
@@ -132,7 +132,7 @@
       <td mat-footer-cell *matFooterCellDef colspan="18">
         <ul>
           <li><b>Giá mua</b>/<b>giá bán</b> được tính giá trị trung bình trên toàn bộ giao dịch mua/bán của phiên đầu tư</li>
-          <li><b>Tiền còn lại</b> được tính dự kiến theo giá bán hiện tại</li>
+          <li><b>Tiền UT</b> được tính ước tính theo giá bán hiện tại</li>
           <li><b>Lợi nhuận ròng</b> được tính dựa trên giao dịch bán, không tính cổ tức</li>
           <li><b>Lợi nhuận gộp</b> được tính dựa trên giao dịch bán và tính cổ tức</li>
         </ul>
