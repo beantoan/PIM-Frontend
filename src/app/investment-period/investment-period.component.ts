@@ -50,6 +50,8 @@ export class InvestmentPeriodComponent implements OnInit {
   transactionTypes: TransactionType[] = [];
 
   private expandedInvestmentPeriod: BehaviorSubject<InvestmentPeriod> = new BehaviorSubject(null);
+  private reloadInvestmentPeriods: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private reloadTransactions: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @ViewChild('investmentPeriodsPaginator') investmentPeriodsPaginator: MatPaginator;
   @ViewChild(MatRadioGroup) radioGroup: MatRadioGroup;
@@ -65,7 +67,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   private subscribeEvents() {
-    merge(this.radioGroup.change, this.investmentPeriodsPaginator.page)
+    merge(this.radioGroup.change, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -84,14 +86,20 @@ export class InvestmentPeriodComponent implements OnInit {
           this.isLoadingInvestmentPeriods = false;
           return of(new PageResponse<InvestmentPeriod>());
         })
-      ).subscribe(data => this.investmentPeriodPageResponse = data);
+      ).subscribe(data => {
+        this.investmentPeriodPageResponse = data;
+    });
 
     this.expandedInvestmentPeriod.subscribe(row => {
-      this.loadTransitionPage(row, 0);
+      this.loadTransitionPage(row, 0, true);
     });
 
     this.transactionService.getTypes().subscribe(data => {
       this.transactionTypes = data;
+    });
+
+    this.reloadTransactions.subscribe(data => {
+      this.loadTransitionPage(this.expandedInvestmentPeriod.value, 0, false);
     });
   }
 
@@ -106,7 +114,13 @@ export class InvestmentPeriodComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.expandedInvestmentPeriod.next(row);
+      Logger.log(InvestmentPeriodComponent.name, 'dialog is closed');
+      Logger.log(InvestmentPeriodComponent.name, result);
+
+      if (result) {
+        this.reloadInvestmentPeriods.next(true);
+        this.reloadTransactions.next(true);
+      }
     });
   }
 
@@ -114,10 +128,13 @@ export class InvestmentPeriodComponent implements OnInit {
    * Load transactions for an investment period
    * @param row
    * @param pageIndex
+   * @param isShowLoading
    */
-  loadTransitionPage(row: InvestmentPeriod, pageIndex: number) {
+  loadTransitionPage(row: InvestmentPeriod, pageIndex: number, isShowLoading: boolean) {
     if (row) {
-      this.isLoadingTransactions[row.id] = true;
+      if (isShowLoading) {
+        this.isLoadingTransactions[row.id] = true;
+      }
 
       if (!this.transactionPageResponses[row.id]) {
         this.transactionPageResponses[row.id] = new PageResponse<Transaction>();
@@ -169,7 +186,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   isRowExpanded(row: InvestmentPeriod) {
-    return this.expandedInvestmentPeriod.value === row;
+    return this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value.id === row.id;
   }
 
   isTransactionEditable(row: InvestmentPeriod) {
@@ -195,7 +212,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   onInvestmentPeriodRowClicked(row: InvestmentPeriod) {
-    if (this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value === row) {
+    if (this.isRowExpanded(row)) {
       this.expandedInvestmentPeriod.next(null);
     } else {
       this.expandedInvestmentPeriod.next(row);

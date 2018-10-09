@@ -9,7 +9,7 @@ import {distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Logger} from '../core/services/logger';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatAutocomplete, MatSnackBar} from '@angular/material';
+import {MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatAutocomplete, MatDialogRef, MatSnackBar} from '@angular/material';
 import {ObservableMedia} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
 
@@ -49,12 +49,15 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   isSubmitting = false;
   isExistedTransaction = false;
 
+  private savedTransactionData: {} = null;
+
   @ViewChild('autoStock') matAutocomplete: MatAutocomplete;
 
   constructor(
     private transactionService: TransactionService,
     private stockService: StockService,
     private media: ObservableMedia,
+    private dialogRef: MatDialogRef<TransactionDialogComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public transaction: Transaction
   ) { }
@@ -243,10 +246,12 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   private createNewTransaction() {
     Logger.log(TransactionDialogComponent.name, 'createNewTransaction');
 
+    this.savedTransactionData = null;
+
     this.transactionService.create(this.transactionForm.value)
       .subscribe(
         data => {
-          Logger.log(TransactionDialogComponent.name, data);
+          this.savedTransactionData = this.transactionForm.value;
 
           this.resetTransactionForm();
 
@@ -290,10 +295,12 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
     this.isSubmitting = true;
 
+    this.savedTransactionData = null;
+
     this.transactionService.update(transactionData)
       .subscribe(
         data => {
-          Logger.log(TransactionDialogComponent.name, data);
+          this.savedTransactionData = transactionData;
 
           const message = 'Chỉnh sửa giao dịch thành thành công';
 
@@ -355,6 +362,10 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    */
   onTransactionTypeChanged(event) {
     this.setTransactionFormValidators(event.source.value);
+  }
+
+  onCloseDialogClicked() {
+    this.dialogRef.close(this.savedTransactionData);
   }
 
   displayStockOption(stock?: Stock): string | undefined {

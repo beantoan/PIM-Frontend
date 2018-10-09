@@ -7,6 +7,7 @@ import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {ShowAuthedDirective} from '../show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {Logger} from '../../core/services/logger';
 
 @Component({
   selector: 'app-header',
@@ -45,7 +46,8 @@ export class HeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      Logger.log(HeaderComponent.name, 'dialog is closed');
+      Logger.log(HeaderComponent.name, result);
     });
   }
 
