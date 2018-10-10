@@ -27,7 +27,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'investmentPeriod',
+    path: 'investmentPeriod/:viewType',
     component: InvestmentPeriodComponent,
     canActivate: [AuthGuard],
     data: {

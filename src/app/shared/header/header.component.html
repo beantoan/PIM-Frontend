@@ -6,12 +6,13 @@
 
     <button *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
     <button *appShowAuthed="true" mat-button routerLink="/stock">Cổ phiếu</button>
-    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod">Phiên đầu tư</button>
+    <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod/1">Phiên đầu tư</button>
 
     <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
 
     <span class="flex-space"></span>
 
+    <div *appShowAuthed="true">Xin chào {{currentUser.email}}</div>
     <button *appShowAuthed="true" mat-button (click)="onLogoutClicked()">Thoát</button>
 
   </mat-toolbar>

@@ -28,7 +28,7 @@ import {PageResponse} from '../core/models/page-response.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {Logger} from '../core/services/logger';
 import {TransactionType} from '../core/models/transaction-type.model';
-import {RouterModule} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -46,41 +46,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   ]
 })
 export class InvestmentPeriodComponent implements OnInit {
-
-  displayedHeaderColumns: string[] = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
-  displayedFinishedHeaderColumns: string[] = ['stock', 'buyColumns', 'sellColumns', 'revenueColumns', 'tradingTimeColumns'];
-  displayedSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn', 'endedOn', 'totalPeriod'];
-  displayedFinishedSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn', 'endedOn', 'totalPeriod'];
-  displayedTradingSubHeaderColumns: string[] = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn'];
-  displayedValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn', 'endedOn', 'totalPeriod'];
-  displayedTradingValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn'];
-  displayedFinishedValueColumns: string[] = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
-    'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-    'netRevenue', 'grossRevenue', 'roiPercentage',
-    'startedOn', 'endedOn', 'totalPeriod'];
-  displayedTransactionColumns: string[] = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn', 'editTransaction'];
+  VIEW_TYPES = {
+    TRADING: 1,
+    FINISHED: 2,
+    ALL: 3
+  };
 
   investmentPeriodPageResponse: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
   transactionPageResponses: {[key: number]: PageResponse<Transaction>} = {};
 
   investmentPeriodPageSize = 50;
   transactionPageSize = 20;
-  viewTypeDefault = 1;
   isLoadingInvestmentPeriods = true;
   isLoadingTransactions: {[key: number]: boolean} = {};
 
@@ -96,7 +72,8 @@ export class InvestmentPeriodComponent implements OnInit {
   constructor(
     private investmentPeriodService: InvestmentPeriodService,
     private transactionService: TransactionService,
-    public createTransactionDialog: MatDialog
+    public createTransactionDialog: MatDialog,
+    public activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -104,15 +81,14 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   private subscribeEvents() {
-    merge(this.viewType.change, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
+    merge(this.activatedRoute.paramMap, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingInvestmentPeriods = true;
-          const viewType = this.viewType.value == null ? this.viewTypeDefault : this.viewType.value;
 
           return this.investmentPeriodService
-            .index(this.investmentPeriodsPaginator.pageIndex, this.investmentPeriodPageSize, viewType);
+            .index(this.investmentPeriodsPaginator.pageIndex, this.investmentPeriodPageSize, this.getViewType());
         }),
         map(data => {
           this.isLoadingInvestmentPeriods = false;
@@ -271,6 +247,10 @@ export class InvestmentPeriodComponent implements OnInit {
     this.showTransactionDialog(row, transaction);
   }
 
+  getViewType() {
+    return this.activatedRoute.snapshot.params['viewType'];
+  }
+
   getTotalBuyFee() {
     if (this.investmentPeriodPageResponse.content) {
       return this.investmentPeriodPageResponse.content
@@ -336,7 +316,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   calcFullColspan() {
-    switch (this.viewType.value.toString()) {
+    switch (this.getViewType().toString()) {
       case '1':
         return 16;
       case '2':
@@ -347,7 +327,7 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   calTradingTimeColspan() {
-    switch (this.viewType.value.toString()) {
+    switch (this.getViewType().toString()) {
       case '1':
         return 1;
       case '2':
@@ -358,36 +338,71 @@ export class InvestmentPeriodComponent implements OnInit {
   }
 
   calcDisplayedColumns() {
-    switch (this.viewType.value.toString()) {
+    const displayedTradingValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn'];
+    const displayedFinishedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+    const displayedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+
+    switch (this.getViewType().toString()) {
       case '1':
-        return this.displayedTradingValueColumns;
+        return displayedTradingValueColumns;
       case '2':
-        return this.displayedFinishedValueColumns;
+        return displayedFinishedValueColumns;
       default:
-        return this.displayedValueColumns;
+        return displayedValueColumns;
     }
   }
 
   calcDisplayedSubHeaderColumns() {
-    switch (this.viewType.value.toString()) {
+    const displayedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+    const displayedFinishedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+    const displayedTradingSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn'];
+
+    switch (this.getViewType().toString()) {
       case '1':
-        return this.displayedTradingSubHeaderColumns;
+        return displayedTradingSubHeaderColumns;
       case '2':
-        return this.displayedFinishedSubHeaderColumns;
+        return displayedFinishedSubHeaderColumns;
       default:
-        return this.displayedSubHeaderColumns;
+        return displayedSubHeaderColumns;
     }
   }
 
   calcDisplayedHeaderColumns() {
-    switch (this.viewType.value.toString()) {
+    const displayedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
+    const displayedFinishedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'revenueColumns', 'tradingTimeColumns'];
+
+    switch (this.getViewType().toString()) {
       case '1':
-        return this.displayedHeaderColumns;
+        return displayedHeaderColumns;
       case '2':
-        return this.displayedFinishedHeaderColumns;
+        return displayedFinishedHeaderColumns;
       default:
-        return this.displayedHeaderColumns;
+        return displayedHeaderColumns;
     }
+  }
+
+  calcDisplayedTransactionColumns() {
+    const displayedTransactionColumns = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn', 'editTransaction'];
+
+    return displayedTransactionColumns;
   }
 }
 

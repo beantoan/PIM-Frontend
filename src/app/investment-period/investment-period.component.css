@@ -1,4 +1,8 @@
 
+.investment-period-views button {
+  margin-right: 10px;
+}
+
 .mat-column-buyQuantity {
   padding-left: 0 !important;
 }

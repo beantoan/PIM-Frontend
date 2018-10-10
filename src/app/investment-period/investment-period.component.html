@@ -1,10 +1,21 @@
-<mat-card class="mat-elevation-z0">
+<mat-card class="mat-elevation-z0 investment-period-views">
   <mat-card-content>
-    <mat-radio-group value="{{viewTypeDefault}}" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="none">
-      <mat-radio-button value="1">Đang giao dịch&nbsp;</mat-radio-button>
-      <mat-radio-button value="2">Đã kết thúc&nbsp;</mat-radio-button>
-      <mat-radio-button value="3">Tất cả các phiên&nbsp;</mat-radio-button>
-    </mat-radio-group>
+    <div fxLayout="row" fxLayout.xs="column">
+      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.TRADING]"
+              [color]="getViewType() == VIEW_TYPES.TRADING ? 'primary' : ''">
+        Đang giao dịch
+      </button>
+
+      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.FINISHED]"
+              [color]="getViewType() == VIEW_TYPES.FINISHED ? 'primary' : ''">
+        Đã kết thúc
+      </button>
+
+      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.ALL]"
+              [color]="getViewType() == VIEW_TYPES.ALL ? 'primary' : ''">
+        Tất cả các phiên
+      </button>
+    </div>
   </mat-card-content>
 </mat-card>
 
@@ -250,8 +261,8 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="['stockTitle']"></tr>
-            <tr mat-header-row *matHeaderRowDef="displayedTransactionColumns"></tr>
-            <tr mat-row *matRowDef="let transaction; columns: displayedTransactionColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="calcDisplayedTransactionColumns()"></tr>
+            <tr mat-row *matRowDef="let transaction; columns: calcDisplayedTransactionColumns();"></tr>
           </table>
 
           <mat-paginator [length]="transactionPageResponse.totalElements"
