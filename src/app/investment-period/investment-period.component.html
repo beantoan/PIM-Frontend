@@ -268,7 +268,7 @@
           <mat-paginator [length]="transactionPageResponse.totalElements"
                          *ngIf="transactionPageResponse.totalPages > 1"
                          [pageSize]="transactionPageSize"
-                         (page)="loadTransitionPage(row, $event.pageIndex, true)"
+                         (page)="onTransactionPaginatorChanged(row, $event.pageIndex)"
                          [showFirstLastButtons]="true">
 
           </mat-paginator>

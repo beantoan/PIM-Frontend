@@ -18,7 +18,6 @@ import {
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {BehaviorSubject, merge} from 'rxjs';
-import {distinctUntilChanged} from 'rxjs/operators';
 import * as moment from 'moment';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TransactionService} from '../core/services/transaction.service';
@@ -31,6 +30,29 @@ import {ActivatedRoute, RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+export class LoadTransitionsParam {
+
+  investmentPeriod: InvestmentPeriod;
+  pageIndex: number;
+  isShowLoading: boolean;
+
+  constructor(investmentPeriod: InvestmentPeriod, pageIndex: number, isShowLoading: boolean) {
+    this.investmentPeriod = investmentPeriod;
+    this.pageIndex = pageIndex;
+    this.isShowLoading = isShowLoading;
+  }
+}
+
+export class LoadInvestmentPeriodsParam {
+  pageIndex: number;
+  viewType: number;
+
+  constructor(pageIndex: number, viewType: number) {
+    this.pageIndex = pageIndex;
+    this.viewType = viewType;
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -64,7 +86,8 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   private expandedInvestmentPeriod: BehaviorSubject<InvestmentPeriod> = new BehaviorSubject(null);
   private reloadInvestmentPeriods: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private reloadTransactions: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private loadInvestmentPeriodsParams: BehaviorSubject<object> = new BehaviorSubject(null);
+  private loadInvestmentPeriodsParams: BehaviorSubject<LoadInvestmentPeriodsParam> = new BehaviorSubject(null);
+  private loadTransitionsParams: BehaviorSubject<LoadTransitionsParam> = new BehaviorSubject(null);
 
   @ViewChild('investmentPeriodsPaginator') investmentPeriodsPaginator: MatPaginator;
 
@@ -76,7 +99,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.loadInvestmentPeriodsParams.next(this.buildLoadInvestmentPeriodsParams());
+    this.loadInvestmentPeriodsParams.next(this.buildLoadInvestmentPeriodsParam());
 
     this.subscribeEvents();
   }
@@ -85,12 +108,8 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     this.unsubscribeEvents();
   }
 
-  private buildLoadInvestmentPeriodsParams() {
-    return {
-      pageIndex: this.investmentPeriodsPaginator.pageIndex,
-      pageSize: this.investmentPeriodPageSize,
-      viewType: this.getViewType()
-    };
+  private buildLoadInvestmentPeriodsParam() {
+    return new LoadInvestmentPeriodsParam(this.investmentPeriodsPaginator.pageIndex, this.getViewType());
   }
 
   private unsubscribeEvents() {
@@ -102,21 +121,21 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private subscribeEvents() {
-    merge(this.activatedRoute.params, this.investmentPeriodsPaginator.page, this.expandedInvestmentPeriod)
+    merge(this.activatedRoute.params, this.investmentPeriodsPaginator.page)
       .subscribe(event => {
-        this.loadInvestmentPeriodsParams.next(this.buildLoadInvestmentPeriodsParams());
+        this.loadInvestmentPeriodsParams.next(this.buildLoadInvestmentPeriodsParam());
       });
 
-    this.loadInvestmentPeriodsParams.pipe(
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
-    ).subscribe(params => {
-      if (params) {
-        this.loadInvestmentPeriods(params);
-      }
+    this.loadInvestmentPeriodsParams.subscribe(params => {
+      this.loadInvestmentPeriods(params);
+    });
+
+    this.loadTransitionsParams.subscribe(param => {
+      this.loadTransitionPage(param);
     });
 
     this.expandedInvestmentPeriod.subscribe(row => {
-      this.loadTransitionPage(row, 0, true);
+      this.loadTransitionsParams.next(new LoadTransitionsParam(row, 0, true));
     });
 
     this.transactionService.getTypes().subscribe(data => {
@@ -124,26 +143,30 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     });
 
     this.reloadTransactions.subscribe(data => {
-      this.loadTransitionPage(this.expandedInvestmentPeriod.value, 0, false);
+      this.loadTransitionsParams.next(new LoadTransitionsParam(this.expandedInvestmentPeriod.value, 0, false));
     });
   }
 
-  private loadInvestmentPeriods(params) {
-    Logger.log('loadInvestmentPeriods', params);
+  private loadInvestmentPeriods(param: LoadInvestmentPeriodsParam) {
+    Logger.log('loadInvestmentPeriods', param);
 
-    this.isLoadingInvestmentPeriods = true;
+    if (param) {
+      this.isLoadingInvestmentPeriods = true;
 
-    this.investmentPeriodService
-      .index(params.pageIndex, params.pageSize, params.viewType)
-      .subscribe(data => {
-        this.investmentPeriodPageResponse = data;
-      }, err => {
-        this.isLoadingInvestmentPeriods = false;
+      this.investmentPeriodService
+        .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
+        .subscribe(data => {
+          this.investmentPeriodPageResponse = data;
 
-        this.investmentPeriodPageResponse = new PageResponse<InvestmentPeriod>();
-      }, () => {
-        this.isLoadingInvestmentPeriods = false;
-      });
+          this.expandedInvestmentPeriod.next(null);
+        }, err => {
+          this.isLoadingInvestmentPeriods = false;
+
+          this.investmentPeriodPageResponse = new PageResponse<InvestmentPeriod>();
+        }, () => {
+          this.isLoadingInvestmentPeriods = false;
+        });
+    }
   }
 
   private showTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
@@ -167,29 +190,26 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
 
   /**
    * Load transactions for an investment period
-   * @param row
-   * @param pageIndex
-   * @param isShowLoading
    */
-  loadTransitionPage(row: InvestmentPeriod, pageIndex: number, isShowLoading: boolean) {
-    if (row) {
-      if (isShowLoading) {
-        this.isLoadingTransactions[row.id] = true;
+  private loadTransitionPage(param: LoadTransitionsParam) {
+    if (param && param.investmentPeriod) {
+      if (param.isShowLoading) {
+        this.isLoadingTransactions[param.investmentPeriod.id] = true;
       }
 
-      if (!this.transactionPageResponses[row.id]) {
-        this.transactionPageResponses[row.id] = new PageResponse<Transaction>();
+      if (!this.transactionPageResponses[param.investmentPeriod.id]) {
+        this.transactionPageResponses[param.investmentPeriod.id] = new PageResponse<Transaction>();
       }
 
       this.transactionService
-        .index(pageIndex, this.transactionPageSize, row)
+        .index(param.pageIndex, this.transactionPageSize, param.investmentPeriod)
         .subscribe(data => {
-          this.transactionPageResponses[row.id] = data;
+          this.transactionPageResponses[param.investmentPeriod.id] = data;
         }, err => {
-          this.isLoadingTransactions[row.id] = false;
-          this.transactionPageResponses[row.id] = new PageResponse<Transaction>();
+          this.isLoadingTransactions[param.investmentPeriod.id] = false;
+          this.transactionPageResponses[param.investmentPeriod.id] = new PageResponse<Transaction>();
         }, () => {
-          this.isLoadingTransactions[row.id] = false;
+          this.isLoadingTransactions[param.investmentPeriod.id] = false;
         });
     }
   }
@@ -275,6 +295,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     transaction.stock = row.stock;
 
     this.showTransactionDialog(row, transaction);
+  }
+
+  onTransactionPaginatorChanged(row: InvestmentPeriod, pageIndex: number) {
+    this.loadTransitionsParams.next(new LoadTransitionsParam(row, pageIndex, true));
   }
 
   getViewType() {
