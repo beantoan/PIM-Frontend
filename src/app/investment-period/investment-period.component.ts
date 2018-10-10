@@ -246,7 +246,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
 
   calcROIPercentage(row: InvestmentPeriod): number {
     if (row.sellQuantity > 0) {
-      const capital = row.sellQuantity * row.sellAvgPrice;
+      const capital = row.sellQuantity * row.buyAvgPrice;
 
       return Math.round((this.calcNetRevenue(row) / capital) * 10000) / 100;
     }
@@ -335,6 +335,16 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     return 0;
   }
 
+  getTotalSellMoney() {
+    if (this.investmentPeriodPageResponse.content) {
+      return this.investmentPeriodPageResponse.content
+        .map(item => item.sellMoney)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
   getTotalNetRevenue() {
     if (this.investmentPeriodPageResponse.content) {
       return this.investmentPeriodPageResponse.content
@@ -370,14 +380,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   calcFullColspan() {
-    switch (this.getViewType().toString()) {
-      case '1':
-        return 16;
-      case '2':
-        return 16;
-      default:
-        return 18;
-    }
+    return 18;
   }
 
   calTradingTimeColspan() {
@@ -398,7 +401,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       'startedOn'];
     const displayedFinishedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
@@ -422,7 +425,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedFinishedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedTradingSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
@@ -441,7 +444,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
 
   calcDisplayedHeaderColumns() {
     const displayedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
-    const displayedFinishedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'revenueColumns', 'tradingTimeColumns'];
+    const displayedFinishedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
 
     switch (this.getViewType().toString()) {
       case '1':
@@ -457,6 +460,16 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     const displayedTransactionColumns = ['type', 'quantity', 'price', 'money', 'fee', 'tax', 'transactedOn', 'editTransaction'];
 
     return displayedTransactionColumns;
+  }
+
+  calcTotalFeesForInvestmentPeriod(row: InvestmentPeriod) {
+    if (this.transactionPageResponses && this.transactionPageResponses[row.id] && this.transactionPageResponses[row.id].content) {
+      return this.transactionPageResponses[row.id].content
+        .map(item => item.fee + item.tax)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
   }
 }
 

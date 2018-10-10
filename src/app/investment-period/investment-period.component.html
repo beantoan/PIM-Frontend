@@ -117,7 +117,9 @@
     <ng-container matColumnDef="sellMoney">
       <th mat-header-cell *matHeaderCellDef>Tiền</th>
       <td mat-cell *matCellDef="let row">{{row.sellMoney | number}}</td>
-      <td mat-footer-cell *matFooterCellDef></td>
+      <td mat-footer-cell *matFooterCellDef>
+        <b>{{getTotalSellMoney() | number}}</b>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="holdQuantity">
@@ -260,9 +262,16 @@
               </td>
             </ng-container>
 
+            <ng-container matColumnDef="totalFees">
+              <td mat-footer-cell *matFooterCellDef colspan="8">
+                <b>Tổng phí giao dịch: {{calcTotalFeesForInvestmentPeriod(row) | number}}</b>
+              </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="['stockTitle']"></tr>
             <tr mat-header-row *matHeaderRowDef="calcDisplayedTransactionColumns()"></tr>
             <tr mat-row *matRowDef="let transaction; columns: calcDisplayedTransactionColumns();"></tr>
+            <tr mat-footer-row *matFooterRowDef="['totalFees']"></tr>
           </table>
 
           <mat-paginator [length]="transactionPageResponse.totalElements"
