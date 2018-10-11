@@ -53,10 +53,11 @@ export class TopupComponent implements OnInit {
       });
   }
 
-  private showTopupDialog() {
+  private showTopupDialog(topup: Topup) {
     const dialogRef = this.createTopupDialog.open(TopupDialogComponent, {
       width: '400px',
-      autoFocus: true
+      autoFocus: true,
+      data: topup
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -67,7 +68,7 @@ export class TopupComponent implements OnInit {
   }
 
   onAddTopupClicked() {
-    this.showTopupDialog();
+    this.showTopupDialog(null);
   }
 
   getTotalAmount() {
@@ -78,6 +79,10 @@ export class TopupComponent implements OnInit {
     }
 
     return 0;
+  }
+
+  onEditTopupClicked(topup: Topup) {
+    this.showTopupDialog(topup);
   }
 }
 

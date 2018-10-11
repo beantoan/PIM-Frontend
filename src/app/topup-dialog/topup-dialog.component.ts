@@ -77,13 +77,19 @@ export class TopupDialogComponent implements OnInit {
     this.isSubmitting = true;
 
     if (this.topupForm.valid) {
-      this.topupService.create(this.topupForm.value)
+      const topupData = this.topupForm.value;
+
+      if (this.topup) {
+        topupData.id = this.topup.id;
+      }
+
+      this.topupService.create(topupData)
         .subscribe(
           data => {
 
             this.resetTopupForm();
 
-            const message = 'Thêm tiền vốn thành thành công';
+            const message = this.topup && this.topup.id ? 'Sửa tiền vốn thành công' : 'Thêm tiền vốn thành thành công';
 
             if (this.media.isActive('xs')) {
               this.snackBar.open(message, null, {
@@ -101,7 +107,12 @@ export class TopupDialogComponent implements OnInit {
           err => {
             Logger.info(TopupDialogComponent.name, 'createNewTopup', err);
 
-            this.errorMessage = 'Gặp lỗi khi thêm tiền vốn. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+            if (this.topup && this.topup.id) {
+              this.errorMessage = 'Gặp lỗi khi sửa tiền vốn. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+            } else {
+              this.errorMessage = 'Gặp lỗi khi thêm tiền vốn. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+            }
+
             this.isSubmitting = false;
           },
           () => {
