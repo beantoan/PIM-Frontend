@@ -9,6 +9,7 @@ import {
   MatCardModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDialogRef,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -54,11 +55,14 @@ export class TopupDialogComponent implements OnInit {
   errorMessage = null;
   isSubmitting = false;
 
+  private savedTopupData: {} = null;
+
   constructor(
     private media: ObservableMedia,
     private snackBar: MatSnackBar,
     private topupService: TopupService,
-    @Inject(MAT_DIALOG_DATA) public topup: Topup
+    @Inject(MAT_DIALOG_DATA) public topup: Topup,
+    private dialogRef: MatDialogRef<TopupDialogComponent>,
   ) { }
 
   ngOnInit() {
@@ -66,15 +70,13 @@ export class TopupDialogComponent implements OnInit {
     this.subscribeEvents();
   }
 
-  onSaveTopupClicked() {
-    this.createNewTopup();
-  }
-
   private createNewTopup() {
     Logger.info(TopupDialogComponent.name, 'createNewTopup', this.topupForm.value);
 
     this.errorMessage = null;
     this.isSubmitting = true;
+
+    this.savedTopupData = null;
 
     if (this.topupForm.valid) {
       const topupData = this.topupForm.value;
@@ -86,6 +88,8 @@ export class TopupDialogComponent implements OnInit {
       this.topupService.create(topupData)
         .subscribe(
           data => {
+
+            this.savedTopupData = topupData;
 
             this.resetTopupForm();
 
@@ -178,6 +182,16 @@ export class TopupDialogComponent implements OnInit {
     ).subscribe(data => {
       this.errorMessage = null;
     });
+  }
+
+  onSaveTopupClicked() {
+    this.createNewTopup();
+  }
+
+  onCloseDialogClicked() {
+    Logger.info(TopupDialogComponent.name, 'onCloseDialogClicked', this.savedTopupData);
+
+    this.dialogRef.close(this.savedTopupData);
   }
 }
 

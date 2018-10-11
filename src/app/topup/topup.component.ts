@@ -63,7 +63,9 @@ export class TopupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       Logger.info(TopupComponent.name, 'showTopupDialog', 'dialog is closed', result);
 
-      this.loadTopups();
+      if (result) {
+        this.loadTopups();
+      }
     });
   }
 

@@ -49,6 +49,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button matDialogClose>Đóng</button>
+  <button mat-button (click)="onCloseDialogClicked()">Đóng</button>
   <button mat-raised-button color="primary" (click)="onSaveTopupClicked()">Lưu giao dịch</button>
 </mat-dialog-actions>
