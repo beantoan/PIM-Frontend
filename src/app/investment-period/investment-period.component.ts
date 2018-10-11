@@ -30,6 +30,7 @@ import {ActivatedRoute, RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppEventEmitter} from '../core/services/app-event-emitter.service';
 
 export class LoadTransitionsParam {
 
@@ -95,7 +96,8 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     private investmentPeriodService: InvestmentPeriodService,
     private transactionService: TransactionService,
     public createTransactionDialog: MatDialog,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private appEventEmitter: AppEventEmitter
   ) {}
 
   ngOnInit() {
@@ -121,7 +123,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private subscribeEvents() {
-    merge(this.activatedRoute.params, this.investmentPeriodsPaginator.page)
+    merge(this.activatedRoute.params, this.investmentPeriodsPaginator.page, this.reloadInvestmentPeriods)
       .subscribe(event => {
         this.loadInvestmentPeriodsParams.next(this.buildLoadInvestmentPeriodsParam());
       });
@@ -145,6 +147,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     this.reloadTransactions.subscribe(data => {
       this.loadTransitionsParams.next(new LoadTransitionsParam(this.expandedInvestmentPeriod.value, 0, false));
     });
+
+    this.appEventEmitter.onTransactionDialogClosed.subscribe(data => {
+      this.reloadDataAfterCreateOrEditTransaction(data);
+    });
   }
 
   private loadInvestmentPeriods(param: LoadInvestmentPeriodsParam) {
@@ -157,8 +163,6 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
         .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
         .subscribe(data => {
           this.investmentPeriodPageResponse = data;
-
-          this.expandedInvestmentPeriod.next(null);
         }, err => {
           this.isLoadingInvestmentPeriods = false;
 
@@ -181,10 +185,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       Logger.log(InvestmentPeriodComponent.name, 'dialog is closed');
       Logger.log(InvestmentPeriodComponent.name, result);
 
-      if (result) {
-        this.reloadInvestmentPeriods.next(true);
-        this.reloadTransactions.next(true);
-      }
+      this.reloadDataAfterCreateOrEditTransaction(result);
     });
   }
 
@@ -211,6 +212,16 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
         }, () => {
           this.isLoadingTransactions[param.investmentPeriod.id] = false;
         });
+    }
+  }
+
+  private reloadDataAfterCreateOrEditTransaction(result) {
+    Logger.log(InvestmentPeriodComponent.name, 'reloadDataAfterCreateOrEditTransaction');
+    Logger.log(InvestmentPeriodComponent.name, result);
+
+    if (result) {
+      this.reloadInvestmentPeriods.next(true);
+      this.reloadTransactions.next(true);
     }
   }
 

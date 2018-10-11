@@ -401,6 +401,9 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   }
 
   onCloseDialogClicked() {
+    Logger.log(TransactionDialogComponent.name, 'onCloseDialogClicked');
+    Logger.log(TransactionDialogComponent.name, this.savedTransactionData);
+
     this.dialogRef.close(this.savedTransactionData);
   }
 

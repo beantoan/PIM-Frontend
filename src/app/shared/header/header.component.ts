@@ -8,6 +8,7 @@ import {CommonModule} from '@angular/common';
 import {ShowAuthedDirective} from '../../core/services/show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {Logger} from '../../core/services/logger';
+import {AppEventEmitter} from '../../core/services/app-event-emitter.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public createTransactionDialog: MatDialog,
-    private userService: UserService
+    private userService: UserService,
+    private appEventEmitter: AppEventEmitter
   ) {
   }
 
@@ -48,6 +50,8 @@ export class HeaderComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       Logger.log(HeaderComponent.name, 'dialog is closed');
       Logger.log(HeaderComponent.name, result);
+
+      this.appEventEmitter.onTransactionDialogClosed.emit(result);
     });
   }
 

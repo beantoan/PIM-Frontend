@@ -14,6 +14,7 @@ import {StockService} from './services/stock.service';
 import {InvestmentPeriodService} from './services/investment-period.service';
 import {RoutingStateService} from './services/routing-state.service';
 import {MediaQueryService} from './services/media-query.service';
+import {AppEventEmitter} from './services/app-event-emitter.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {MediaQueryService} from './services/media-query.service';
     StockService,
     InvestmentPeriodService,
     RoutingStateService,
-    MediaQueryService
+    MediaQueryService,
+    AppEventEmitter
   ],
   exports: [
     CommonModule,
