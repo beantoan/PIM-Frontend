@@ -17,7 +17,7 @@ export class InvestmentPeriodService {
   }
 
   index(page: number, size: number, view: number): Observable<PageResponse<InvestmentPeriod>> {
-    Logger.log(InvestmentPeriodService.name, `index: page=${page}, size=${size}, view=${view}`);
+    Logger.info(InvestmentPeriodService.name, 'index', `page=${page}, size=${size}, view=${view}`);
 
     const httpParams = new HttpParams()
       .set('page', page.toString())

@@ -19,25 +19,25 @@ export class TransactionService {
   }
 
   getTypes() {
-    Logger.log(TransactionService.name, 'getTypes');
+    Logger.info(TransactionService.name, 'getTypes()');
 
     return this.apiService.get<TransactionType[]>(ApiEndpoints.TRANSACTIONS_TYPES);
   }
 
   create(transaction: {}): Observable<Transaction> {
-    Logger.log(TransactionService.name, 'create');
+    Logger.info(TransactionService.name, 'create', transaction);
 
     return this.apiService.post<Transaction>(ApiEndpoints.TRANSACTIONS, transaction);
   }
 
   update(transaction: {}): Observable<Transaction> {
-    Logger.log(TransactionService.name, 'update');
+    Logger.info(TransactionService.name, 'update', transaction);
 
     return this.apiService.put<Transaction>(ApiEndpoints.TRANSACTIONS, transaction);
   }
 
   index(page: number, size: number, investmentPeriod: InvestmentPeriod): Observable<PageResponse<Transaction>> {
-    Logger.log(TransactionService.name, `index: page=${page}, size=${size}, investmentPeriod=${investmentPeriod.id}`);
+    Logger.info(TransactionService.name, 'index', `page=${page}, size=${size}, investmentPeriod=${investmentPeriod.id}`);
 
     const httpParams = new HttpParams()
       .set('page', page.toString())

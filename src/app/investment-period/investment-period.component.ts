@@ -154,7 +154,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private loadInvestmentPeriods(param: LoadInvestmentPeriodsParam) {
-    Logger.log('loadInvestmentPeriods', param);
+    Logger.info(InvestmentPeriodComponent.name, 'loadInvestmentPeriods', param);
 
     if (param) {
       this.isLoadingInvestmentPeriods = true;
@@ -174,7 +174,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private showTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
-    Logger.log(InvestmentPeriodComponent.name, `showEditTransactionDialog: stockCode=${row.stock.code}, transactionId=${transaction.id}`);
+    Logger.info(InvestmentPeriodComponent.name, 'showEditTransactionDialog', `stockCode=${row.stock.code}, transactionId=${transaction.id}`);
 
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
       autoFocus: true,
@@ -182,8 +182,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      Logger.log(InvestmentPeriodComponent.name, 'dialog is closed');
-      Logger.log(InvestmentPeriodComponent.name, result);
+      Logger.info(InvestmentPeriodComponent.name, 'showTransactionDialog', 'dialog is closed', result);
 
       this.reloadDataAfterCreateOrEditTransaction(result);
     });
@@ -216,8 +215,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private reloadDataAfterCreateOrEditTransaction(result) {
-    Logger.log(InvestmentPeriodComponent.name, 'reloadDataAfterCreateOrEditTransaction');
-    Logger.log(InvestmentPeriodComponent.name, result);
+    Logger.info(InvestmentPeriodComponent.name, 'reloadDataAfterCreateOrEditTransaction', result);
 
     if (result) {
       this.reloadInvestmentPeriods.next(true);

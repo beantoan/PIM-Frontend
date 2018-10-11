@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    Logger.log(AppComponent.name, 'ngOnInit');
+    Logger.info(AppComponent.name, 'ngOnInit');
 
     this.routingState.subscribeHistories();
 
@@ -59,12 +59,12 @@ export class AppComponent implements OnInit {
    * Subscribe the events of router
    */
   private subscribeEvents() {
-    Logger.log(AppComponent.name, 'subscribeEvents');
+    Logger.info(AppComponent.name, 'subscribeEvents');
 
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         if (authenticated) {
-          Logger.log(AppComponent.name, 'subscribeEvents is logged in');
+          Logger.info(AppComponent.name, 'subscribeEvents', 'User logged in');
 
           const previousUrl = this.routingState.getPreviousUrl();
 
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
             this.router.navigateByUrl(returnUrl);
           }
         } else {
-          Logger.error(AppComponent.name, 'subscribeEvents is not logged in');
+          Logger.error(AppComponent.name, 'subscribeEvents', 'User was not logged in');
 
           this.router.navigateByUrl('/login');
         }
@@ -137,7 +137,7 @@ export class AppComponent implements OnInit {
    * Check whether or not an user should be logged out
    */
   private logoutIfPossible() {
-    Logger.log(AppComponent.name, 'logoutIfPossible');
+    Logger.info(AppComponent.name, 'logoutIfPossible');
 
     const jwtToken = this.jwtService.getToken();
 
@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
     }
 
     if (!jwtToken && currentPath !== 'login') {
-      Logger.log(AppComponent.name, 'logout and then redirect to login page');
+      Logger.info(AppComponent.name, 'logoutIfPossible', 'logout and then redirect to login page');
 
       this.userService.logout();
     }

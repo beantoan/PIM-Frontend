@@ -267,10 +267,10 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * To create new transaction
    */
   private createNewTransaction() {
-    Logger.log(TransactionDialogComponent.name, 'createNewTransaction');
-
     this.savedTransactionData = null;
     const transactionData = this.transactionForm.value;
+
+    Logger.info(TransactionDialogComponent.name, 'createNewTransaction', transactionData);
 
     this.transactionService.create(transactionData)
       .subscribe(
@@ -295,7 +295,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
           }
         },
         err => {
-          Logger.log(TransactionDialogComponent.name, err);
+          Logger.info(TransactionDialogComponent.name, 'createNewTransaction', err);
 
           this.errorMessage = 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
           this.isSubmitting = false;
@@ -310,12 +310,10 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * To update the existed transaction
    */
   private saveExistedTransaction() {
-    Logger.log(TransactionDialogComponent.name, 'saveExistedTransaction');
-
     const transactionData = this.transactionForm.value;
     transactionData.id = this.transaction.id;
 
-    Logger.log(TransactionDialogComponent.name, transactionData);
+    Logger.info(TransactionDialogComponent.name, 'saveExistedTransaction', transactionData);
 
     this.isSubmitting = true;
 
@@ -342,7 +340,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
           }
         },
         err => {
-          Logger.log(TransactionDialogComponent.name, err);
+          Logger.info(TransactionDialogComponent.name, 'saveExistedTransaction', err);
 
           this.errorMessage = 'Gặp lỗi khi chỉnh sửa giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
           this.isSubmitting = false;
@@ -369,7 +367,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * Set the input fields as touched if the form is invalid.
    */
   onSaveTransactionClicked() {
-    Logger.log(TransactionDialogComponent.name, 'onSaveTransactionClicked');
+    Logger.info(TransactionDialogComponent.name, 'onSaveTransactionClicked', this.isExistedTransaction);
 
     this.errorMessage = null;
 
@@ -401,14 +399,13 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   }
 
   onCloseDialogClicked() {
-    Logger.log(TransactionDialogComponent.name, 'onCloseDialogClicked');
-    Logger.log(TransactionDialogComponent.name, this.savedTransactionData);
+    Logger.info(TransactionDialogComponent.name, 'onCloseDialogClicked', this.savedTransactionData);
 
     this.dialogRef.close(this.savedTransactionData);
   }
 
   displayStockOption(stock?: Stock): string | undefined {
-    Logger.log(TransactionDialogComponent.name, stock);
+    Logger.info(TransactionDialogComponent.name, 'displayStockOption', stock);
 
     return stock ? `${stock.code}-${stock.title}` : undefined;
   }

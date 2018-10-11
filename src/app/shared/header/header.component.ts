@@ -48,8 +48,7 @@ export class HeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      Logger.log(HeaderComponent.name, 'dialog is closed');
-      Logger.log(HeaderComponent.name, result);
+      Logger.info(HeaderComponent.name, 'showTransactionDialog', 'dialog is closed', result);
 
       this.appEventEmitter.onTransactionDialogClosed.emit(result);
     });

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm() {
-    Logger.log(LoginComponent.name, 'submitForm');
+    Logger.info(LoginComponent.name, 'submitForm');
 
     this.isSubmitting = true;
     this.errorMessage = null;
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
             this.userService.populate();
           },
           err => {
-            Logger.error(LoginComponent.name, err);
+            Logger.error(LoginComponent.name, 'submitForm', err);
             this.errorMessage = 'Email và mật khẩu đăng nhập không đúng';
             this.isSubmitting = false;
           },

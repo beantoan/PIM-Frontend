@@ -8,6 +8,7 @@ import {NoAuthGuard} from './core/services/no-auth-guard.service';
 import {AuthGuard} from './core/services/auth-guard.service';
 import {InvestmentPeriodComponent} from './investment-period/investment-period.component';
 import {StockComponent} from './stock/stock.component';
+import {TopupComponent} from './topup/topup.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       title: 'Cổ phiếu'
+    }
+  },
+  {
+    path: 'topup',
+    component: TopupComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Tiền vốn'
     }
   }
 ];

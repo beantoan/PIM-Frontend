@@ -14,6 +14,7 @@ import {StockModule} from './stock/stock.component';
 import {CoreModule} from './core/core.module';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
+import {TopupModule} from './topup/topup.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {CommonModule} from '@angular/common';
     DashboardModule,
     StockModule,
     InvestmentPeriodModule,
+    TopupModule,
     TransactionDialogModule
   ],
   providers: [Title],

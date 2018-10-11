@@ -16,7 +16,7 @@ export class StockService {
   }
 
   search(term: string): Observable<Stock[]> {
-    Logger.log(StockService.name, `search: ${term}`);
+    Logger.info(StockService.name, 'search', term);
 
     const httpParams = new HttpParams().set('term', term);
 
