@@ -11,7 +11,7 @@ import {environment} from '../../../environments/environment';
 export class FooterComponent {
   @Input('title') title: string;
 
-  appName = environment.appName;
+  footerTitle = environment.appName;
 }
 
 

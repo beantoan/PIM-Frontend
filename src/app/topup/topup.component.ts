@@ -29,7 +29,8 @@ export class TopupComponent implements OnInit {
 
   topupPageResponse: PageResponse<Topup> = new PageResponse<Topup>();
 
-  topupPageSize = 5;
+  topupPageSize = 50;
+  isLoadingTopups = false;
 
   constructor(
     public createTopupDialog: MatDialog,
@@ -41,9 +42,14 @@ export class TopupComponent implements OnInit {
   }
 
   private loadTopups() {
+    this.isLoadingTopups = true;
+
     this.topupService.index(0, this.topupPageSize)
       .subscribe(data => {
         this.topupPageResponse = data;
+        this.isLoadingTopups = false;
+      }, err => {
+        this.isLoadingTopups = false;
       });
   }
 
@@ -56,7 +62,7 @@ export class TopupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       Logger.info(TopupComponent.name, 'showTopupDialog', 'dialog is closed', result);
 
-      // TODO need to reload the data
+      this.loadTopups();
     });
   }
 

@@ -8,6 +8,9 @@
   </mat-card-content>
 </mat-card>
 
+<div class="loading-shade" *ngIf="isLoadingTopups">
+  <mat-spinner></mat-spinner>
+</div>
 
 <div class="responsive-table">
   <table mat-table

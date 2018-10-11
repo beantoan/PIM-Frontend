@@ -142,7 +142,7 @@ export class TopupDialogComponent implements OnInit {
     }
 
     this.topupForm = new FormGroup({
-      amount: new FormControl(amountVal, [Validators.required, Validators.min(1000)]),
+      amount: new FormControl(amountVal, [Validators.required]),
       addedOn: new FormControl(addedOnVal, [Validators.required]),
       note: new FormControl(noteVal)
     });

@@ -4,7 +4,6 @@ import {Title} from '@angular/platform-browser';
 import {environment} from '../environments/environment';
 import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {UserService} from './core/services/user.service';
-import {LoginComponent} from './login/login.component';
 import {JwtService} from './core/services/jwt.service';
 import {Logger} from './core/services/logger';
 import {Location} from '@angular/common';
@@ -30,16 +29,6 @@ export class AppComponent implements OnInit {
     private location: Location,
     private routingState: RoutingStateService
   ) {}
-
-  /**
-   * Check whether or not a component is LoginComponent
-   *
-   * @param componentName
-   * @returnUrl boolean
-   */
-  private static isLoginComponent(componentName: string): boolean {
-    return componentName === LoginComponent.name;
-  }
 
   ngOnInit(): void {
     Logger.info(AppComponent.name, 'ngOnInit');
@@ -83,15 +72,23 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        Logger.info(AppComponent.name, 'subscribeEvents', event);
+
         this.logoutIfPossible();
 
-        const [isLoginPage, title] = this.analyzeActiveRoute(this.router.routerState.snapshot.root);
+        const title = this.analyzeActiveRoute(this.router.routerState.snapshot.root);
 
         this.titleService.setTitle(title);
+
+        const isLoginPage = this.isLoginPage(event.urlAfterRedirects);
 
         this.switchPageLayout(isLoginPage);
       }
     });
+  }
+
+  private isLoginPage(pageUrl: string): boolean {
+    return pageUrl.startsWith('/login');
   }
 
   /**
@@ -113,24 +110,18 @@ export class AppComponent implements OnInit {
    * @param snapshot
    * @returnUrl [isLoginPage: boolean, title: string]
    */
-  private analyzeActiveRoute(snapshot: ActivatedRouteSnapshot): [boolean, string] {
-    let isLoginPage = false;
-
+  private analyzeActiveRoute(snapshot: ActivatedRouteSnapshot): string {
     if (snapshot) {
       if (snapshot.firstChild) {
         return this.analyzeActiveRoute(snapshot.firstChild);
       }
 
-      isLoginPage = AppComponent.isLoginComponent(snapshot.routeConfig.component.name);
-
       if (snapshot.data['title']) {
-        const title = `${environment.title} | ${snapshot.data['title']}`;
-
-        return [isLoginPage, title];
+        return `${environment.title} | ${snapshot.data['title']}`;
       }
     }
 
-    return [isLoginPage, environment.title];
+    return environment.title;
   }
 
   /**
