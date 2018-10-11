@@ -270,11 +270,12 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     Logger.log(TransactionDialogComponent.name, 'createNewTransaction');
 
     this.savedTransactionData = null;
+    const transactionData = this.transactionForm.value;
 
-    this.transactionService.create(this.transactionForm.value)
+    this.transactionService.create(transactionData)
       .subscribe(
         data => {
-          this.savedTransactionData = this.transactionForm.value;
+          this.savedTransactionData = transactionData;
 
           this.resetTransactionForm();
 
