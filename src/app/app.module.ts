@@ -15,10 +15,11 @@ import {CoreModule} from './core/core.module';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {TopupModule} from './topup/topup.component';
+import {TopupDialogModule} from './topup-dialog/topup-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     CoreModule,
@@ -33,7 +34,8 @@ import {TopupModule} from './topup/topup.component';
     StockModule,
     InvestmentPeriodModule,
     TopupModule,
-    TransactionDialogModule
+    TransactionDialogModule,
+    TopupDialogModule
   ],
   providers: [Title],
   bootstrap: [AppComponent]

@@ -12,7 +12,7 @@
     <br/>
 
     <div fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
-      <mat-form-field fxFlex="50" *ngIf="!isExistedTransaction">
+      <mat-form-field fxFlex="60" *ngIf="!isExistedTransaction">
         <input
           matInput
           [readonly]="isExistedTransaction"
@@ -35,7 +35,7 @@
 
       </mat-form-field>
 
-      <mat-form-field fxFlex="{{isExistedTransaction ? 100 : 40}}">
+      <mat-form-field fxFlex="{{isExistedTransaction ? 100 : 30}}">
         <mat-select placeholder="Kiểu giao dịch"
                     formControlName="type"
                     (selectionChange)="onTransactionTypeChanged($event)"

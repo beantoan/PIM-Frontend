@@ -174,15 +174,18 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private showTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
-    Logger.info(InvestmentPeriodComponent.name, 'showEditTransactionDialog', `stockCode=${row.stock.code}, transactionId=${transaction.id}`);
+    Logger.info(InvestmentPeriodComponent.name, 'showEditTransactionDialog',
+      `stockCode=${row.stock.code}, transactionId=${transaction.id}`);
 
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
+      width: '600px',
       autoFocus: true,
       data: transaction
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      Logger.info(InvestmentPeriodComponent.name, 'showTransactionDialog', 'dialog is closed', result);
+      Logger.info(InvestmentPeriodComponent.name, 'showTransactionDialog',
+        'dialog is closed', result);
 
       this.reloadDataAfterCreateOrEditTransaction(result);
     });

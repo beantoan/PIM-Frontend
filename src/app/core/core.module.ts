@@ -8,13 +8,13 @@ import {JwtService} from './services/jwt.service';
 import {UserService} from './services/user.service';
 import {NoAuthGuard} from './services/no-auth-guard.service';
 import {TransactionService} from './services/transaction.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {StockService} from './services/stock.service';
 import {InvestmentPeriodService} from './services/investment-period.service';
 import {RoutingStateService} from './services/routing-state.service';
 import {MediaQueryService} from './services/media-query.service';
 import {AppEventEmitter} from './services/app-event-emitter.service';
+import {TopupService} from './services/topup.service';
 
 @NgModule({
   imports: [
@@ -29,6 +29,7 @@ import {AppEventEmitter} from './services/app-event-emitter.service';
     UserService,
     TransactionService,
     StockService,
+    TopupService,
     InvestmentPeriodService,
     RoutingStateService,
     MediaQueryService,
@@ -36,8 +37,6 @@ import {AppEventEmitter} from './services/app-event-emitter.service';
   ],
   exports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     RouterModule
   ],

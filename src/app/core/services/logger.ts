@@ -29,7 +29,7 @@ export class Logger {
       for (const param of params) {
         this.printLog(type, param);
       }
-      this.printLog(type, '>>> END <<<');
+      this.printLog(type, 'END <<<');
     }
   }
 

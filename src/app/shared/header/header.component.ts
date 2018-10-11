@@ -40,9 +40,8 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  showTransactionDialog() {
+  private showTransactionDialog() {
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
-      height: '400px',
       width: '600px',
       autoFocus: true
     });
