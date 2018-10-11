@@ -9,11 +9,16 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatProgressSpinnerModule
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatTableModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {Logger} from '../core/services/logger';
 import {TopupDialogComponent} from '../topup-dialog/topup-dialog.component';
+import {TopupService} from '../core/services/topup.service';
+import {PageResponse} from '../core/models/page-response.model';
+import {Topup} from '../core/models/topup.model';
 
 @Component({
   selector: 'app-topup',
@@ -22,16 +27,24 @@ import {TopupDialogComponent} from '../topup-dialog/topup-dialog.component';
 })
 export class TopupComponent implements OnInit {
 
+  topupPageResponse: PageResponse<Topup> = new PageResponse<Topup>();
+
+  topupPageSize = 5;
+
   constructor(
-    public createTopupDialog: MatDialog
+    public createTopupDialog: MatDialog,
+    private topupService: TopupService
   ) { }
 
   ngOnInit() {
-    this.subscribeEvents();
+    this.loadTopups();
   }
 
-  onAddTopupClicked() {
-    this.showTopupDialog();
+  private loadTopups() {
+    this.topupService.index(0, this.topupPageSize)
+      .subscribe(data => {
+        this.topupPageResponse = data;
+      });
   }
 
   private showTopupDialog() {
@@ -47,8 +60,18 @@ export class TopupComponent implements OnInit {
     });
   }
 
-  private subscribeEvents() {
+  onAddTopupClicked() {
+    this.showTopupDialog();
+  }
 
+  getTotalAmount() {
+    if (this.topupPageResponse.content) {
+      return this.topupPageResponse.content
+        .map(item => item.amount)
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
   }
 }
 
@@ -64,6 +87,8 @@ export class TopupComponent implements OnInit {
     MatCardModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
     FlexLayoutModule
   ],
   exports: [TopupComponent],

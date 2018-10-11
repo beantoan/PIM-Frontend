@@ -12,7 +12,6 @@ import {
   MatProgressSpinnerModule,
   MatRadioModule,
   MatSnackBarModule,
-  MatSortModule,
   MatTableModule
 } from '@angular/material';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
@@ -499,7 +498,6 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
     MatProgressSpinnerModule,
     MatDividerModule,
     MatRadioModule,

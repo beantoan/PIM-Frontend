@@ -1,7 +1,51 @@
 <mat-card class="mat-elevation-z0">
-  <mat-card-content>
-    <button mat-raised-button (click)="onAddTopupClicked()">
+  <mat-card-content fxLayout="row" fxLayoutAlign="end stretch">
+    <button mat-raised-button
+            color="primary"
+            (click)="onAddTopupClicked()">
       Thêm tiền vốn
     </button>
   </mat-card-content>
 </mat-card>
+
+
+<div class="responsive-table">
+  <table mat-table
+         [dataSource]="topupPageResponse.content">
+
+    <ng-container matColumnDef="addedOn">
+      <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+      <td mat-cell *matCellDef="let row">{{row.addedOn | date}}</td>
+      <td mat-footer-cell *matFooterCellDef>
+        <b>Tổng</b>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Tổng tiền</th>
+      <td mat-cell *matCellDef="let row">{{row.amount | number}}</td>
+      <td mat-footer-cell *matFooterCellDef>
+        <b>{{getTotalAmount() | number}}</b>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="note">
+      <th mat-header-cell *matHeaderCellDef>Ghi chú</th>
+      <td mat-cell *matCellDef="let row">{{row.note}}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['addedOn', 'amount', 'note']"></tr>
+
+    <tr mat-row
+        *matRowDef="let row; columns: ['addedOn', 'amount', 'note'];"></tr>
+
+    <tr mat-footer-row *matFooterRowDef="['addedOn', 'amount', 'note']"></tr>
+  </table>
+</div>
+
+<mat-paginator #investmentPeriodsPaginator
+               [length]="topupPageResponse.totalElements"
+               [pageSize]="topupPageSize"
+               [showFirstLastButtons]="true">
+</mat-paginator>

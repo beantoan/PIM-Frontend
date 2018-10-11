@@ -28,9 +28,23 @@
     <button fxFlex="33" *appShowAuthed="true" mat-button (click)="onLogoutClicked()">Thoát</button>
   </mat-toolbar>
 
-  <mat-card *appShowAuthed="true" fxFill fxLayout="row" fxLayoutAlign="space-between stretch">
-    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
-    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/stock">Cổ phiếu</button>
-    <button fxFlex="33" *appShowAuthed="true" mat-button routerLink="/investmentPeriod/1">Phiên đầu tư</button>
+  <mat-card *appShowAuthed="true" fxFill fxLayout="row" fxLayoutAlign="space-between stretch"
+            fxShow fxHide.xs="true" fxHide.gt-xs="false">
+    <button fxFlex="25" *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
+    <button fxFlex="25" *appShowAuthed="true" mat-button routerLink="/stock">Cổ phiếu</button>
+    <button fxFlex="25" *appShowAuthed="true" mat-button routerLink="/investmentPeriod/1">Phiên đầu tư</button>
+    <button fxFlex="25" *appShowAuthed="true" mat-button routerLink="/topup">Tiền vốn</button>
+  </mat-card>
+
+  <mat-card *appShowAuthed="true" fxFill fxLayout="row" fxLayoutAlign="space-between stretch"
+            fxShow fxHide.xs="false" fxHide.gt-xs="true">
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between stretch">
+      <button *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
+      <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod/1">Phiên đầu tư</button>
+    </div>
+    <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between stretch">
+      <button *appShowAuthed="true" mat-button routerLink="/stock">Cổ phiếu</button>
+      <button *appShowAuthed="true" mat-button routerLink="/topup">Tiền vốn</button>
+    </div>
   </mat-card>
 </div>

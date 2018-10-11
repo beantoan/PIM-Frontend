@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z0">
   <mat-card-content>
-    <div fxLayout="row" fxLayout.xs="column">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end stretch">
       <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.TRADING]"
               [color]="getViewType() == VIEW_TYPES.TRADING ? 'primary' : ''">
         Đang giao dịch

@@ -5,8 +5,6 @@ import {ApiService} from './api.service';
 import {ApiEndpoints} from './api-endpoints';
 import {Logger} from './logger';
 import {Observable} from 'rxjs';
-import {Transaction} from '../models/transaction.model';
-import {InvestmentPeriod} from '../models/investment-period.model';
 import {PageResponse} from '../models/page-response.model';
 import {Topup} from '../models/topup.model';
 
@@ -18,16 +16,15 @@ export class TopupService {
   ) {
   }
 
-  index(page: number, size: number, investmentPeriod: InvestmentPeriod): Observable<PageResponse<Transaction>> {
+  index(page: number, size: number): Observable<PageResponse<Topup>> {
     Logger.info(TopupService.name, 'index',
-      `page=${page}, size=${size}, investmentPeriod=${investmentPeriod.id}`);
+      `page=${page}, size=${size}`);
 
     const httpParams = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString())
-      .set('investmentPeriodId', investmentPeriod.id.toString());
+      .set('size', size.toString());
 
-    return this.apiService.get<PageResponse<Transaction>>(ApiEndpoints.TRANSACTIONS, httpParams);
+    return this.apiService.get<PageResponse<Topup>>(ApiEndpoints.TOPUPS, httpParams);
   }
 
   create(topup: {}): Observable<Topup> {
