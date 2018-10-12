@@ -11,7 +11,6 @@ import {
   MatInputModule,
   MatPaginatorModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule,
   MatTableModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -99,7 +98,6 @@ export class TopupComponent implements OnInit {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,

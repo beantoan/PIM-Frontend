@@ -14,7 +14,6 @@ import {
   MatIconModule,
   MatInputModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule,
   MatSnackBar
 } from '@angular/material';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -206,7 +205,6 @@ export class TopupDialogComponent implements OnInit {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     MatIconModule,
     MatDatepickerModule,
     MatDialogModule,

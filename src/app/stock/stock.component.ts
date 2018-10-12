@@ -2,14 +2,7 @@ import {Component, NgModule, OnInit} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatProgressSpinnerModule
-} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
@@ -36,7 +29,6 @@ export class StockComponent implements OnInit {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     MatIconModule,
     FlexLayoutModule
   ],

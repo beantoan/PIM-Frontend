@@ -23,7 +23,6 @@ import {
   MatIconModule,
   MatInputModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule,
   MatSelectModule,
   MatSnackBar
 } from '@angular/material';
@@ -435,7 +434,6 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule,
     MatIconModule,
     MatAutocompleteModule,
     MatSelectModule,
