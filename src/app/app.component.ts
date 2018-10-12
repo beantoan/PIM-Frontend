@@ -8,6 +8,7 @@ import {JwtService} from './core/services/jwt.service';
 import {Logger} from './core/services/logger';
 import {Location} from '@angular/common';
 import {RoutingStateService} from './core/services/routing-state.service';
+import {ObservableMedia} from '@angular/flex-layout';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit {
     private jwtService: JwtService,
     private titleService: Title,
     private location: Location,
-    private routingState: RoutingStateService
+    private routingState: RoutingStateService,
+    private media: ObservableMedia
   ) {}
 
   ngOnInit(): void {
@@ -98,7 +100,11 @@ export class AppComponent implements OnInit {
    */
   private switchPageLayout(isLoginPage: boolean) {
     if (isLoginPage) {
-      this.appTitle = environment.appName;
+      if (this.media.isActive('lt-md')) {
+        this.appTitle = environment.title;
+      } else {
+        this.appTitle = environment.appName;
+      }
     } else {
       this.appTitle = environment.title;
     }

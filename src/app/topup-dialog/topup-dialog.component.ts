@@ -95,7 +95,7 @@ export class TopupDialogComponent implements OnInit {
 
             const message = this.topup && this.topup.id ? 'Sửa tiền vốn thành công' : 'Thêm tiền vốn thành thành công';
 
-            if (this.media.isActive('xs')) {
+            if (this.media.isActive('lt-md')) {
               this.snackBar.open(message, null, {
                 duration: 3000
               });

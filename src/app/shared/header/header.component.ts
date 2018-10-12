@@ -1,7 +1,16 @@
 import {Component, Input, NgModule, OnInit} from '@angular/core';
 import {User} from '../../core/models/user.model';
 import {UserService} from '../../core/services/user.service';
-import {MatButtonModule, MatCardModule, MatDialog, MatDividerModule, MatToolbarModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatDialog,
+  MatDividerModule,
+  MatIconModule,
+  MatListModule,
+  MatSidenavModule,
+  MatToolbarModule
+} from '@angular/material';
 import {TransactionDialogComponent} from '../../transaction-dialog/transaction-dialog.component';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
@@ -69,8 +78,11 @@ export class HeaderComponent implements OnInit {
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
-    FlexLayoutModule,
-    MatDividerModule
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule,
+    FlexLayoutModule
   ],
   exports: [
     ShowAuthedDirective,

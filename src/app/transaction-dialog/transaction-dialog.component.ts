@@ -281,7 +281,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
           const message = 'Tạo giao dịch mới thành thành công';
 
-          if (this.media.isActive('xs')) {
+          if (this.media.isActive('lt-md')) {
             this.snackBar.open(message, null, {
               duration: 3000
             });
@@ -326,7 +326,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
           const message = 'Chỉnh sửa giao dịch thành thành công';
 
-          if (this.media.isActive('xs')) {
+          if (this.media.isActive('lt-md')) {
             this.snackBar.open(message, null, {
               duration: 3000
             });
