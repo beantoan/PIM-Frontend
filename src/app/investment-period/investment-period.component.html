@@ -192,9 +192,7 @@
 
         <mat-card class="mat-elevation-z1 padding-0"
                   *ngIf="getTransactionPageResponse(row.id) as transactionPageResponse">
-          <div class="loading-shade" *ngIf="isLoadingTransactions[row.id]">
-            <mat-spinner></mat-spinner>
-          </div>
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoadingTransactions[row.id]"></mat-progress-bar>
 
           <table mat-table
                  *ngIf="isRowExpanded(row)"

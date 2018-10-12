@@ -3,9 +3,7 @@
 </h2>
 
 <mat-dialog-content class="mat-typography">
-  <div class="loading-shade" *ngIf="isSubmitting">
-    <mat-spinner></mat-spinner>
-  </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="isSubmitting"></mat-progress-bar>
 
   <form [formGroup]="topupForm" fxLayout="column" fxLayoutAlign="space-between stretch">
     <div class="aui-message aui-message-warning" *ngIf="errorMessage">

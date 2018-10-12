@@ -22,6 +22,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSelectModule,
   MatSnackBar
@@ -441,6 +442,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     MatDatepickerModule,
     MatDialogModule,
     MatMomentDateModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [TransactionDialogComponent],

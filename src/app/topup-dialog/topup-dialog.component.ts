@@ -13,6 +13,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSnackBar
 } from '@angular/material';
@@ -210,6 +211,7 @@ export class TopupDialogComponent implements OnInit {
     MatDatepickerModule,
     MatDialogModule,
     MatMomentDateModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [TopupDialogComponent],
