@@ -36,10 +36,10 @@
       <h3 mat-subheader>Xin chào {{currentUser.email}}</h3>
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="/">Tổng quan</a>
-      <a mat-list-item routerLink="/stock">Cổ phiếu</a>
-      <a mat-list-item routerLink="/investmentPeriod/1">Phiên đầu tư</a>
-      <a mat-list-item routerLink="/topup">Tiền vốn</a>
+      <a mat-list-item routerLink="/" (click)="sidenav.toggle()">Tổng quan</a>
+      <a mat-list-item routerLink="/stock" (click)="sidenav.toggle()">Cổ phiếu</a>
+      <a mat-list-item routerLink="/investmentPeriod/1" (click)="sidenav.toggle()">Phiên đầu tư</a>
+      <a mat-list-item routerLink="/topup" (click)="sidenav.toggle()">Tiền vốn</a>
 
       <mat-divider></mat-divider>
 
