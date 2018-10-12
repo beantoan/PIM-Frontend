@@ -1,19 +1,22 @@
-<mat-progress-bar mode="indeterminate" *ngIf="isLoadingInvestmentPeriods"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingInvestmentPeriods" class="app-progress-bar"></mat-progress-bar>
 
 <mat-card class="mat-elevation-z0">
-  <mat-card-content>
+  <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+
+    <h3>Thông tin đầu tư theo phiên</h3>
+
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end stretch">
-      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.TRADING]"
+      <button mat-raised-button [routerLink]="['/investments', VIEW_TYPES.TRADING]"
               [color]="getViewType() == VIEW_TYPES.TRADING ? 'primary' : ''">
         Đang giao dịch
       </button>
 
-      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.FINISHED]"
+      <button mat-raised-button [routerLink]="['/investments', VIEW_TYPES.FINISHED]"
               [color]="getViewType() == VIEW_TYPES.FINISHED ? 'primary' : ''">
         Đã kết thúc
       </button>
 
-      <button mat-raised-button [routerLink]="['/investmentPeriod', VIEW_TYPES.ALL]"
+      <button mat-raised-button [routerLink]="['/investments', VIEW_TYPES.ALL]"
               [color]="getViewType() == VIEW_TYPES.ALL ? 'primary' : ''">
         Tất cả các phiên
       </button>
@@ -23,9 +26,9 @@
 
 <div class="responsive-table">
   <table mat-table multiTemplateDataRows
-         [dataSource]="investmentPeriodPageResponse.content">
+         [dataSource]="investmentPeriods.content">
 
-    <ng-container matColumnDef="stock" sticky>
+    <ng-container matColumnDef="stock">
       <th mat-header-cell *matHeaderCellDef rowspan="2"><h4>Mã</h4></th>
       <td mat-cell *matCellDef="let row">
         <b>{{row.stock.code}}</b>
@@ -72,7 +75,7 @@
       <th mat-header-cell *matHeaderCellDef>Phí</th>
       <td mat-cell *matCellDef="let row">{{row.buyFee | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalBuyFee() | number}}</b>
+        <b>{{investmentPeriodService.getTotalBuyFee(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -80,7 +83,7 @@
       <th mat-header-cell *matHeaderCellDef>Vốn</th>
       <td mat-cell *matCellDef="let row">{{row.buyMoney | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalBuyMoney() | number}}</b>
+        <b>{{investmentPeriodService.getTotalBuyMoney(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -100,7 +103,7 @@
       <th mat-header-cell *matHeaderCellDef>Phí</th>
       <td mat-cell *matCellDef="let row">{{row.sellFee | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalSellFee() | number}}</b>
+        <b>{{investmentPeriodService.getTotalSellFee(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -108,7 +111,7 @@
       <th mat-header-cell *matHeaderCellDef>Thuế</th>
       <td mat-cell *matCellDef="let row">{{row.sellTax | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalSellTax() | number}}</b>
+        <b>{{investmentPeriodService.getTotalSellTax(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -116,43 +119,43 @@
       <th mat-header-cell *matHeaderCellDef>Tiền</th>
       <td mat-cell *matCellDef="let row">{{row.sellMoney | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalSellMoney() | number}}</b>
+        <b>{{investmentPeriodService.getTotalSellMoney(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="holdQuantity">
       <th mat-header-cell *matHeaderCellDef>KL</th>
-      <td mat-cell *matCellDef="let row">{{calcHoldQuantity(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcHoldQuantity(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="holdMoney">
       <th mat-header-cell *matHeaderCellDef>Tiền UT</th>
-      <td mat-cell *matCellDef="let row">{{calcHoldMoney(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcHoldMoney(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="netRevenue">
       <th mat-header-cell *matHeaderCellDef>Ròng</th>
-      <td mat-cell *matCellDef="let row">{{calcNetRevenue(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcNetRevenue(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalNetRevenue() | number}}</b>
+        <b>{{investmentPeriodService.getTotalNetRevenue(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="grossRevenue">
       <th mat-header-cell *matHeaderCellDef>Gộp</th>
-      <td mat-cell *matCellDef="let row">{{calcGrossRevenue(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcGrossRevenue(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalGrossRevenue() | number}}</b>
+        <b>{{investmentPeriodService.getTotalGrossRevenue(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="roiPercentage">
       <th mat-header-cell *matHeaderCellDef>ROI</th>
-      <td mat-cell *matCellDef="let row">{{calcROIPercentage(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcROIPercentage(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef>
-        <b>{{getTotalROIPercentage() | number}}</b>
+        <b>{{investmentPeriodService.getTotalROIPercentage(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -170,7 +173,7 @@
 
     <ng-container matColumnDef="totalPeriod">
       <th mat-header-cell *matHeaderCellDef>Thời gian</th>
-      <td mat-cell *matCellDef="let row">{{calcTotalDays(row) | number}}</td>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcTotalDays(row) | number}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
@@ -192,6 +195,7 @@
 
         <mat-card class="mat-elevation-z1 padding-0"
                   *ngIf="getTransactionPageResponse(row.id) as transactionPageResponse">
+
           <mat-progress-bar mode="indeterminate" *ngIf="isLoadingTransactions[row.id]"></mat-progress-bar>
 
           <table mat-table
@@ -204,7 +208,7 @@
                   <h5>{{row.stock.title}}</h5>
 
                   <button mat-button
-                          *ngIf="isTransactionEditable(row)"
+                          *ngIf="canAddTransaction(row)"
                           (click)="onCreateTransactionClicked(row)">
                     Thêm giao dịch
                   </button>
@@ -251,7 +255,7 @@
               <th mat-header-cell *matHeaderCellDef>Thao tác</th>
               <td mat-cell *matCellDef="let transaction">
                 <button mat-button
-                        *ngIf="isTransactionEditable(row)"
+                        *ngIf="canEditTransaction(row)"
                         (click)="onEditTransactionClicked(row, transaction)">
                   Sửa
                 </button>
@@ -304,7 +308,7 @@
 </div>
 
 <mat-paginator #investmentPeriodsPaginator
-               [length]="investmentPeriodPageResponse.totalElements"
+               [length]="investmentPeriods.totalElements"
                [pageSize]="investmentPeriodPageSize"
                [showFirstLastButtons]="true">
 </mat-paginator>

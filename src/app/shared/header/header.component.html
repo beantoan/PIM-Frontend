@@ -9,9 +9,9 @@
 
     <div fxShow="true" fxHide.lt-md>
       <button *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
-      <button *appShowAuthed="true" mat-button routerLink="/stock">Cổ phiếu</button>
-      <button *appShowAuthed="true" mat-button routerLink="/investmentPeriod/1">Phiên đầu tư</button>
-      <button *appShowAuthed="true" mat-button routerLink="/topup">Tiền vốn</button>
+      <button *appShowAuthed="true" mat-button routerLink="/stocks">Cổ phiếu</button>
+      <button *appShowAuthed="true" mat-button routerLink="/investments/1">Phiên đầu tư</button>
+      <button *appShowAuthed="true" mat-button routerLink="/topups">Tiền vốn</button>
 
       <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
     </div>
@@ -26,7 +26,6 @@
     <button *appShowAuthed="true" mat-button
             fxShow="true" fxHide.gt-sm
             (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
-
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -37,19 +36,34 @@
       <mat-divider></mat-divider>
 
       <a mat-list-item routerLink="/" (click)="sidenav.toggle()">Tổng quan</a>
-      <a mat-list-item routerLink="/stock" (click)="sidenav.toggle()">Cổ phiếu</a>
-      <a mat-list-item routerLink="/investmentPeriod/1" (click)="sidenav.toggle()">Phiên đầu tư</a>
-      <a mat-list-item routerLink="/topup" (click)="sidenav.toggle()">Tiền vốn</a>
+      <a mat-list-item routerLink="/stocks" (click)="sidenav.toggle()">Cổ phiếu</a>
+      <a mat-list-item routerLink="/investments/1" (click)="sidenav.toggle()">Phiên đầu tư</a>
+      <a mat-list-item routerLink="/topups" (click)="sidenav.toggle()">Tiền vốn</a>
 
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="." (click)="onLogoutClicked()">Thoát</a>
+      <a mat-list-item routerLink="." (click)="onLogoutClicked(); sidenav.toggle()">Thoát</a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content fxFlexFill>
 
     <router-outlet></router-outlet>
+
+    <mat-divider></mat-divider>
+
+    <footer fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+
+      <div><a>{{footerTitle}}</a></div>
+
+      <div>Current Version: 1.0.0</div>
+
+      <div fxLayout="column" fxLayoutAlign="space-between center">
+        <div>Powered by Google ©2010-2018.</div>
+        <div>Code licensed under an MIT-style License.</div>
+        <div>Documentation licensed under CC BY 4.0.</div>
+      </div>
+    </footer>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

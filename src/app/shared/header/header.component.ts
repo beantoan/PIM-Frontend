@@ -8,6 +8,7 @@ import {
   MatDividerModule,
   MatIconModule,
   MatListModule,
+  MatProgressBarModule,
   MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
@@ -18,6 +19,7 @@ import {ShowAuthedDirective} from '../../core/services/show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {Logger} from '../../core/services/logger';
 import {AppEventEmitter} from '../../core/services/app-event-emitter.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +29,7 @@ import {AppEventEmitter} from '../../core/services/app-event-emitter.service';
 })
 export class HeaderComponent implements OnInit {
   currentUser: User;
+  footerTitle = environment.appName;
 
   @Input('title') title: string;
 
@@ -69,6 +72,7 @@ export class HeaderComponent implements OnInit {
   onLogoutClicked() {
     this.userService.logout();
   }
+
 }
 
 @NgModule({
@@ -82,6 +86,7 @@ export class HeaderComponent implements OnInit {
     MatListModule,
     MatIconModule,
     MatDividerModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [

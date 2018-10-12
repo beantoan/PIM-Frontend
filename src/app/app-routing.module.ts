@@ -28,7 +28,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'investmentPeriod/:viewType',
+    path: 'investments/:viewType',
     component: InvestmentPeriodComponent,
     canActivate: [AuthGuard],
     data: {
@@ -36,7 +36,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'stock',
+    path: 'stocks',
     component: StockComponent,
     canActivate: [AuthGuard],
     data: {
@@ -44,7 +44,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'topup',
+    path: 'topups',
     component: TopupComponent,
     canActivate: [AuthGuard],
     data: {

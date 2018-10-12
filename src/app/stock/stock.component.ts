@@ -1,9 +1,22 @@
-import {Component, NgModule, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatPaginator,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatTableModule
+} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {PageResponse} from '../core/models/page-response.model';
+import {InvestmentPeriod} from '../core/models/investment-period.model';
+import {InvestmentPeriodService} from '../core/services/investment-period.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +25,58 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 })
 export class StockComponent implements OnInit {
 
-  constructor() { }
+  aggregates: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
+
+  aggregatePageSize = 30;
+  isLoadingAggregates = false;
+
+  @ViewChild('aggregatesPaginator') aggregatesPaginator: MatPaginator;
+
+  constructor(
+    public investmentPeriodService: InvestmentPeriodService
+  ) { }
 
   ngOnInit() {
+    this.loadAggregates(0);
+
+    this.subscribeEvents();
+  }
+
+  private subscribeEvents() {
+    this.aggregatesPaginator.page.subscribe(event => {
+      this.loadAggregates(this.aggregatesPaginator.pageIndex);
+    });
+  }
+
+  private loadAggregates(page: number) {
+    this.isLoadingAggregates = true;
+
+    this.investmentPeriodService.aggregates(page, this.aggregatePageSize)
+      .subscribe(data => {
+        this.aggregates = data;
+        this.isLoadingAggregates = false;
+      }, err => {
+        this.isLoadingAggregates = false;
+      });
+  }
+
+
+  calcDisplayedColumns() {
+    return ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+  }
+
+  calcDisplayedSubHeaderColumns() {
+    return ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
+      'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
+      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'startedOn', 'endedOn', 'totalPeriod'];
+  }
+
+  calcDisplayedHeaderColumns() {
+    return ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
   }
 }
 
@@ -30,6 +92,9 @@ export class StockComponent implements OnInit {
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [StockComponent],

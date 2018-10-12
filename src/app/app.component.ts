@@ -9,6 +9,7 @@ import {Logger} from './core/services/logger';
 import {Location} from '@angular/common';
 import {RoutingStateService} from './core/services/routing-state.service';
 import {ObservableMedia} from '@angular/flex-layout';
+import {User} from './core/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ import {ObservableMedia} from '@angular/flex-layout';
 })
 export class AppComponent implements OnInit {
   appTitle = environment.title;
+  currentUser: User;
 
   public constructor(
     private router: Router,
@@ -69,6 +71,12 @@ export class AppComponent implements OnInit {
 
           this.router.navigateByUrl('/login');
         }
+      }
+    );
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
       }
     );
 

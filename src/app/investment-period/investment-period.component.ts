@@ -17,7 +17,6 @@ import {
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {BehaviorSubject, merge} from 'rxjs';
-import * as moment from 'moment';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TransactionService} from '../core/services/transaction.service';
 import {Transaction} from '../core/models/transaction.model';
@@ -73,10 +72,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     ALL: 3
   };
 
-  investmentPeriodPageResponse: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
+  investmentPeriods: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
   transactionPageResponses: {[key: number]: PageResponse<Transaction>} = {};
 
-  investmentPeriodPageSize = 50;
+  investmentPeriodPageSize = 30;
   transactionPageSize = 20;
   isLoadingInvestmentPeriods = true;
   isLoadingTransactions: {[key: number]: boolean} = {};
@@ -92,11 +91,11 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   @ViewChild('investmentPeriodsPaginator') investmentPeriodsPaginator: MatPaginator;
 
   constructor(
-    private investmentPeriodService: InvestmentPeriodService,
     private transactionService: TransactionService,
+    private appEventEmitter: AppEventEmitter,
+    public investmentPeriodService: InvestmentPeriodService,
     public createTransactionDialog: MatDialog,
-    public activatedRoute: ActivatedRoute,
-    private appEventEmitter: AppEventEmitter
+    public activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -161,11 +160,11 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       this.investmentPeriodService
         .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
         .subscribe(data => {
-          this.investmentPeriodPageResponse = data;
+          this.investmentPeriods = data;
         }, err => {
           this.isLoadingInvestmentPeriods = false;
 
-          this.investmentPeriodPageResponse = new PageResponse<InvestmentPeriod>();
+          this.investmentPeriods = new PageResponse<InvestmentPeriod>();
         }, () => {
           this.isLoadingInvestmentPeriods = false;
         });
@@ -225,49 +224,22 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     }
   }
 
-  calcHoldQuantity(row: InvestmentPeriod): number {
-    return row.buyQuantity - row.sellQuantity;
-  }
-
-  calcHoldMoney(row: InvestmentPeriod): number {
-    return this.calcHoldQuantity(row) * row.sellAvgPrice;
-  }
-
-  calcTotalDays(row: InvestmentPeriod): number {
-    if (row.endedOn == null) {
-      return null;
-    }
-
-    const start = moment(row.startedOn, 'YYYY-MM-DD');
-    const end = moment(row.endedOn, 'YYYY-MM-DD');
-    return end.diff(start, 'days') + 1;
-  }
-
-  calcTotalFees(row: InvestmentPeriod): number {
-    return row.buyFee + row.sellFee + row.sellTax;
-  }
-
-  calcNetRevenue(row: InvestmentPeriod): number {
-    return row.sellQuantity * (row.sellAvgPrice - row.buyAvgPrice) - this.calcTotalFees(row);
-  }
-
-  calcGrossRevenue(row: InvestmentPeriod): number {
-    return row.sellMoney - row.buyMoney - this.calcTotalFees(row);
-  }
-
-  calcROIPercentage(row: InvestmentPeriod): number {
-    if (row.sellQuantity > 0) {
-      const capital = row.sellQuantity * row.buyAvgPrice;
-
-      return Math.round((this.calcNetRevenue(row) / capital) * 10000) / 100;
-    }
-  }
-
   isRowExpanded(row: InvestmentPeriod) {
     return this.expandedInvestmentPeriod.value && this.expandedInvestmentPeriod.value.id === row.id;
   }
 
-  isTransactionEditable(row: InvestmentPeriod) {
+  canAddTransaction(row: InvestmentPeriod) {
+
+    if (row.endedOn == null) {
+      return true;
+    }
+
+    const holdQuantity = row.buyQuantity - row.sellQuantity;
+
+    return holdQuantity > 0 && holdQuantity <= row.dividendQuantity;
+  }
+
+  canEditTransaction(row: InvestmentPeriod) {
     return row.endedOn == null;
   }
 
@@ -314,80 +286,6 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
 
   getViewType() {
     return this.activatedRoute.snapshot.params['viewType'];
-  }
-
-  getTotalBuyFee() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => item.buyFee)
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalSellFee() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => item.sellFee)
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalSellTax() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => item.sellTax)
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalSellMoney() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => item.sellMoney)
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalNetRevenue() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => this.calcNetRevenue(item))
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalGrossRevenue() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => this.calcGrossRevenue(item))
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalBuyMoney() {
-    if (this.investmentPeriodPageResponse.content) {
-      return this.investmentPeriodPageResponse.content
-        .map(item => item.buyMoney)
-        .reduce((acc, value) => acc + value, 0);
-    }
-
-    return 0;
-  }
-
-  getTotalROIPercentage() {
-    return Math.round((this.getTotalNetRevenue() / this.getTotalBuyMoney()) * 10000) / 100;
   }
 
   calcFullColspan() {

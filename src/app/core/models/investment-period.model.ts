@@ -14,4 +14,5 @@ export class InvestmentPeriod {
   sellFee: number;
   sellTax: number;
   sellMoney: number;
+  dividendQuantity: number;
 }

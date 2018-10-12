@@ -36,6 +36,13 @@ input[type=number] {
   width: 100%;
 }
 
+.app-progress-bar {
+  position: sticky !important;
+  padding-top: 1px;
+  top: 0 !important;
+  z-index: 9999 !important;
+}
+
 @media(max-width: 800px) {
   .responsive-table {
     overflow-x: auto !important;

@@ -1,7 +1,10 @@
-<mat-progress-bar mode="indeterminate" *ngIf="isLoadingTopups"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingTopups" class="app-progress-bar"></mat-progress-bar>
 
 <mat-card class="mat-elevation-z0">
-  <mat-card-content fxLayout="row" fxLayoutAlign="end stretch">
+  <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+
+    <h3>Thông tin tiền vốn đầu tư</h3>
+
     <button mat-raised-button
             color="primary"
             (click)="onAddTopupClicked()">

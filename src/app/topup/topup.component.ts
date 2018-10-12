@@ -29,7 +29,7 @@ export class TopupComponent implements OnInit {
 
   topupPageResponse: PageResponse<Topup> = new PageResponse<Topup>();
 
-  topupPageSize = 50;
+  topupPageSize = 30;
   isLoadingTopups = false;
 
   constructor(
