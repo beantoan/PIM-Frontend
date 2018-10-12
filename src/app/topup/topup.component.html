@@ -1,3 +1,5 @@
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingTopups"></mat-progress-bar>
+
 <mat-card class="mat-elevation-z0">
   <mat-card-content fxLayout="row" fxLayoutAlign="end stretch">
     <button mat-raised-button
@@ -7,10 +9,6 @@
     </button>
   </mat-card-content>
 </mat-card>
-
-<div class="loading-shade" *ngIf="isLoadingTopups">
-  <mat-spinner></mat-spinner>
-</div>
 
 <div class="responsive-table">
   <table mat-table

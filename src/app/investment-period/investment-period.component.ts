@@ -9,6 +9,7 @@ import {
   MatInputModule,
   MatPaginator,
   MatPaginatorModule,
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatRadioModule,
   MatSnackBarModule,
@@ -502,6 +503,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     MatDividerModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [InvestmentPeriodComponent],

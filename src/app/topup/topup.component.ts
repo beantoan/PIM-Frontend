@@ -10,6 +10,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatPaginatorModule,
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatTableModule
 } from '@angular/material';
@@ -102,6 +103,7 @@ export class TopupComponent implements OnInit {
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     FlexLayoutModule
   ],
   exports: [TopupComponent],
