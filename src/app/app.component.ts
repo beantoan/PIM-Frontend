@@ -99,14 +99,10 @@ export class AppComponent implements OnInit {
    * @param isLoginPage: boolean
    */
   private switchPageLayout(isLoginPage: boolean) {
-    if (isLoginPage) {
-      if (this.media.isActive('lt-md')) {
-        this.appTitle = environment.title;
-      } else {
-        this.appTitle = environment.appName;
-      }
-    } else {
+    if (!isLoginPage || this.media.isActive('lt-md')) {
       this.appTitle = environment.title;
+    } else {
+      this.appTitle = environment.appName;
     }
   }
 
