@@ -8,6 +8,7 @@ import {InvestmentPeriod} from '../models/investment-period.model';
 import {PageResponse} from '../models/page-response.model';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import {InvestmentSummary} from '../models/investment-summary.model';
 
 
 @Injectable()
@@ -36,6 +37,12 @@ export class InvestmentPeriodService {
       .set('size', size.toString());
 
     return this.apiService.get<PageResponse<InvestmentPeriod>>(ApiEndpoints.INVESTMENT_PERIODS_AGGREGATES, httpParams);
+  }
+
+  summary(): Observable<InvestmentSummary> {
+    Logger.info(InvestmentPeriodService.name, 'summary');
+
+    return this.apiService.get<InvestmentSummary>(ApiEndpoints.INVESTMENT_PERIODS_SUMMARY);
   }
 
   calcHoldQuantity(row: InvestmentPeriod): number {
