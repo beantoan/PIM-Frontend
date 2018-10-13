@@ -24,11 +24,11 @@ import {PageResponse} from '../core/models/page-response.model';
 import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {Logger} from '../core/services/logger';
 import {TransactionType} from '../core/models/transaction-type.model';
-import {ActivatedRoute, RouterModule} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppEventEmitter} from '../core/services/app-event-emitter.service';
+import {CoreModule} from '../core/core.module';
 
 export class LoadTransitionsParam {
 
@@ -289,7 +289,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   calcFullColspan() {
-    return 18;
+    return 19;
   }
 
   calTradingTimeColspan() {
@@ -306,15 +306,15 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   calcDisplayedColumns() {
     const displayedTradingValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn'];
     const displayedFinishedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
 
     switch (this.getViewType().toString()) {
@@ -330,15 +330,15 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   calcDisplayedSubHeaderColumns() {
     const displayedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedFinishedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedTradingSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn'];
 
     switch (this.getViewType().toString()) {
@@ -384,10 +384,8 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
 
 @NgModule({
   imports: [
-    RouterModule,
+    CoreModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -402,7 +400,9 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     FlexLayoutModule
   ],
   exports: [InvestmentPeriodComponent],
-  declarations: [InvestmentPeriodComponent],
+  declarations: [
+    InvestmentPeriodComponent
+  ],
 })
 export class InvestmentPeriodModule {
 }

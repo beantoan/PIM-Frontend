@@ -15,6 +15,9 @@ import {RoutingStateService} from './services/routing-state.service';
 import {MediaQueryService} from './services/media-query.service';
 import {AppEventEmitter} from './services/app-event-emitter.service';
 import {TopupService} from './services/topup.service';
+import {PricePipe} from './services/price.pipe';
+import {MoneyPipe} from './services/money.pipe';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -38,9 +41,16 @@ import {TopupService} from './services/topup.service';
   exports: [
     CommonModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PricePipe,
+    MoneyPipe,
   ],
-  declarations: []
+  declarations: [
+    PricePipe,
+    MoneyPipe,
+  ]
 })
 export class CoreModule {
 }

@@ -1,7 +1,4 @@
 import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
@@ -17,6 +14,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {PageResponse} from '../core/models/page-response.model';
 import {InvestmentPeriod} from '../core/models/investment-period.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
+import {CoreModule} from '../core/core.module';
 
 @Component({
   selector: 'app-root',
@@ -64,14 +62,14 @@ export class StockComponent implements OnInit {
   calcDisplayedColumns() {
     return ['stock', 'buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
   }
 
   calcDisplayedSubHeaderColumns() {
     return ['buyQuantity', 'buyAvgPrice', 'buyFee', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellFee', 'sellTax', 'sellMoney',
-      'holdQuantity', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
   }
 
@@ -83,10 +81,7 @@ export class StockComponent implements OnInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -98,7 +93,9 @@ export class StockComponent implements OnInit {
     FlexLayoutModule
   ],
   exports: [StockComponent],
-  declarations: [StockComponent],
+  declarations: [
+    StockComponent
+  ],
 })
 export class StockModule {
 }

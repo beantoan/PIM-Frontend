@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Inject, NgModule, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {merge, Observable, of} from 'rxjs';
 import {TransactionType} from '../core/models/transaction-type.model';
 import {Stock} from '../core/models/stock.model';
@@ -28,8 +28,7 @@ import {
 } from '@angular/material';
 import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
+import {CoreModule} from '../core/core.module';
 
 declare var AJS: any;
 
@@ -426,10 +425,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

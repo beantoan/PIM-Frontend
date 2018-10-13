@@ -1,7 +1,4 @@
 import {Component, NgModule, OnInit} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
@@ -15,6 +12,7 @@ import {
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {InvestmentSummary} from '../core/models/investment-summary.model';
 import {InvestmentPeriodService} from '../core/services/investment-period.service';
+import {CoreModule} from '../core/core.module';
 
 @Component({
   selector: 'app-root',
@@ -75,10 +73,7 @@ export class DashboardComponent implements OnInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

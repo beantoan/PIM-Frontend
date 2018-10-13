@@ -43,6 +43,10 @@ input[type=number] {
   z-index: 9999 !important;
 }
 
+.mat-column-buyQuantity {
+  padding-left: 0 !important;
+}
+
 @media(max-width: 800px) {
   .responsive-table {
     overflow-x: auto !important;

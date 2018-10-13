@@ -1,7 +1,4 @@
 import {Component, NgModule, OnInit} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
@@ -19,6 +16,7 @@ import {TopupDialogComponent} from '../topup-dialog/topup-dialog.component';
 import {TopupService} from '../core/services/topup.service';
 import {PageResponse} from '../core/models/page-response.model';
 import {Topup} from '../core/models/topup.model';
+import {CoreModule} from '../core/core.module';
 
 @Component({
   selector: 'app-topup',
@@ -90,10 +88,7 @@ export class TopupComponent implements OnInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

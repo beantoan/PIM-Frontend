@@ -1,11 +1,11 @@
 import {Component, NgModule, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../core/services/user.service';
-import {Router, RouterModule} from '@angular/router';
+import {Router} from '@angular/router';
 import {Logger} from '../core/services/logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressBarModule} from '@angular/material';
-import {CommonModule} from '@angular/common';
+import {CoreModule} from '../core/core.module';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -69,10 +69,7 @@ export class LoginComponent implements OnInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

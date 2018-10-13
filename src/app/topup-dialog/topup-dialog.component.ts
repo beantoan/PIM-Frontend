@@ -1,7 +1,5 @@
 import {Component, Inject, NgModule, OnInit} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {
   MAT_DATE_FORMATS,
   MAT_DIALOG_DATA,
@@ -24,6 +22,7 @@ import * as moment from 'moment';
 import {Topup} from '../core/models/topup.model';
 import {TopupService} from '../core/services/topup.service';
 import {merge} from 'rxjs';
+import {CoreModule} from '../core/core.module';
 
 declare var AJS: any;
 
@@ -197,10 +196,7 @@ export class TopupDialogComponent implements OnInit {
 
 @NgModule({
   imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

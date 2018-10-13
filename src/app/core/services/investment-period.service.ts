@@ -50,7 +50,7 @@ export class InvestmentPeriodService {
   }
 
   calcHoldMoney(row: InvestmentPeriod): number {
-    return this.calcHoldQuantity(row) * row.sellAvgPrice;
+    return this.calcHoldQuantity(row) * row.stock.price * 1000;
   }
 
   calcTotalDays(row: InvestmentPeriod): number {
