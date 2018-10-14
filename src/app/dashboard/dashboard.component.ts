@@ -48,13 +48,14 @@ export class DashboardComponent implements OnInit {
   private convertInvestmentSummaryToArray(investmentSummary: InvestmentSummary) {
     const dataTemplate = {
       fund: {title: 'Tổng tiền vốn', value: 0, isBold: false, desc: 'Tiền vốn đã chuyển vào sàn'},
-      fees: {title: 'Tổng phí dịch vụ', value: 0, isBold: false, desc: 'Tổng tiền phí giao dịch mua và bán'},
+      fees: {title: 'Tổng phí giao dịch', value: 0, isBold: false, desc: 'Tổng tiền phí giao dịch mua và bán'},
       buyMoney: {title: 'Tổng tiền mua', value: 0, isBold: false, desc: 'Tiền đã mua cổ phiếu'},
       sellMoney: {title: 'Tổng tiền bán', value: 0, isBold: false, desc: 'Tiền đã bán cổ phiếu'},
-      moneyAsStock: {title: 'Tiền vốn bằng cổ phiếu', isBold: false, value: 0, desc: 'Tiền vốn dưới dạng cổ phiếu'},
-      moneyOnMarket: {title: 'Tổng giá trị cổ phiếu', value: 0, isBold: false, desc: 'Tiền cổ phiếu ở thời điểm hiện tại'},
+      moneyAsStock: {title: 'Tiền vốn cổ phiếu', isBold: false, value: 0, desc: 'Tiền vốn dưới dạng cổ phiếu'},
+      moneyOnMarket: {title: 'Giá trị cổ phiếu trên sàn', value: 0, isBold: false, desc: 'Tồng tiền cổ phiếu trên sàn ở thời điểm hiện tại'},
       netRevenue: {title: 'Lợi nhuận ròng', value: 0, isBold: true, desc: 'Lợi nhuận khối lượng cổ phiếu đã bán - phí dịch vụ'},
-      availableMoney: {title: 'Tiền rỗi', value: 0, isBold: true, desc: 'Tiền đang có trên sàn để mua cổ phiếu'},
+      grossRevenue: {title: 'Lợi nhuận gộp', value: 0, isBold: true, desc: 'Lợi nhuận tính bằng tiền bán - tiền mua - phí giao dịch'},
+      availableMoney: {title: 'Sức mua', value: 0, isBold: true, desc: 'Tiền đang có trên sàn để mua cổ phiếu'},
       expectedMoney: {title: 'Tổng tài sản', value: 0, isBold: true, desc: 'Tổng tiền gồm lợi nhuận ròng + tổng tiền vốn'},
     };
 

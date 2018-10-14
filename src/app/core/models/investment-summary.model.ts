@@ -6,5 +6,6 @@ export class InvestmentSummary {
   moneyOnMarket: number;
   fund: number;
   netRevenue: number;
+  grossRevenue: number;
   availableMoney: number;
 }
