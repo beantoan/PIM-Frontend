@@ -156,4 +156,14 @@ export class InvestmentPeriodService {
   getTotalROIPercentage(investmentPeriods: InvestmentPeriod[]) {
     return Math.round((this.getTotalNetRevenue(investmentPeriods) / this.getTotalBuyMoney(investmentPeriods)) * 10000) / 100;
   }
+
+  getTotalHoldMoney(investmentPeriods: InvestmentPeriod[]) {
+    if (investmentPeriods) {
+      return investmentPeriods
+        .map(item => this.calcHoldMoney(item))
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
 }

@@ -122,7 +122,9 @@
     <ng-container matColumnDef="holdMoney">
       <th mat-header-cell *matHeaderCellDef>Tiền UT</th>
       <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcHoldMoney(row) | money}}</td>
-      <td mat-footer-cell *matFooterCellDef></td>
+      <td mat-footer-cell *matFooterCellDef>
+        <b>{{investmentPeriodService.getTotalHoldMoney(aggregates.content) | number}}</b>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="netRevenue">
@@ -170,7 +172,7 @@
     <ng-container matColumnDef="disclaimer">
       <td mat-footer-cell *matFooterCellDef colspan="19">
         <ul>
-          <li><b>Giá mua</b>/<b>giá bán</b> được tính giá trị trung bình trên toàn bộ giao dịch mua/bán của phiên đầu tư</li>
+          <li><b>Giá mua</b>/<b>giá bán</b> được tính giá trị trung bình trên toàn bộ giao dịch mua/bán của từng cổ phiếu</li>
           <li><b>Giá TT</b> giá hiện tại trên sàn</li>
           <li><b>Tiền UT</b> được tính ước tính theo giá TT</li>
           <li><b>Lợi nhuận ròng</b> được tính theo khối lượng các giao dịch bán - phí giao dịch</li>

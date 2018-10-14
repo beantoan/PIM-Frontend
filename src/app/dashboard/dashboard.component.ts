@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
       buyMoney: {title: 'Tổng tiền mua', value: 0, isBold: false, desc: 'Tiền đã mua cổ phiếu'},
       sellMoney: {title: 'Tổng tiền bán', value: 0, isBold: false, desc: 'Tiền đã bán cổ phiếu'},
       moneyAsStock: {title: 'Tiền vốn bằng cổ phiếu', isBold: false, value: 0, desc: 'Tiền vốn dưới dạng cổ phiếu'},
+      moneyOnMarket: {title: 'Tổng giá trị cổ phiếu', value: 0, isBold: false, desc: 'Tiền cổ phiếu ở thời điểm hiện tại'},
       netRevenue: {title: 'Lợi nhuận ròng', value: 0, isBold: true, desc: 'Lợi nhuận khối lượng cổ phiếu đã bán - phí dịch vụ'},
       availableMoney: {title: 'Tiền rỗi', value: 0, isBold: true, desc: 'Tiền đang có trên sàn để mua cổ phiếu'},
       expectedMoney: {title: 'Tổng tài sản', value: 0, isBold: true, desc: 'Tổng tiền gồm lợi nhuận ròng + tổng tiền vốn'},

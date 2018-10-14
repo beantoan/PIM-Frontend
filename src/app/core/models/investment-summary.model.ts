@@ -3,6 +3,7 @@ export class InvestmentSummary {
   buyMoney: number;
   sellMoney: number;
   moneyAsStock: number;
+  moneyOnMarket: number;
   fund: number;
   netRevenue: number;
   availableMoney: number;
