@@ -47,9 +47,13 @@ input[type=number] {
   padding-left: 0 !important;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 1200px) {
   .responsive-table {
     overflow-x: auto !important;
+  }
+
+  .responsive-table table {
+    min-width: 1200px;
   }
 }
 
