@@ -73,7 +73,7 @@
 
     <ng-container matColumnDef="buyFee">
       <th mat-header-cell *matHeaderCellDef>Phí</th>
-      <td mat-cell *matCellDef="let row">{{row.buyFee | number}}</td>
+      <td mat-cell *matCellDef="let row">{{row.buyFee | fee}}</td>
       <td mat-footer-cell *matFooterCellDef>
         <b>{{investmentPeriodService.getTotalBuyFee(investmentPeriods.content) | number}}</b>
       </td>
@@ -101,7 +101,7 @@
 
     <ng-container matColumnDef="sellFee">
       <th mat-header-cell *matHeaderCellDef>Phí</th>
-      <td mat-cell *matCellDef="let row">{{row.sellFee | number}}</td>
+      <td mat-cell *matCellDef="let row">{{row.sellFee | fee}}</td>
       <td mat-footer-cell *matFooterCellDef>
         <b>{{investmentPeriodService.getTotalSellFee(investmentPeriods.content) | number}}</b>
       </td>
@@ -109,7 +109,7 @@
 
     <ng-container matColumnDef="sellTax">
       <th mat-header-cell *matHeaderCellDef>Thuế</th>
-      <td mat-cell *matCellDef="let row">{{row.sellTax | number}}</td>
+      <td mat-cell *matCellDef="let row">{{row.sellTax | fee}}</td>
       <td mat-footer-cell *matFooterCellDef>
         <b>{{investmentPeriodService.getTotalSellTax(investmentPeriods.content) | number}}</b>
       </td>

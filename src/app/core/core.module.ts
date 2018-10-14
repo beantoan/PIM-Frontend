@@ -18,6 +18,7 @@ import {TopupService} from './services/topup.service';
 import {PricePipe} from './services/price.pipe';
 import {MoneyPipe} from './services/money.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FeePipe} from './services/fee.pipe';
 
 @NgModule({
   imports: [
@@ -46,10 +47,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     PricePipe,
     MoneyPipe,
+    FeePipe
   ],
   declarations: [
     PricePipe,
     MoneyPipe,
+    FeePipe
   ]
 })
 export class CoreModule {
