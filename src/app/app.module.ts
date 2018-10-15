@@ -10,7 +10,6 @@ import {InvestmentPeriodModule} from './investment/investment.component';
 import {TransactionDialogModule} from './transaction-dialog/transaction-dialog.component';
 import {FooterModule} from './shared/footer/footer.component';
 import {HeaderModule} from './shared/header/header.component';
-import {StockModule} from './stock/stock.component';
 import {CoreModule} from './core/core.module';
 import {TopupModule} from './topup/topup.component';
 import {TopupDialogModule} from './topup-dialog/topup-dialog.component';
@@ -27,7 +26,6 @@ import {TopupDialogModule} from './topup-dialog/topup-dialog.component';
     FooterModule,
     LoginModule,
     DashboardModule,
-    StockModule,
     InvestmentPeriodModule,
     TopupModule,
     TransactionDialogModule,
