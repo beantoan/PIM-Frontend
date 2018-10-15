@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginModule} from './login/login.component';
 import {DashboardModule} from './dashboard/dashboard.component';
-import {InvestmentPeriodModule} from './investment-period/investment-period.component';
+import {InvestmentPeriodModule} from './investment/investment.component';
 import {TransactionDialogModule} from './transaction-dialog/transaction-dialog.component';
 import {FooterModule} from './shared/footer/footer.component';
 import {HeaderModule} from './shared/header/header.component';

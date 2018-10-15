@@ -45,18 +45,20 @@ export class LoadTransitionsParam {
 
 export class LoadInvestmentPeriodsParam {
   pageIndex: number;
+  groupType: number;
   viewType: number;
 
-  constructor(pageIndex: number, viewType: number) {
+  constructor(pageIndex: number, groupType: number, viewType: number) {
     this.pageIndex = pageIndex;
+    this.groupType = groupType;
     this.viewType = viewType;
   }
 }
 
 @Component({
   selector: 'app-root',
-  templateUrl: './investment-period.component.html',
-  styleUrls: ['./investment-period.component.css'],
+  templateUrl: './investment.component.html',
+  styleUrls: ['./investment.component.css'],
   animations: [
     trigger('expandedTransactions', [
       state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden', display: 'none'})),
@@ -65,11 +67,16 @@ export class LoadInvestmentPeriodsParam {
     ]),
   ]
 })
-export class InvestmentPeriodComponent implements OnInit, OnDestroy {
+export class InvestmentComponent implements OnInit, OnDestroy {
   VIEW_TYPES = {
     TRADING: 1,
     FINISHED: 2,
     ALL: 3
+  };
+
+  GROUP_TYPES = {
+    PERIOD: 1,
+    AGGREGATE: 2
   };
 
   investmentPeriods: PageResponse<InvestmentPeriod> = new PageResponse<InvestmentPeriod>();
@@ -109,7 +116,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private buildLoadInvestmentPeriodsParam() {
-    return new LoadInvestmentPeriodsParam(this.investmentPeriodsPaginator.pageIndex, this.getViewType());
+    return new LoadInvestmentPeriodsParam(this.investmentPeriodsPaginator.pageIndex, this.getGroupType(), this.getViewType());
   }
 
   private unsubscribeEvents() {
@@ -152,27 +159,37 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private loadInvestmentPeriods(param: LoadInvestmentPeriodsParam) {
-    Logger.info(InvestmentPeriodComponent.name, 'loadInvestmentPeriods', param);
+    Logger.info(InvestmentComponent.name, 'loadInvestmentPeriods', param);
 
     if (param) {
       this.isLoadingInvestmentPeriods = true;
 
-      this.investmentPeriodService
-        .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
-        .subscribe(data => {
-          this.investmentPeriods = data;
-        }, err => {
-          this.isLoadingInvestmentPeriods = false;
+      if (this.getGroupType() === this.GROUP_TYPES.PERIOD) {
+        this.investmentPeriodService
+          .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
+          .subscribe(data => {
+            this.investmentPeriods = data;
+            this.isLoadingInvestmentPeriods = false;
+          }, err => {
+            this.isLoadingInvestmentPeriods = false;
 
-          this.investmentPeriods = new PageResponse<InvestmentPeriod>();
-        }, () => {
-          this.isLoadingInvestmentPeriods = false;
-        });
+            this.investmentPeriods = new PageResponse<InvestmentPeriod>();
+          });
+      } else {
+        this.investmentPeriodService.aggregates(param.pageIndex, this.investmentPeriodPageSize)
+          .subscribe(data => {
+            this.investmentPeriods = data;
+            this.isLoadingInvestmentPeriods = false;
+          }, err => {
+            this.isLoadingInvestmentPeriods = false;
+            this.investmentPeriods = new PageResponse<InvestmentPeriod>();
+          });
+      }
     }
   }
 
   private showTransactionDialog(row: InvestmentPeriod, transaction: Transaction) {
-    Logger.info(InvestmentPeriodComponent.name, 'showEditTransactionDialog',
+    Logger.info(InvestmentComponent.name, 'showEditTransactionDialog',
       `stockCode=${row.stock.code}, transactionId=${transaction.id}`);
 
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
@@ -182,7 +199,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      Logger.info(InvestmentPeriodComponent.name, 'showTransactionDialog',
+      Logger.info(InvestmentComponent.name, 'showTransactionDialog',
         'dialog is closed', result);
 
       this.reloadDataAfterCreateOrEditTransaction(result);
@@ -216,7 +233,7 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   private reloadDataAfterCreateOrEditTransaction(result) {
-    Logger.info(InvestmentPeriodComponent.name, 'reloadDataAfterCreateOrEditTransaction', result);
+    Logger.info(InvestmentComponent.name, 'reloadDataAfterCreateOrEditTransaction', result);
 
     if (result) {
       this.reloadInvestmentPeriods.next(true);
@@ -284,8 +301,13 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     this.loadTransitionsParams.next(new LoadTransitionsParam(row, pageIndex, true));
   }
 
+  getGroupType() {
+    return Number(this.activatedRoute.snapshot.params['groupType']);
+  }
+
   getViewType() {
-    return this.activatedRoute.snapshot.params['viewType'];
+    const viewType = this.activatedRoute.snapshot.params['viewType'];
+    return viewType ? Number(viewType) : 0;
   }
 
   calcFullColspan() {
@@ -293,10 +315,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
   }
 
   calTradingTimeColspan() {
-    switch (this.getViewType().toString()) {
-      case '1':
+    switch (this.getViewType()) {
+      case this.VIEW_TYPES.TRADING:
         return 1;
-      case '2':
+      case this.VIEW_TYPES.FINISHED:
         return 3;
       default:
         return 3;
@@ -317,10 +339,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
 
-    switch (this.getViewType().toString()) {
-      case '1':
+    switch (this.getViewType()) {
+      case this.VIEW_TYPES.TRADING:
         return displayedTradingValueColumns;
-      case '2':
+      case this.VIEW_TYPES.FINISHED:
         return displayedFinishedValueColumns;
       default:
         return displayedValueColumns;
@@ -341,10 +363,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
       'holdQuantity', 'latestPrice', 'holdMoney', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn'];
 
-    switch (this.getViewType().toString()) {
-      case '1':
+    switch (this.getViewType()) {
+      case this.VIEW_TYPES.TRADING:
         return displayedTradingSubHeaderColumns;
-      case '2':
+      case this.VIEW_TYPES.FINISHED:
         return displayedFinishedSubHeaderColumns;
       default:
         return displayedSubHeaderColumns;
@@ -355,10 +377,10 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     const displayedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
     const displayedFinishedHeaderColumns = ['stock', 'buyColumns', 'sellColumns', 'holdColumns', 'revenueColumns', 'tradingTimeColumns'];
 
-    switch (this.getViewType().toString()) {
-      case '1':
+    switch (this.getViewType()) {
+      case this.VIEW_TYPES.TRADING:
         return displayedHeaderColumns;
-      case '2':
+      case this.VIEW_TYPES.FINISHED:
         return displayedFinishedHeaderColumns;
       default:
         return displayedHeaderColumns;
@@ -399,9 +421,9 @@ export class InvestmentPeriodComponent implements OnInit, OnDestroy {
     MatProgressBarModule,
     FlexLayoutModule
   ],
-  exports: [InvestmentPeriodComponent],
+  exports: [InvestmentComponent],
   declarations: [
-    InvestmentPeriodComponent
+    InvestmentComponent
   ],
 })
 export class InvestmentPeriodModule {

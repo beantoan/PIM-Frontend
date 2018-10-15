@@ -9,3 +9,11 @@
 .investment-period-row.expanded {
   border-bottom-color: transparent;
 }
+
+.action-buttons > button {
+  margin-right: 5px;
+}
+
+.action-buttons-xs  > button {
+  margin-bottom: 5px;
+}

@@ -6,8 +6,7 @@ import {LoginComponent} from './login/login.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NoAuthGuard} from './core/services/no-auth-guard.service';
 import {AuthGuard} from './core/services/auth-guard.service';
-import {InvestmentPeriodComponent} from './investment-period/investment-period.component';
-import {StockComponent} from './stock/stock.component';
+import {InvestmentComponent} from './investment/investment.component';
 import {TopupComponent} from './topup/topup.component';
 
 const routes: Routes = [
@@ -24,23 +23,23 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [NoAuthGuard],
     data: {
-      title: 'Login'
+      title: 'Đăng nhập'
     }
   },
   {
-    path: 'investments/:viewType',
-    component: InvestmentPeriodComponent,
+    path: 'investments/:groupType',
+    component: InvestmentComponent,
     canActivate: [AuthGuard],
     data: {
-      title: 'Phiên đầu tư'
+      title: 'Đầu tư'
     }
   },
   {
-    path: 'stocks',
-    component: StockComponent,
+    path: 'investments/:groupType/:viewType',
+    component: InvestmentComponent,
     canActivate: [AuthGuard],
     data: {
-      title: 'Cổ phiếu'
+      title: 'Đầu tư'
     }
   },
   {

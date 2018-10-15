@@ -8,9 +8,8 @@
     <span>{{title}}</span>
 
     <div fxShow="true" fxHide.lt-md>
-      <button *appShowAuthed="true" mat-button routerLink="/">Tổng quan</button>
-      <button *appShowAuthed="true" mat-button routerLink="/stocks">Cổ phiếu</button>
-      <button *appShowAuthed="true" mat-button routerLink="/investments/1">Phiên đầu tư</button>
+      <button *appShowAuthed="true" mat-button routerLink="/">Dashboard</button>
+      <button *appShowAuthed="true" mat-button routerLink="/investments/1/1">Đầu tư</button>
       <button *appShowAuthed="true" mat-button routerLink="/topups">Tiền vốn</button>
 
       <button *appShowAuthed="true" mat-button (click)="onCreateTransactionClicked()">Tạo giao dịch</button>
@@ -35,9 +34,8 @@
       <h3 mat-subheader>Xin chào {{currentUser.email}}</h3>
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="/" (click)="sidenav.toggle()">Tổng quan</a>
-      <a mat-list-item routerLink="/stocks" (click)="sidenav.toggle()">Cổ phiếu</a>
-      <a mat-list-item routerLink="/investments/1" (click)="sidenav.toggle()">Phiên đầu tư</a>
+      <a mat-list-item routerLink="/" (click)="sidenav.toggle()">Dashboard</a>
+      <a mat-list-item routerLink="/investments/1/1" (click)="sidenav.toggle()">Đầu tư</a>
       <a mat-list-item routerLink="/topups" (click)="sidenav.toggle()">Tiền vốn</a>
 
       <mat-divider></mat-divider>

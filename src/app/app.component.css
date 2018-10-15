@@ -7,10 +7,6 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.app-content {
-  margin-top: 10px;
-}
-
 .mat-form {
   display: flex;
   flex-direction: column;
@@ -47,13 +43,17 @@ input[type=number] {
   padding-left: 0 !important;
 }
 
-@media(max-width: 1200px) {
+.page-header {
+  margin-bottom: 20px;
+}
+
+@media(max-width: 1050px) {
   .responsive-table {
     overflow-x: auto !important;
   }
 
   .responsive-table table {
-    min-width: 1200px;
+    min-width: 1050px;
   }
 }
 
