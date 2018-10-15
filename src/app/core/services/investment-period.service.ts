@@ -18,8 +18,8 @@ export class InvestmentPeriodService {
   ) {
   }
 
-  index(page: number, size: number, view: number): Observable<PageResponse<InvestmentPeriod>> {
-    Logger.info(InvestmentPeriodService.name, 'index', `page=${page}, size=${size}, view=${view}`);
+  periods(page: number, size: number, view: number): Observable<PageResponse<InvestmentPeriod>> {
+    Logger.info(InvestmentPeriodService.name, 'periods', `page=${page}, size=${size}, view=${view}`);
 
     const httpParams = new HttpParams()
       .set('page', page.toString())
@@ -36,13 +36,13 @@ export class InvestmentPeriodService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.apiService.get<PageResponse<InvestmentPeriod>>(ApiEndpoints.INVESTMENT_PERIODS_AGGREGATES, httpParams);
+    return this.apiService.get<PageResponse<InvestmentPeriod>>(ApiEndpoints.INVESTMENT_AGGREGATES, httpParams);
   }
 
   summary(): Observable<InvestmentSummary> {
     Logger.info(InvestmentPeriodService.name, 'summary');
 
-    return this.apiService.get<InvestmentSummary>(ApiEndpoints.INVESTMENT_PERIODS_SUMMARY);
+    return this.apiService.get<InvestmentSummary>(ApiEndpoints.INVESTMENT_SUMMARY);
   }
 
   calcHoldQuantity(row: InvestmentPeriod): number {

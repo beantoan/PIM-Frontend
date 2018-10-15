@@ -166,7 +166,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
 
       if (this.getGroupType() === this.GROUP_TYPES.PERIOD) {
         this.investmentPeriodService
-          .index(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
+          .periods(param.pageIndex, this.investmentPeriodPageSize, param.viewType)
           .subscribe(data => {
             this.investmentPeriods = data;
             this.isLoadingInvestmentPeriods = false;

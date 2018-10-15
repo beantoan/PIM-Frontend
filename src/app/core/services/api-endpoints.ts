@@ -7,8 +7,8 @@ export class ApiEndpoints {
   static TRANSACTIONS_TYPES = '/transactions/types';
   static STOCKS = '/stocks';
   static STOCKS_SEARCH = '/stocks/search';
-  static INVESTMENT_PERIODS = '/investments';
   static TOPUPS = '/topups';
-  static INVESTMENT_PERIODS_AGGREGATES = '/investments/aggregates';
-  static INVESTMENT_PERIODS_SUMMARY = '/investments/summary';
+  static INVESTMENT_PERIODS = '/investments/periods';
+  static INVESTMENT_AGGREGATES = '/investments/aggregates';
+  static INVESTMENT_SUMMARY = '/investments/summary';
 }

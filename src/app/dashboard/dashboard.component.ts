@@ -2,6 +2,7 @@ import {Component, NgModule, OnInit} from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -84,6 +85,7 @@ export class DashboardComponent implements OnInit {
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
+    MatDividerModule,
     FlexLayoutModule
   ],
   exports: [DashboardComponent],

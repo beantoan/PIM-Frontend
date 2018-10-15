@@ -3,6 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatDialog,
+  MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -97,6 +98,7 @@ export class TopupComponent implements OnInit {
     MatTableModule,
     MatPaginatorModule,
     MatProgressBarModule,
+    MatDividerModule,
     FlexLayoutModule
   ],
   exports: [TopupComponent],
