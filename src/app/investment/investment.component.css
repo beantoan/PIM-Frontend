@@ -8,6 +8,7 @@
 
 .investment-period-row.expanded {
   border-bottom-color: transparent;
+  background-color: #dedede;
 }
 
 .action-buttons > button {
