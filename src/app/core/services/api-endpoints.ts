@@ -10,5 +10,5 @@ export class ApiEndpoints {
   static TOPUPS = '/topups';
   static INVESTMENT_PERIODS = '/investments/periods';
   static INVESTMENT_AGGREGATES = '/investments/aggregates';
-  static INVESTMENT_SUMMARY = '/investments/summary';
+  static DASHBOARD_SUMMARY = '/dashboard/data';
 }

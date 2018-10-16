@@ -1,5 +1,5 @@
 export interface Topup {
-  id: number,
+  id: number;
   amount: number;
   addedOn: Date;
   note: string;

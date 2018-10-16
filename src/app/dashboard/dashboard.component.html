@@ -11,44 +11,92 @@
   </mat-card-content>
 </mat-card>
 
-<div class="responsive-table">
-  <table mat-table
-         [dataSource]="investmentSummary">
+<mat-card class="mat-elevation-z1 responsive-table">
+  <mat-card-content>
+    <h3>Thông tin tổng quan</h3>
 
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef><h4>Danh mục</h4></th>
-      <td mat-cell *matCellDef="let row">
-        <h5 *ngIf="row.isBold">
-          {{row.title}}
-        </h5>
+    <mat-divider></mat-divider>
 
-        <span *ngIf="!row.isBold">
-          {{row.title}}
-        </span>
-      </td>
-    </ng-container>
+    <table mat-table
+           [dataSource]="investmentSummary">
 
-    <ng-container matColumnDef="value">
-      <th mat-header-cell *matHeaderCellDef><h4>Tổng tiền</h4></th>
-      <td mat-cell *matCellDef="let row">
-        <h4 *ngIf="row.isBold">
-          {{row.value | number}}
-        </h4>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef><h4>Danh mục</h4></th>
+        <td mat-cell *matCellDef="let row">
+          <h5 *ngIf="row.isBold">
+            {{row.title}}
+          </h5>
 
-        <span *ngIf="!row.isBold">
-          {{row.value | number}}
-        </span>
-      </td>
-    </ng-container>
+          <span *ngIf="!row.isBold">
+            {{row.title}}
+          </span>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="desc">
-      <th mat-header-cell *matHeaderCellDef><h4>Ghi chú</h4></th>
-      <td mat-cell *matCellDef="let row">{{row.desc}}</td>
-    </ng-container>
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef><h4>Tổng tiền</h4></th>
+        <td mat-cell *matCellDef="let row">
+          <h4 *ngIf="row.isBold">
+            {{row.value | number}}
+          </h4>
 
-    <tr mat-header-row *matHeaderRowDef="['title', 'value', 'desc']"></tr>
+          <span *ngIf="!row.isBold">
+            {{row.value | number}}
+          </span>
+        </td>
+      </ng-container>
 
-    <tr mat-row
-        *matRowDef="let row; columns: ['title', 'value', 'desc'];"></tr>
-  </table>
-</div>
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef><h4>Ghi chú</h4></th>
+        <td mat-cell *matCellDef="let row">{{row.desc}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['title', 'value', 'desc']"></tr>
+
+      <tr mat-row
+          *matRowDef="let row; columns: ['title', 'value', 'desc'];"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mat-elevation-z1">
+  <mat-card-content>
+    <h3>Cổ phiếu đang giữ</h3>
+
+    <mat-divider></mat-divider>
+
+    <div fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+      <dx-pie-chart fxFlex="50"
+                    title="Theo tiền vốn"
+                    palette="Soft Pastel"
+                    resolveLabelOverlapping="shift"
+                    [dataSource]="dashboardData.holdingByCapitalStockChartData">
+        <dxi-series argumentField="title"
+                    valueField="value">
+          <dxo-label [visible]="true"
+                     [customizeText]="customizeLabel">
+            <dxo-connector
+              [visible]="true"
+              [width]="1"></dxo-connector>
+          </dxo-label>
+        </dxi-series>
+      </dx-pie-chart>
+
+      <dx-pie-chart fxFlex="50"
+                    title="Theo giá trị thị trường"
+                    palette="Soft Pastel"
+                    resolveLabelOverlapping="shift"
+                    [dataSource]="dashboardData.holdingByMarketPriceStockChartData">
+        <dxi-series argumentField="title"
+                    valueField="value">
+          <dxo-label [visible]="true"
+                     [customizeText]="customizeLabel">
+            <dxo-connector
+              [visible]="true"
+              [width]="1"></dxo-connector>
+          </dxo-label>
+        </dxi-series>
+      </dx-pie-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

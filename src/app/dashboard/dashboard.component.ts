@@ -12,8 +12,10 @@ import {
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {InvestmentSummary} from '../core/models/investment-summary.model';
-import {InvestmentPeriodService} from '../core/services/investment-period.service';
 import {CoreModule} from '../core/core.module';
+import {DxPieChartModule} from 'devextreme-angular';
+import {DashboardService} from '../core/services/dashboard.service';
+import {DashboardData} from '../core/models/dashboard-data.model';
 
 @Component({
   selector: 'app-root',
@@ -22,12 +24,13 @@ import {CoreModule} from '../core/core.module';
 })
 export class DashboardComponent implements OnInit {
 
+  dashboardData: DashboardData = new DashboardData();
   investmentSummary = [];
 
   isLoadingDashboards = false;
 
   constructor(
-    private investmentPeriodService: InvestmentPeriodService
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
@@ -37,9 +40,10 @@ export class DashboardComponent implements OnInit {
   private loadDashboards() {
     this.isLoadingDashboards = true;
 
-    this.investmentPeriodService.summary()
+    this.dashboardService.data()
       .subscribe(data => {
-        this.investmentSummary = this.convertInvestmentSummaryToArray(data);
+        this.dashboardData = data;
+        this.investmentSummary = this.convertInvestmentSummaryToArray(data.summary);
         this.isLoadingDashboards = false;
       }, err => {
         this.isLoadingDashboards = false;
@@ -52,8 +56,8 @@ export class DashboardComponent implements OnInit {
       fees: {title: 'Tổng phí giao dịch', value: 0, isBold: false, desc: 'Tổng tiền phí giao dịch mua và bán'},
       buyMoney: {title: 'Tổng tiền mua', value: 0, isBold: false, desc: 'Tiền đã mua cổ phiếu'},
       sellMoney: {title: 'Tổng tiền bán', value: 0, isBold: false, desc: 'Tiền đã bán cổ phiếu'},
-      moneyAsStock: {title: 'Tiền vốn cổ phiếu', isBold: false, value: 0, desc: 'Tiền vốn dưới dạng cổ phiếu'},
-      moneyOnMarket: {title: 'Giá trị cổ phiếu trên sàn', value: 0, isBold: false, desc: 'Tồng tiền cổ phiếu trên sàn ở thời điểm hiện tại'},
+      capitalOfHoldStock: {title: 'Tiền vốn cổ phiếu đang giữ', isBold: false, value: 0, desc: 'Tổng tiền vốn của KL cổ phiếu đang giữ'},
+      valueOfHoldStock: {title: 'Giá trị cổ phiếu đang giữ', value: 0, isBold: false, desc: 'Tổng giá trị của KL cổ phiếu đang giữ ở thời điểm hiện tại'},
       netRevenue: {title: 'Lợi nhuận ròng', value: 0, isBold: true, desc: 'Lợi nhuận khối lượng cổ phiếu đã bán - phí dịch vụ'},
       grossRevenue: {title: 'Lợi nhuận gộp', value: 0, isBold: true, desc: 'Lợi nhuận tính bằng tiền bán - tiền mua - phí giao dịch'},
       availableMoney: {title: 'Sức mua', value: 0, isBold: true, desc: 'Tiền đang có trên sàn để mua cổ phiếu'},
@@ -72,6 +76,10 @@ export class DashboardComponent implements OnInit {
 
     return data;
   }
+
+  customizeLabel(arg) {
+    return `${arg.argumentText} (${arg.percentText})`;
+  }
 }
 
 @NgModule({
@@ -86,6 +94,7 @@ export class DashboardComponent implements OnInit {
     MatPaginatorModule,
     MatProgressBarModule,
     MatDividerModule,
+    DxPieChartModule,
     FlexLayoutModule
   ],
   exports: [DashboardComponent],

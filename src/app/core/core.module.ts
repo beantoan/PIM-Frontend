@@ -19,6 +19,7 @@ import {PricePipe} from './services/price.pipe';
 import {MoneyPipe} from './services/money.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FeePipe} from './services/fee.pipe';
+import {DashboardService} from './services/dashboard.service';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import {FeePipe} from './services/fee.pipe';
     StockService,
     TopupService,
     InvestmentPeriodService,
+    DashboardService,
     RoutingStateService,
     MediaQueryService,
     AppEventEmitter
