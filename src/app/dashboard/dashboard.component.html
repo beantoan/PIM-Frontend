@@ -98,5 +98,26 @@
         </dxi-series>
       </dx-pie-chart>
     </div>
+
+    <dx-chart
+      title="Tương quan tiền vốn và giá trị thị trường"
+      [dataSource]="compareHoldStockChartData"
+      [customizeLabel]="customizeHoldStockChartLabel">
+      <dxi-series valueField="capitalValue" name="Giá vốn"></dxi-series>
+      <dxi-series valueField="marketValue" name="Giá thị trường"></dxi-series>
+      <dxo-common-series-settings
+        argumentField="title"
+        type="bar"
+        hoverMode="allArgumentPoints"
+        selectionMode="allArgumentPoints">
+        <dxo-label
+          [visible]="true">
+        </dxo-label>
+      </dxo-common-series-settings>
+      <dxo-legend
+        verticalAlignment="bottom"
+        horizontalAlignment="center">
+      </dxo-legend>
+    </dx-chart>
   </mat-card-content>
 </mat-card>

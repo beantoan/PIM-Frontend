@@ -13,9 +13,10 @@ import {
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {InvestmentSummary} from '../core/models/investment-summary.model';
 import {CoreModule} from '../core/core.module';
-import {DxPieChartModule} from 'devextreme-angular';
+import {DxChartModule, DxPieChartModule} from 'devextreme-angular';
 import {DashboardService} from '../core/services/dashboard.service';
 import {DashboardData} from '../core/models/dashboard-data.model';
+import {MoneyPipe} from '../core/services/money.pipe';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
   dashboardData: DashboardData = new DashboardData();
   investmentSummary = [];
+  compareHoldStockChartData = [];
 
   isLoadingDashboards = false;
 
@@ -44,6 +46,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(data => {
         this.dashboardData = data;
         this.investmentSummary = this.convertInvestmentSummaryToArray(data.summary);
+        this.compareHoldStockChartData = this.convertToHoldStockChartData(data);
         this.isLoadingDashboards = false;
       }, err => {
         this.isLoadingDashboards = false;
@@ -70,15 +73,58 @@ export class DashboardComponent implements OnInit {
 
     const data = [];
 
-    for (const item in dataTemplate) {
+    for (const item of Object.keys(dataTemplate)) {
       data.push(dataTemplate[item]);
     }
 
     return data;
   }
 
+  private convertToHoldStockChartData(dashboardData: DashboardData) {
+    const data = {};
+
+    for (const item of dashboardData.holdingByCapitalStockChartData) {
+      data[item.title] = {
+        title: item.title,
+        capitalValue: item.value,
+        marketValue: 0
+      };
+    }
+
+    for (const item of dashboardData.holdingByMarketPriceStockChartData) {
+      if (data[item.title]) {
+        data[item.title]['marketValue'] = item.value;
+      } else {
+        data[item.title] = {
+          title: item.title,
+          capitalValue: 0,
+          marketValue: item.value
+        };
+      }
+    }
+
+    const dataArr = [];
+
+    for (const item of Object.keys(data)) {
+      dataArr.push(data[item]);
+    }
+
+    return dataArr;
+  }
+
   customizeLabel(arg) {
     return `${arg.argumentText} (${arg.percentText})`;
+  }
+
+  customizeHoldStockChartLabel(arg) {
+    const moneyPipe = new MoneyPipe('en-US');
+
+    return {
+      visible: true,
+      customizeText: function (e: any) {
+        return moneyPipe.transform(e.valueText);
+      }
+    };
   }
 }
 
@@ -95,6 +141,7 @@ export class DashboardComponent implements OnInit {
     MatProgressBarModule,
     MatDividerModule,
     DxPieChartModule,
+    DxChartModule,
     FlexLayoutModule
   ],
   exports: [DashboardComponent],
