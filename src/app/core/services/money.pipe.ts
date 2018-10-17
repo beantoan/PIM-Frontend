@@ -15,10 +15,11 @@ export class MoneyPipe implements PipeTransform {
       return number.transform(value);
     }
 
-    const oneThousand = 100 * thousand;
+    const tenThousand = 10 * thousand;
+    const hundredThousand = 100 * thousand;
     const million = thousand * thousand;
 
-    if (value % million === 0 || value % oneThousand === 0) {
+    if (value % million === 0 || value % tenThousand === 0 || value % hundredThousand === 0) {
       return number.transform(value / million) + 'M';
     }
 
