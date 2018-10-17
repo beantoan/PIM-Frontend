@@ -17,7 +17,7 @@ export class MoneyPipe implements PipeTransform {
 
     const million = thousand * thousand;
 
-    if (value >= million) {
+    if (Math.abs(value) >= million) {
       const roundedValue = Math.round(value / thousand) * thousand;
       return number.transform(roundedValue / million) + 'M';
     }
