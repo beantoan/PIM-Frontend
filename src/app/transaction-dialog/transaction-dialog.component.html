@@ -47,7 +47,8 @@
     </div>
 
     <div fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
-      <mat-form-field [fxFlex]="displayPriceInputField() ? 45 : 100" *ngIf="displayQuantityInputField()">
+      <mat-form-field [fxFlex]="displayPriceInputField() ? 45 : 100"
+                      *ngIf="displayQuantityInputField()">
         <input matInput
                type="number"
                formControlName="quantity"
@@ -57,7 +58,8 @@
                placeholder="Khối lượng" />
       </mat-form-field>
 
-      <mat-form-field [fxFlex]="displayQuantityInputField() ? 45 : 100" *ngIf="displayPriceInputField()">
+      <mat-form-field [fxFlex]="displayQuantityInputField() ? 45 : 100"
+                      *ngIf="displayPriceInputField()">
         <input matInput
                type="number"
                formControlName="price"
