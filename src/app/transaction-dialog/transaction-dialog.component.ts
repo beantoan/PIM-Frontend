@@ -29,6 +29,7 @@ import {
 import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
 import {CoreModule} from '../core/core.module';
+import {DatePipe} from '@angular/common';
 
 declare var AJS: any;
 
@@ -420,6 +421,28 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
   displayMoneyInputField() {
     return this.transactionForm.get('type').value === TransactionType.TYPE_MONEY_DIVIDEND;
+  }
+
+  getDialogTitle() {
+    if (this.isExistedTransaction) {
+      const datePipe = new DatePipe('en_US');
+
+      const dateValue = datePipe.transform(this.transaction.transactedOn, 'd/M/yy');
+      const typeTitle = TransactionType.getType(this.transaction.type).title.toLowerCase();
+
+      switch (this.transaction.type) {
+        case TransactionType.TYPE_BUY:
+        case TransactionType.TYPE_SELL:
+          return `Sửa giao dịch ${typeTitle} ${this.transaction.quantity} ${this.transaction.stock.code} ngày ${dateValue}`;
+        case TransactionType.TYPE_STOCK_DIVIDEND:
+        case TransactionType.TYPE_AWARD_DIVIDEND:
+          return `Sửa giao dịch ${this.transaction.quantity} ${typeTitle} ${this.transaction.stock.code} ngày ${dateValue}`;
+        case TransactionType.TYPE_MONEY_DIVIDEND:
+          return `Sửa giao dịch ${this.transaction.money} ${typeTitle} ${this.transaction.stock.code} ngày ${dateValue}`;
+      }
+    }
+
+    return 'Tạo giao dịch mới';
   }
 }
 

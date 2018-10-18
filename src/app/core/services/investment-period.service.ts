@@ -57,7 +57,7 @@ export class InvestmentPeriodService {
   }
 
   calcTotalFees(row: InvestmentPeriod): number {
-    return row.buyFee + row.sellFee + row.sellTax;
+    return row.buyFee + row.sellFee + row.sellTax + row.cashAdvanceFee;
   }
 
   calcNetRevenue(row: InvestmentPeriod): number {
@@ -154,6 +154,16 @@ export class InvestmentPeriodService {
     if (investmentPeriods) {
       return investmentPeriods
         .map(item => this.calcHoldMoney(item))
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getTotalFees(investmentPeriods: InvestmentPeriod[]) {
+    if (investmentPeriods) {
+      return investmentPeriods
+        .map(item => this.calcTotalFees(item))
         .reduce((acc, value) => acc + value, 0);
     }
 

@@ -61,11 +61,11 @@
     </ng-container>
 
     <ng-container matColumnDef="buyColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="4"><h4>Giao dịch mua</h4></th>
+      <th mat-header-cell *matHeaderCellDef colspan="3"><h4>Giao dịch mua</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="sellColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="5"><h4>Giao dịch bán</h4></th>
+      <th mat-header-cell *matHeaderCellDef colspan="3"><h4>Giao dịch bán</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="holdColumns">
@@ -73,7 +73,7 @@
     </ng-container>
 
     <ng-container matColumnDef="revenueColumns">
-      <th mat-header-cell *matHeaderCellDef colspan="3"><h4>Lợi nhuận</h4></th>
+      <th mat-header-cell *matHeaderCellDef colspan="4"><h4>Lợi nhuận</h4></th>
     </ng-container>
 
     <ng-container matColumnDef="tradingTimeColumns">
@@ -90,14 +90,6 @@
       <th mat-header-cell *matHeaderCellDef>Giá</th>
       <td mat-cell *matCellDef="let row">{{row.buyAvgPrice | price}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="buyFee">
-      <th mat-header-cell *matHeaderCellDef>Phí</th>
-      <td mat-cell *matCellDef="let row">{{row.buyFee | fee}}</td>
-      <td mat-footer-cell *matFooterCellDef>
-        <b>{{investmentPeriodService.getTotalBuyFee(investmentPeriods.content) | number}}</b>
-      </td>
     </ng-container>
 
     <ng-container matColumnDef="buyMoney">
@@ -118,22 +110,6 @@
       <th mat-header-cell *matHeaderCellDef>Giá</th>
       <td mat-cell *matCellDef="let row">{{row.sellAvgPrice | price}}</td>
       <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-
-    <ng-container matColumnDef="sellFee">
-      <th mat-header-cell *matHeaderCellDef>Phí</th>
-      <td mat-cell *matCellDef="let row">{{row.sellFee | fee}}</td>
-      <td mat-footer-cell *matFooterCellDef>
-        <b>{{investmentPeriodService.getTotalSellFee(investmentPeriods.content) | number}}</b>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="sellTax">
-      <th mat-header-cell *matHeaderCellDef>Thuế</th>
-      <td mat-cell *matCellDef="let row">{{row.sellTax | fee}}</td>
-      <td mat-footer-cell *matFooterCellDef>
-        <b>{{investmentPeriodService.getTotalSellTax(investmentPeriods.content) | number}}</b>
-      </td>
     </ng-container>
 
     <ng-container matColumnDef="sellMoney">
@@ -161,6 +137,14 @@
       <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcHoldMoney(row) | money}}</td>
       <td mat-footer-cell *matFooterCellDef>
         <b>{{investmentPeriodService.getTotalHoldMoney(investmentPeriods.content) | number}}</b>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalFees">
+      <th mat-header-cell *matHeaderCellDef>Phí</th>
+      <td mat-cell *matCellDef="let row">{{investmentPeriodService.calcTotalFees(row) | fee}}</td>
+      <td mat-footer-cell *matFooterCellDef>
+        <b>{{investmentPeriodService.getTotalFees(investmentPeriods.content) | number}}</b>
       </td>
     </ng-container>
 
@@ -233,7 +217,7 @@
                  [dataSource]="transactionPageResponse.content">
 
             <ng-container matColumnDef="stockTitle">
-              <th mat-header-cell *matHeaderCellDef colspan="8">
+              <th mat-header-cell *matHeaderCellDef colspan="9">
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                   <h5>{{row.stock.title}}</h5>
 
@@ -267,7 +251,7 @@
             </ng-container>
 
             <ng-container matColumnDef="fee">
-              <th mat-header-cell *matHeaderCellDef>Phí</th>
+              <th mat-header-cell *matHeaderCellDef>Phí mua/bán</th>
               <td mat-cell *matCellDef="let transaction">{{transaction.fee | fee}}</td>
             </ng-container>
 
@@ -276,12 +260,17 @@
               <td mat-cell *matCellDef="let transaction">{{transaction.tax | fee}}</td>
             </ng-container>
 
+            <ng-container matColumnDef="cashAdvanceFee">
+              <th mat-header-cell *matHeaderCellDef>Phí UTTB</th>
+              <td mat-cell *matCellDef="let transaction">{{transaction.cashAdvanceFee | fee}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="transactedOn">
               <th mat-header-cell *matHeaderCellDef>Thời gian</th>
               <td mat-cell *matCellDef="let transaction">{{transaction.transactedOn | date: 'd/M/yy'}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="editTransaction">
+            <ng-container matColumnDef="actionButtons">
               <th mat-header-cell *matHeaderCellDef>Thao tác</th>
               <td mat-cell *matCellDef="let transaction">
                 <button mat-button
@@ -294,7 +283,7 @@
 
             <ng-container matColumnDef="totalFees">
               <td mat-footer-cell *matFooterCellDef colspan="8">
-                <b>Tổng phí giao dịch: {{calcTotalFeesForInvestmentPeriod(row) | number}}</b>
+                <b>Tổng phí giao dịch: {{transactionService.calcTotalFees(getTransactions(row)) | number}}</b>
               </td>
             </ng-container>
 

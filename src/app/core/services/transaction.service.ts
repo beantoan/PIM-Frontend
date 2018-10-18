@@ -46,4 +46,10 @@ export class TransactionService {
 
     return this.apiService.get<PageResponse<Transaction>>(ApiEndpoints.TRANSACTIONS, httpParams);
   }
+
+  calcTotalFees(items: Transaction[]) {
+    return items
+      .map(item => item.fee + item.tax + item.cashAdvanceFee)
+      .reduce((acc, value) => acc + value, 0);
+  }
 }
