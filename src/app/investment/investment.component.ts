@@ -247,7 +247,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
 
   canAddTransaction(row: InvestmentPeriod) {
 
-    if (row.endedOn == null) {
+    if (row.endedOn == null || this.getGroupType() === this.GROUP_TYPES.AGGREGATE) {
       return true;
     }
 
@@ -257,7 +257,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
   }
 
   canEditTransaction(row: InvestmentPeriod) {
-    return row.endedOn == null;
+    return this.getGroupType() === this.GROUP_TYPES.PERIOD && row.endedOn == null;
   }
 
   getTransactionPageResponse(investmentPeriodId: number) {
