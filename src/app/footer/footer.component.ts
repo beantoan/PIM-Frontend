@@ -1,7 +1,7 @@
 import {Component, Input, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatDividerModule} from '@angular/material';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-footer',
