@@ -1,6 +1,6 @@
 import {Component, Input, NgModule, OnInit} from '@angular/core';
-import {User} from '../../core/models/user.model';
-import {UserService} from '../../core/services/user.service';
+import {User} from '../core/models/user.model';
+import {UserService} from '../core/services/user.service';
 import {
   MatButtonModule,
   MatCardModule,
@@ -12,14 +12,14 @@ import {
   MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
-import {TransactionDialogComponent} from '../../transaction-dialog/transaction-dialog.component';
+import {TransactionDialogComponent} from '../transaction-dialog/transaction-dialog.component';
 import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {ShowAuthedDirective} from '../../core/services/show-authed.directive';
+import {ShowAuthedDirective} from '../core/services/show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {Logger} from '../../core/services/logger';
-import {AppEventEmitter} from '../../core/services/app-event-emitter.service';
-import {environment} from '../../../environments/environment';
+import {Logger} from '../core/services/logger';
+import {AppEventEmitter} from '../core/services/app-event-emitter.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-header',

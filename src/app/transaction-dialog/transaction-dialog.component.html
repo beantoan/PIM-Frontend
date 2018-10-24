@@ -48,9 +48,10 @@
 
     <div fxFlexFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
       <mat-form-field [fxFlex]="displayPriceInputField() ? 45 : 100"
+                      [textMask]="{mask: integerMask}"
                       *ngIf="displayQuantityInputField()">
         <input matInput
-               type="number"
+               type="text"
                formControlName="quantity"
                (click)="$event.target.select()"
                [required]="displayQuantityInputField()"
@@ -59,9 +60,10 @@
       </mat-form-field>
 
       <mat-form-field [fxFlex]="displayQuantityInputField() ? 45 : 100"
+                      [textMask]="{mask: decimalMask}"
                       *ngIf="displayPriceInputField()">
         <input matInput
-               type="number"
+               type="text"
                formControlName="price"
                (click)="$event.target.select()"
                [required]="displayPriceInputField()"
@@ -72,9 +74,10 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field *ngIf="displayMoneyInputField()">
+    <mat-form-field *ngIf="displayMoneyInputField()"
+                    [textMask]="{mask: integerMask}">
       <input matInput
-             type="number"
+             type="text"
              formControlName="money"
              (click)="$event.target.select()"
              [required]="displayMoneyInputField()"

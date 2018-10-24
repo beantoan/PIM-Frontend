@@ -11,9 +11,9 @@
     </div>
     <br/>
 
-    <mat-form-field>
+    <mat-form-field [textMask]="{mask: integerMask}">
       <input matInput
-             type="number"
+             type="text"
              formControlName="amount"
              (click)="$event.target.select()"
              required

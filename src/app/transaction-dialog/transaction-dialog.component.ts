@@ -30,6 +30,8 @@ import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
 import {CoreModule} from '../core/core.module';
 import {DatePipe} from '@angular/common';
+import {TextMaskModule} from 'angular2-text-mask';
+import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
 
 declare var AJS: any;
 
@@ -71,6 +73,18 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   private savedTransactionData: {} = null;
 
   @ViewChild('autoStock') matAutocomplete: MatAutocomplete;
+
+  public decimalMask = createNumberMask({
+    prefix: '',
+    suffix: '',
+    allowDecimal: true
+  });
+
+  public integerMask = createNumberMask({
+    prefix: '',
+    suffix: '',
+    allowDecimal: false
+  });
 
   constructor(
     private transactionService: TransactionService,
@@ -263,12 +277,34 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     priceInputField.markAsTouched();
   }
 
+  private getTransactionFormData() {
+    const data = this.transactionForm.value;
+
+    if (data.quantity) {
+      data.quantity = data.quantity.replace(/\D+/g, '');
+    }
+
+    if (data.price) {
+      data.price = data.price.replace(/\D+/g, '');
+    }
+
+    if (data.money) {
+      data.money = data.money.replace(/\D+/g, '');
+    }
+
+    if (this.transaction) {
+      data.id = this.transaction.id;
+    }
+
+    return data;
+  }
+
   /**
    * To create new transaction
    */
   private createNewTransaction() {
     this.savedTransactionData = null;
-    const transactionData = this.transactionForm.value;
+    const transactionData = this.getTransactionFormData();
 
     Logger.info(TransactionDialogComponent.name, 'createNewTransaction', transactionData);
 
@@ -310,8 +346,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * To update the existed transaction
    */
   private saveExistedTransaction() {
-    const transactionData = this.transactionForm.value;
-    transactionData.id = this.transaction.id;
+    const transactionData = this.getTransactionFormData();
 
     Logger.info(TransactionDialogComponent.name, 'saveExistedTransaction', transactionData);
 
@@ -460,7 +495,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     MatDialogModule,
     MatMomentDateModule,
     MatProgressBarModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    TextMaskModule
   ],
   exports: [TransactionDialogComponent],
   declarations: [TransactionDialogComponent],

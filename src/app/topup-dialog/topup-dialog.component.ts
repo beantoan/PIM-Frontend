@@ -23,6 +23,8 @@ import {Topup} from '../core/models/topup.model';
 import {TopupService} from '../core/services/topup.service';
 import {merge} from 'rxjs';
 import {CoreModule} from '../core/core.module';
+import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
+import {TextMaskModule} from 'angular2-text-mask';
 
 declare var AJS: any;
 
@@ -56,6 +58,12 @@ export class TopupDialogComponent implements OnInit {
 
   private savedTopupData: {} = null;
 
+  public integerMask = createNumberMask({
+    prefix: '',
+    suffix: '',
+    allowDecimal: false
+  });
+
   constructor(
     private media: ObservableMedia,
     private snackBar: MatSnackBar,
@@ -69,6 +77,18 @@ export class TopupDialogComponent implements OnInit {
     this.subscribeEvents();
   }
 
+  private getTopupFormData() {
+    const data = this.topupForm.value;
+
+    data.amount = data.amount.replace(/\D+/g, '');
+
+    if (this.topup) {
+      data.id = this.topup.id;
+    }
+
+    return data;
+  }
+
   private createNewTopup() {
     Logger.info(TopupDialogComponent.name, 'createNewTopup', this.topupForm.value);
 
@@ -78,11 +98,7 @@ export class TopupDialogComponent implements OnInit {
     this.savedTopupData = null;
 
     if (this.topupForm.valid) {
-      const topupData = this.topupForm.value;
-
-      if (this.topup) {
-        topupData.id = this.topup.id;
-      }
+      const topupData = this.getTopupFormData();
 
       this.topupService.create(topupData)
         .subscribe(
@@ -206,7 +222,8 @@ export class TopupDialogComponent implements OnInit {
     MatDialogModule,
     MatMomentDateModule,
     MatProgressBarModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    TextMaskModule
   ],
   exports: [TopupDialogComponent],
   declarations: [TopupDialogComponent],
