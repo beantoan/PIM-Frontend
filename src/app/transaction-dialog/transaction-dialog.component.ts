@@ -281,15 +281,15 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     const data = this.transactionForm.value;
 
     if (data.quantity) {
-      data.quantity = data.quantity.replace(/\D+/g, '');
+      data.quantity = data.quantity.toString().replace(/\D+/g, '');
     }
 
     if (data.price) {
-      data.price = data.price.replace(/\D+/g, '');
+      data.price = data.price.toString().replace(/\D+/g, '');
     }
 
     if (data.money) {
-      data.money = data.money.replace(/\D+/g, '');
+      data.money = data.money.toString().replace(/\D+/g, '');
     }
 
     if (this.transaction) {
