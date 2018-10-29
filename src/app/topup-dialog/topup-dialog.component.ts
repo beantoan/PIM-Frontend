@@ -80,7 +80,7 @@ export class TopupDialogComponent implements OnInit {
   private getTopupFormData() {
     const data = this.topupForm.value;
 
-    data.amount = data.amount.replace(/,/g, '');
+    data.amount = data.amount.toString().replace(/,/g, '');
 
     if (this.topup) {
       data.id = this.topup.id;
