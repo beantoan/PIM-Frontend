@@ -102,6 +102,7 @@
     <dx-chart
       title="Tương quan tiền vốn và giá trị thị trường"
       [dataSource]="compareHoldStockChartData"
+      [rotated]="true"
       [customizeLabel]="customizeHoldStockChartLabel">
       <dxi-series valueField="capitalValue" name="Giá vốn"></dxi-series>
       <dxi-series valueField="marketValue" name="Giá thị trường"></dxi-series>
