@@ -126,6 +126,14 @@ export class DashboardComponent implements OnInit {
       }
     };
   }
+
+  calcBarChartHeight() {
+    if (this.compareHoldStockChartData.length > 0) {
+      return this.compareHoldStockChartData.length * 80;
+    }
+
+    return 100;
+  }
 }
 
 @NgModule({

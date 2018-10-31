@@ -103,10 +103,13 @@
       title="Tương quan tiền vốn và giá trị thị trường"
       [dataSource]="compareHoldStockChartData"
       [rotated]="true"
+      [barGroupPadding]="0.15"
       [customizeLabel]="customizeHoldStockChartLabel">
-      <dxi-series valueField="capitalValue" name="Giá vốn"></dxi-series>
+      <dxo-size [height]="calcBarChartHeight()"></dxo-size>
       <dxi-series valueField="marketValue" name="Giá thị trường"></dxi-series>
+      <dxi-series valueField="capitalValue" name="Giá vốn"></dxi-series>
       <dxo-common-series-settings
+        [barPadding]="0.05"
         argumentField="title"
         type="bar"
         hoverMode="allArgumentPoints"
