@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
 
   calcBarChartHeight() {
     if (this.compareHoldStockChartData.length > 0) {
-      return this.compareHoldStockChartData.length * 80;
+      return this.compareHoldStockChartData.length * 90;
     }
 
     return 100;

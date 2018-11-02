@@ -311,7 +311,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
   }
 
   calcFullColspan() {
-    return 17;
+    return 18;
   }
 
   calTradingTimeColspan() {
@@ -328,17 +328,17 @@ export class InvestmentComponent implements OnInit, OnDestroy {
   calcDisplayedColumns() {
     const displayedTradingValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn'];
     const displayedFinishedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedValueColumns = ['stock', 'buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
 
@@ -355,17 +355,17 @@ export class InvestmentComponent implements OnInit, OnDestroy {
   calcDisplayedSubHeaderColumns() {
     const displayedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedFinishedSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn', 'endedOn', 'totalPeriod'];
     const displayedTradingSubHeaderColumns = ['buyQuantity', 'buyAvgPrice', 'buyMoney',
       'sellQuantity', 'sellAvgPrice', 'sellMoney',
-      'holdQuantity', 'latestPrice', 'holdMoney',
+      'holdQuantity', 'latestPrice', 'holdMoney', 'expectedRevenue',
       'totalFees', 'netRevenue', 'grossRevenue', 'roiPercentage',
       'startedOn'];
 

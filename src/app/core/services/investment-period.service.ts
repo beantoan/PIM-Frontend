@@ -46,6 +46,10 @@ export class InvestmentPeriodService {
     return this.calcHoldQuantity(row) * row.stock.price * 1000;
   }
 
+  calcExpectedRevenue(row: InvestmentPeriod): number {
+    return this.calcHoldMoney(row) + row.sellMoney - row.buyMoney;
+  }
+
   calcTotalDays(row: InvestmentPeriod): number {
     if (row.endedOn == null) {
       return null;
@@ -154,6 +158,16 @@ export class InvestmentPeriodService {
     if (investmentPeriods) {
       return investmentPeriods
         .map(item => this.calcHoldMoney(item))
+        .reduce((acc, value) => acc + value, 0);
+    }
+
+    return 0;
+  }
+
+  getExpectedRevenue(investmentPeriods: InvestmentPeriod[]) {
+    if (investmentPeriods) {
+      return investmentPeriods
+        .map(item => this.calcExpectedRevenue(item))
         .reduce((acc, value) => acc + value, 0);
     }
 
