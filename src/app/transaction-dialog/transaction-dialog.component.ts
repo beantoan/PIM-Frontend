@@ -244,6 +244,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
         priceInputField.setValidators([Validators.required, Validators.min(1)]);
         break;
       case TransactionType.TYPE_MONEY_DIVIDEND:
+      case TransactionType.TYPE_CASH_ADVANCE_FEE:
         moneyInputField.setValidators([Validators.required, Validators.min(1)]);
         break;
       case TransactionType.TYPE_AWARD_DIVIDEND:
@@ -396,6 +397,10 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     this.isShowTransactedOnHint = dividendTransactionTypes.indexOf(transactionType) > -1;
   }
 
+  private getSelectedTransactionType() {
+    return this.transactionForm.get('type').value;
+  }
+
   /**
    * When save the transaction button is clicked.
    * Check the validity first. Then submit the data to API server.
@@ -446,16 +451,32 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   }
 
   displayQuantityInputField() {
-    return this.transactionForm.get('type').value !== TransactionType.TYPE_MONEY_DIVIDEND;
+    const showQuantityInputFieldTypes = [
+      TransactionType.TYPE_BUY,
+      TransactionType.TYPE_SELL,
+      TransactionType.TYPE_STOCK_DIVIDEND,
+      TransactionType.TYPE_AWARD_DIVIDEND,
+    ];
+
+    return showQuantityInputFieldTypes.indexOf(this.getSelectedTransactionType()) > -1;
   }
 
   displayPriceInputField() {
-    const selectedType = this.transactionForm.get('type').value;
-    return selectedType === TransactionType.TYPE_BUY || selectedType === TransactionType.TYPE_SELL;
+    const showPriceInputFieldTypes = [
+      TransactionType.TYPE_BUY,
+      TransactionType.TYPE_SELL
+    ];
+
+    return showPriceInputFieldTypes.indexOf(this.getSelectedTransactionType()) > -1;
   }
 
   displayMoneyInputField() {
-    return this.transactionForm.get('type').value === TransactionType.TYPE_MONEY_DIVIDEND;
+    const showMoneyInputFieldTypes = [
+      TransactionType.TYPE_MONEY_DIVIDEND,
+      TransactionType.TYPE_CASH_ADVANCE_FEE
+    ];
+
+    return showMoneyInputFieldTypes.indexOf(this.getSelectedTransactionType()) > -1;
   }
 
   getDialogTitle() {

@@ -268,11 +268,6 @@
               <td mat-cell *matCellDef="let transaction">{{transaction.tax | fee}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="cashAdvanceFee">
-              <th mat-header-cell *matHeaderCellDef>Phí UTTB</th>
-              <td mat-cell *matCellDef="let transaction">{{transaction.cashAdvanceFee | fee}}</td>
-            </ng-container>
-
             <ng-container matColumnDef="transactedOn">
               <th mat-header-cell *matHeaderCellDef>Thời gian</th>
               <td mat-cell *matCellDef="let transaction">{{transaction.transactedOn | date: 'd/M/yy'}}</td>

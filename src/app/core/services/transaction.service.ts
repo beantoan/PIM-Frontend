@@ -49,7 +49,7 @@ export class TransactionService {
 
   calcTotalFees(items: Transaction[]) {
     return items
-      .map(item => item.fee + item.tax + item.cashAdvanceFee)
+      .map(item => item.fee + item.tax)
       .reduce((acc, value) => acc + value, 0);
   }
 }

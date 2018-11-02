@@ -9,6 +9,5 @@ export class Transaction {
   fee: number;
   tax: number;
   money: number;
-  cashAdvanceFee: number;
   transactedOn: Date;
 }

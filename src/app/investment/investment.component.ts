@@ -395,7 +395,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
 
   calcDisplayedTransactionColumns() {
     const displayedTransactionColumns = ['type', 'quantity', 'price', 'money', 'fee', 'tax',
-      'cashAdvanceFee', 'transactedOn', 'actionButtons'];
+      'transactedOn', 'actionButtons'];
 
     return displayedTransactionColumns;
   }

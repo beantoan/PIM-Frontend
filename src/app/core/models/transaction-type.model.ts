@@ -4,6 +4,7 @@ export class TransactionType {
   public static readonly TYPE_MONEY_DIVIDEND = 3;
   public static readonly TYPE_STOCK_DIVIDEND = 4;
   public static readonly TYPE_AWARD_DIVIDEND = 5;
+  public static readonly TYPE_CASH_ADVANCE_FEE = 6;
 
   id: number;
   title: string;
@@ -20,6 +21,7 @@ export class TransactionType {
       new TransactionType(this.TYPE_MONEY_DIVIDEND, 'Cổ tức tiền'),
       new TransactionType(this.TYPE_STOCK_DIVIDEND, 'Cổ tức cổ phiếu'),
       new TransactionType(this.TYPE_AWARD_DIVIDEND, 'Cổ phiếu thưởng'),
+      new TransactionType(this.TYPE_CASH_ADVANCE_FEE, 'Phí ứng trước tiền bán'),
     ];
   }
 
