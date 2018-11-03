@@ -189,7 +189,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
       transactedOn: new FormControl(transactedOnVal),
     });
 
-    this.setTransactionFormValidators(TransactionType.TYPE_BUY);
+    this.setTransactionFormValidators(typeVal);
   }
 
   /**
@@ -407,7 +407,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
    * Set the input fields as touched if the form is invalid.
    */
   onSaveTransactionClicked() {
-    Logger.info(TransactionDialogComponent.name, 'onSaveTransactionClicked', this.isExistedTransaction);
+    Logger.info(TransactionDialogComponent.name, 'onSaveTransactionClicked', this.getTransactionFormData());
 
     this.errorMessage = null;
 
