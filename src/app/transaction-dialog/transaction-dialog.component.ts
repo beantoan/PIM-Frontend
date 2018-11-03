@@ -494,6 +494,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
         case TransactionType.TYPE_AWARD_DIVIDEND:
           return `Sửa giao dịch ${this.transaction.quantity} ${typeTitle} ${this.transaction.stock.code} ngày ${dateValue}`;
         case TransactionType.TYPE_MONEY_DIVIDEND:
+        case TransactionType.TYPE_CASH_ADVANCE_FEE:
           return `Sửa giao dịch ${this.transaction.money} ${typeTitle} ${this.transaction.stock.code} ngày ${dateValue}`;
       }
     }
