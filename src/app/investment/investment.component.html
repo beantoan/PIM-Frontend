@@ -13,12 +13,12 @@
       <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch"
            ngClass="action-buttons" ngClass.xs="action-buttons-xs">
         <button mat-raised-button [routerLink]="['/investments', GROUP_TYPES.PERIOD, VIEW_TYPES.TRADING]"
-                [color]="getGroupType() == GROUP_TYPES.PERIOD ? 'primary' : ''">
+                [disabled]="getGroupType() == GROUP_TYPES.PERIOD">
           Phiên đầu tư
         </button>
 
         <button mat-raised-button [routerLink]="['/investments', GROUP_TYPES.AGGREGATE]"
-                [color]="getGroupType() == GROUP_TYPES.AGGREGATE ? 'primary' : ''">
+                [disabled]="getGroupType() == GROUP_TYPES.AGGREGATE">
           Cổ phiếu
         </button>
       </div>
@@ -27,17 +27,17 @@
            ngClass="action-buttons" ngClass.xs="action-buttons-xs"
            [fxShow]="getGroupType() == GROUP_TYPES.PERIOD">
         <button mat-button [routerLink]="['/investments', GROUP_TYPES.PERIOD, VIEW_TYPES.TRADING]"
-                [color]="getViewType() == VIEW_TYPES.TRADING ? 'warn' : ''">
+                [disabled]="getViewType() == VIEW_TYPES.TRADING">
           Đang giao dịch
         </button>
 
         <button mat-button [routerLink]="['/investments', GROUP_TYPES.PERIOD, VIEW_TYPES.FINISHED]"
-                [color]="getViewType() == VIEW_TYPES.FINISHED ? 'warn' : ''">
+                [disabled]="getViewType() == VIEW_TYPES.FINISHED">
           Đã kết thúc
         </button>
 
         <button mat-button [routerLink]="['/investments', GROUP_TYPES.PERIOD, VIEW_TYPES.ALL]"
-                [color]="getViewType() == VIEW_TYPES.ALL ? 'warn' : ''">
+                [disabled]="getViewType() == VIEW_TYPES.ALL">
           Tất cả các phiên
         </button>
       </div>
