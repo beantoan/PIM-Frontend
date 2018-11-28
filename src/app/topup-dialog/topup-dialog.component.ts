@@ -61,7 +61,8 @@ export class TopupDialogComponent implements OnInit {
   public integerMask = createNumberMask({
     prefix: '',
     suffix: '',
-    allowDecimal: false
+    allowDecimal: false,
+    allowNegative: true
   });
 
   constructor(
