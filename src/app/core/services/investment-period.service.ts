@@ -47,6 +47,10 @@ export class InvestmentPeriodService {
   }
 
   calcExpectedRevenue(row: InvestmentPeriod): number {
+    if (this.calcHoldQuantity(row) == 0) {
+      return 0;
+    }
+
     return this.calcHoldMoney(row) + row.sellMoney - row.buyMoney;
   }
 
