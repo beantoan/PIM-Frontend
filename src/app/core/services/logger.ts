@@ -22,10 +22,9 @@ export class Logger {
   }
 
   static log<T>(type: number, className: string, methodName: string, params: T[]) {
-    if (params && params.length === 0) {
-      this.printLog(type, `>>> ${className}#${methodName}()`);
-    } else {
-      this.printLog(type, `>>> ${className}#${methodName}()`);
+    this.printLog(type, `>>> ${className}#${methodName}()`);
+
+    if (params && params.length > 0) {
       for (const param of params) {
         this.printLog(type, param);
       }
@@ -43,7 +42,7 @@ export class Logger {
     this.log(this.ERROR, className, methodName, params);
   }
 
-  static warn<T>(tag: string, className: string, methodName: string, ...params: T[]) {
+  static warn<T>(className: string, methodName: string, ...params: T[]) {
     this.log(this.WARN, className, methodName, params);
   }
 }
