@@ -15,7 +15,7 @@ import {
   MatSnackBar
 } from '@angular/material';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
-import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
+import {FlexLayoutModule, MediaObserver} from '@angular/flex-layout';
 import {Logger} from '../core/services/logger';
 import {Stock} from '../core/models/stock.model';
 import * as moment from 'moment';
@@ -66,7 +66,7 @@ export class TopupDialogComponent implements OnInit {
   });
 
   constructor(
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private snackBar: MatSnackBar,
     private topupService: TopupService,
     @Inject(MAT_DIALOG_DATA) public topup: Topup,

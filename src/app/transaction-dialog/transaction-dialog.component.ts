@@ -26,7 +26,7 @@ import {
   MatSelectModule,
   MatSnackBar
 } from '@angular/material';
-import {FlexLayoutModule, ObservableMedia} from '@angular/flex-layout';
+import {FlexLayoutModule, MediaObserver} from '@angular/flex-layout';
 import {Transaction} from '../core/models/transaction.model';
 import {CoreModule} from '../core/core.module';
 import {DatePipe} from '@angular/common';
@@ -90,7 +90,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
   constructor(
     private transactionService: TransactionService,
     private stockService: StockService,
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private dialogRef: MatDialogRef<TransactionDialogComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public transaction: Transaction,

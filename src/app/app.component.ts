@@ -8,7 +8,7 @@ import {JwtService} from './core/services/jwt.service';
 import {Logger} from './core/services/logger';
 import {Location} from '@angular/common';
 import {RoutingStateService} from './core/services/routing-state.service';
-import {ObservableMedia} from '@angular/flex-layout';
+import {MediaObserver} from '@angular/flex-layout';
 import {User} from './core/models/user.model';
 
 @Component({
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private location: Location,
     private routingState: RoutingStateService,
-    private media: ObservableMedia
+    private media: MediaObserver
   ) {}
 
   ngOnInit(): void {
