@@ -336,7 +336,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
         err => {
           Logger.info(TransactionDialogComponent.name, 'createNewTransaction', err);
 
-          this.errorMessage = err.msg;
+          this.errorMessage = err.msg || err.message;
           this.isSubmitting = false;
         },
         () => {
@@ -380,7 +380,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
         err => {
           Logger.info(TransactionDialogComponent.name, 'saveExistedTransaction', err);
 
-          this.errorMessage = err.msg;
+          this.errorMessage = err.msg || err.message;
           this.isSubmitting = false;
         },
         () => {

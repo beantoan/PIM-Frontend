@@ -125,7 +125,7 @@ export class TopupDialogComponent implements OnInit {
           err => {
             Logger.info(TopupDialogComponent.name, 'createNewTopup', err);
 
-            this.errorMessage = err.msg;
+            this.errorMessage = err.msg || err.message;
 
             this.isSubmitting = false;
           },
