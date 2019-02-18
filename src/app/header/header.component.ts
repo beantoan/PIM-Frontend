@@ -17,8 +17,6 @@ import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {ShowAuthedDirective} from '../core/services/show-authed.directive';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {Logger} from '../core/services/logger';
-import {AppEventEmitter} from '../core/services/app-event-emitter.service';
 import {environment} from '../../environments/environment';
 
 @Component({
@@ -35,8 +33,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public createTransactionDialog: MatDialog,
-    private userService: UserService,
-    private appEventEmitter: AppEventEmitter
+    private userService: UserService
   ) {
   }
 
@@ -56,12 +53,6 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.createTransactionDialog.open(TransactionDialogComponent, {
       width: '600px',
       autoFocus: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      Logger.info(HeaderComponent.name, 'showTransactionDialog', 'dialog is closed', result);
-
-      this.appEventEmitter.onTransactionDialogClosed.emit(result);
     });
   }
 

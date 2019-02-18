@@ -32,6 +32,7 @@ import {CoreModule} from '../core/core.module';
 import {DatePipe} from '@angular/common';
 import {TextMaskModule} from 'angular2-text-mask';
 import {createNumberMask} from 'text-mask-addons/dist/textMaskAddons';
+import {AppEventEmitter} from '../core/services/app-event-emitter.service';
 
 declare var AJS: any;
 
@@ -92,7 +93,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     private media: ObservableMedia,
     private dialogRef: MatDialogRef<TransactionDialogComponent>,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public transaction: Transaction
+    @Inject(MAT_DIALOG_DATA) public transaction: Transaction,
+    private appEventEmitter: AppEventEmitter
   ) { }
 
   ngOnInit() {
@@ -312,6 +314,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     this.transactionService.create(transactionData)
       .subscribe(
         data => {
+          this.appEventEmitter.onTransactionDialogClosed.emit(true);
+
           this.savedTransactionData = transactionData;
 
           this.resetTransactionForm();
@@ -358,6 +362,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     this.transactionService.update(transactionData)
       .subscribe(
         data => {
+          this.appEventEmitter.onTransactionDialogClosed.emit(true);
+
           this.savedTransactionData = transactionData;
 
           const message = 'Chỉnh sửa giao dịch thành thành công';

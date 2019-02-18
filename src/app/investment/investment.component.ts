@@ -197,13 +197,6 @@ export class InvestmentComponent implements OnInit, OnDestroy {
       autoFocus: true,
       data: transaction
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      Logger.info(InvestmentComponent.name, 'showTransactionDialog',
-        'dialog is closed', result);
-
-      this.reloadDataAfterCreateOrEditTransaction(result);
-    });
   }
 
   /**
