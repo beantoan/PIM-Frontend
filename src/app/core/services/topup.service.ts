@@ -7,6 +7,7 @@ import {Logger} from './logger';
 import {Observable} from 'rxjs';
 import {PageResponse} from '../models/page-response.model';
 import {Topup} from '../models/topup.model';
+import {ApiResponse} from '../models/api-response.model';
 
 
 @Injectable()
@@ -27,9 +28,9 @@ export class TopupService {
     return this.apiService.get<PageResponse<Topup>>(ApiEndpoints.TOPUPS, httpParams);
   }
 
-  create(topup: {}): Observable<Topup> {
+  create(topup: {}): Observable<ApiResponse> {
     Logger.info(TopupService.name, 'create', topup);
 
-    return this.apiService.post<Topup>(ApiEndpoints.TOPUPS, topup);
+    return this.apiService.post<ApiResponse>(ApiEndpoints.TOPUPS, topup);
   }
 }

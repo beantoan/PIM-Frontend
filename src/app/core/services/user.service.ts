@@ -11,6 +11,7 @@ import {AuthToken} from '../models/auth-token.model';
 import {ApiEndpoints} from './api-endpoints';
 import {Logger} from './logger';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ApiResponse} from '../models/api-response.model';
 
 
 @Injectable()
@@ -101,7 +102,7 @@ export class UserService {
   }
 
   // Update the user on the server (email, pass, etc)
-  update(user): Observable<User> {
+  update(user): Observable<ApiResponse> {
     return this.apiService
       .put<User>('/user', {user})
       .pipe(map(data => {

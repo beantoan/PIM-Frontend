@@ -320,10 +320,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
           this.resetTransactionForm();
 
-          const message = 'Tạo giao dịch mới thành thành công';
-
           if (this.media.isActive('lt-md')) {
-            this.snackBar.open(message, null, {
+            this.snackBar.open(data.msg, null, {
               duration: 3000
             });
           } else {
@@ -331,14 +329,14 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
               type: 'success',
               close: 'auto',
               title: 'Thành công',
-              body: message,
+              body: data.msg,
             });
           }
         },
         err => {
           Logger.info(TransactionDialogComponent.name, 'createNewTransaction', err);
 
-          this.errorMessage = 'Gặp lỗi khi tạo giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+          this.errorMessage = err.msg;
           this.isSubmitting = false;
         },
         () => {
@@ -366,10 +364,8 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
 
           this.savedTransactionData = transactionData;
 
-          const message = 'Chỉnh sửa giao dịch thành thành công';
-
           if (this.media.isActive('lt-md')) {
-            this.snackBar.open(message, null, {
+            this.snackBar.open(data.msg, null, {
               duration: 3000
             });
           } else {
@@ -377,14 +373,14 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
               type: 'success',
               close: 'auto',
               title: 'Thành công',
-              body: message,
+              body: data.msg,
             });
           }
         },
         err => {
           Logger.info(TransactionDialogComponent.name, 'saveExistedTransaction', err);
 
-          this.errorMessage = 'Gặp lỗi khi chỉnh sửa giao dịch. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
+          this.errorMessage = err.msg;
           this.isSubmitting = false;
         },
         () => {

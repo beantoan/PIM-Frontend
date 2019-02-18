@@ -13,6 +13,7 @@ import {HeaderModule} from './header/header.component';
 import {CoreModule} from './core/core.module';
 import {TopupModule} from './topup/topup.component';
 import {TopupDialogModule} from './topup-dialog/topup-dialog.component';
+import {DeleteTransactionDialogModule} from './delete-transaction-dialog/delete-transaction-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {TopupDialogModule} from './topup-dialog/topup-dialog.component';
     InvestmentPeriodModule,
     TopupModule,
     TransactionDialogModule,
+    DeleteTransactionDialogModule,
     TopupDialogModule
   ],
   providers: [Title],

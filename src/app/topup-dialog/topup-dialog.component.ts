@@ -109,10 +109,8 @@ export class TopupDialogComponent implements OnInit {
 
             this.resetTopupForm();
 
-            const message = this.topup && this.topup.id ? 'Sửa tiền vốn thành công' : 'Thêm tiền vốn thành thành công';
-
             if (this.media.isActive('lt-md')) {
-              this.snackBar.open(message, null, {
+              this.snackBar.open(data.msg, null, {
                 duration: 3000
               });
             } else {
@@ -120,18 +118,14 @@ export class TopupDialogComponent implements OnInit {
                 type: 'success',
                 close: 'auto',
                 title: 'Thành công',
-                body: message,
+                body: data.msg,
               });
             }
           },
           err => {
             Logger.info(TopupDialogComponent.name, 'createNewTopup', err);
 
-            if (this.topup && this.topup.id) {
-              this.errorMessage = 'Gặp lỗi khi sửa tiền vốn. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
-            } else {
-              this.errorMessage = 'Gặp lỗi khi thêm tiền vốn. Hãy liên hệ với admin@pim.vn để được giúp đỡ.';
-            }
+            this.errorMessage = err.msg;
 
             this.isSubmitting = false;
           },
