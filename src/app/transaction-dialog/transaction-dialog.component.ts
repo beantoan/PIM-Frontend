@@ -314,7 +314,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     this.transactionService.create(transactionData)
       .subscribe(
         data => {
-          this.appEventEmitter.onTransactionDialogClosed.emit(true);
+          this.appEventEmitter.onTransactionTouched.emit(true);
 
           this.savedTransactionData = transactionData;
 
@@ -360,7 +360,7 @@ export class TransactionDialogComponent implements OnInit, AfterViewInit {
     this.transactionService.update(transactionData)
       .subscribe(
         data => {
-          this.appEventEmitter.onTransactionDialogClosed.emit(true);
+          this.appEventEmitter.onTransactionTouched.emit(true);
 
           this.savedTransactionData = transactionData;
 

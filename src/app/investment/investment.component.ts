@@ -29,6 +29,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppEventEmitter} from '../core/services/app-event-emitter.service';
 import {CoreModule} from '../core/core.module';
+import {DeleteTransactionDialogComponent} from '../delete-transaction-dialog/delete-transaction-dialog.component';
 
 export class LoadTransitionsParam {
 
@@ -102,6 +103,7 @@ export class InvestmentComponent implements OnInit, OnDestroy {
     public transactionService: TransactionService,
     public investmentPeriodService: InvestmentPeriodService,
     public createTransactionDialog: MatDialog,
+    public deleteTransactionDialog: MatDialog,
     public activatedRoute: ActivatedRoute
   ) {}
 
@@ -153,8 +155,8 @@ export class InvestmentComponent implements OnInit, OnDestroy {
       this.loadTransitionsParams.next(new LoadTransitionsParam(this.expandedInvestmentPeriod.value, 0, false));
     });
 
-    this.appEventEmitter.onTransactionDialogClosed.subscribe(data => {
-      this.reloadDataAfterCreateOrEditTransaction(data);
+    this.appEventEmitter.onTransactionTouched.subscribe(data => {
+      this.reloadDataAfterTransactionTouched(data);
     });
   }
 
@@ -199,6 +201,13 @@ export class InvestmentComponent implements OnInit, OnDestroy {
     });
   }
 
+  private showDeleteTransactionDialog(transaction: Transaction) {
+    const dialogRef = this.deleteTransactionDialog.open(DeleteTransactionDialogComponent, {
+      width: '600px',
+      data: transaction
+    });
+  }
+
   /**
    * Load transactions for an investment period
    */
@@ -225,8 +234,8 @@ export class InvestmentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private reloadDataAfterCreateOrEditTransaction(result) {
-    Logger.info(InvestmentComponent.name, 'reloadDataAfterCreateOrEditTransaction', result);
+  private reloadDataAfterTransactionTouched(result) {
+    Logger.info(InvestmentComponent.name, 'reloadDataAfterTransactionTouched', result);
 
     if (result) {
       this.reloadInvestmentPeriods.next(true);
@@ -281,6 +290,10 @@ export class InvestmentComponent implements OnInit, OnDestroy {
 
   onEditTransactionClicked(row: InvestmentPeriod, transaction: Transaction) {
     this.showTransactionDialog(row, transaction);
+  }
+
+  onDeleteTransactionClicked(transaction: Transaction) {
+    this.showDeleteTransactionDialog(transaction);
   }
 
   onCreateTransactionClicked(row: InvestmentPeriod) {

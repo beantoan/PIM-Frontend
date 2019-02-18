@@ -1,0 +1,18 @@
+<h2 mat-dialog-title color="warn">Xác nhận xóa giao dịch</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-progress-bar mode="indeterminate" *ngIf="isSubmitting"></mat-progress-bar>
+
+  <div class="aui-message aui-message-error" *ngIf="errorMessage">
+    <p>{{errorMessage}}</p>
+  </div>
+
+  <div class="aui-message aui-message-warning">
+    <p>{{getDialogTitle()}}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCloseDialogClicked()">Đóng</button>
+  <button mat-raised-button color="primary" (click)="onDeleteTransactionClicked()">Xóa giao dịch</button>
+</mat-dialog-actions>
