@@ -262,6 +262,10 @@ export class InvestmentComponent implements OnInit, OnDestroy {
     return this.getGroupType() === this.GROUP_TYPES.PERIOD && row.endedOn == null;
   }
 
+  canDeleteTransaction(row: InvestmentPeriod, transaction: Transaction) {
+    return row.endedOn == null || transaction.type === TransactionType.TYPE_SELL;
+  }
+
   getTransactionPageResponse(investmentPeriodId: number) {
     if (this.transactionPageResponses[investmentPeriodId]) {
       return this.transactionPageResponses[investmentPeriodId];

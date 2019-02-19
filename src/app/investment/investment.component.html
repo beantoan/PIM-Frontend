@@ -282,6 +282,7 @@
                   Sửa
                 </button>
                 <button mat-button
+                        *ngIf="canDeleteTransaction(row, transaction)"
                         (click)="onDeleteTransactionClicked(transaction)">
                   Xóa
                 </button>
